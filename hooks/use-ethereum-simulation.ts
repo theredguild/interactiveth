@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { SimulationState, SimulationStep, Transaction } from '@/lib/ethereum-types';
+import type { SimulationState, SimulationStep, Transaction, Wallet } from '@/lib/ethereum-types';
 import { createTransaction, createBlock, createValidators, createNodes, createWallets, generateHash, generateSignature } from '@/lib/ethereum-utils';
 
 const STEP_ORDER: SimulationStep[] = [
@@ -18,7 +18,6 @@ const STEP_ORDER: SimulationStep[] = [
   'complete',
 ];
 
-// Create deterministic initial state to avoid hydration mismatch
 function createInitialState(): SimulationState {
   return {
     step: 'idle',
@@ -38,12 +37,31 @@ function createInitialState(): SimulationState {
   };
 }
 
+function createNewTransaction(wallets: Wallet[]): { transaction: Transaction; sender: Wallet; receiver: Wallet } | null {
+  if (wallets.length === 0) return null;
+  
+  const senderIdx = Math.floor(Math.random() * wallets.length);
+  let receiverIdx = Math.floor(Math.random() * wallets.length);
+  while (receiverIdx === senderIdx && wallets.length > 1) {
+    receiverIdx = Math.floor(Math.random() * wallets.length);
+  }
+  
+  const sender = wallets[senderIdx];
+  const receiver = wallets[receiverIdx] ?? wallets[0];
+  if (!receiver) return null;
+  
+  return {
+    transaction: createTransaction(sender, receiver),
+    sender,
+    receiver,
+  };
+}
+
 export function useEthereumSimulation() {
   const [state, setState] = useState<SimulationState>(createInitialState);
   const [isInitialized, setIsInitialized] = useState(false);
   const autoTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Initialize random values only on client side after mount
   useEffect(() => {
     if (!isInitialized) {
       const wallets = createWallets(4);
@@ -79,21 +97,13 @@ export function useEthereumSimulation() {
 
     switch (step) {
       case 'idle': {
-        if (wallets.length === 0) return currentState;
-        // Pick random sender and receiver
-        const senderIdx = Math.floor(Math.random() * wallets.length);
-        let receiverIdx = Math.floor(Math.random() * wallets.length);
-        while (receiverIdx === senderIdx && wallets.length > 1) {
-          receiverIdx = Math.floor(Math.random() * wallets.length);
-        }
-        const sender = wallets[senderIdx];
-        const receiver = wallets[receiverIdx] || wallets[0];
-        const newTx = createTransaction(sender, receiver);
+        const result = createNewTransaction(wallets);
+        if (!result) return currentState;
         return { 
           ...currentState, 
           step: 'creating-tx', 
-          currentTransaction: newTx,
-          activeWallet: sender,
+          currentTransaction: result.transaction,
+          activeWallet: result.sender,
         };
       }
 
@@ -261,37 +271,26 @@ export function useEthereumSimulation() {
     }
   }, [state.step, nextStep, isInitialized]);
 
-  // Toggle play/pause - this is the main control
   const togglePlayPause = useCallback(() => {
     setState(prev => {
-      // If we're idle, start a new transaction and enable auto mode
       if (prev.step === 'idle') {
-        if (prev.wallets.length === 0) return prev;
-        const senderIdx = Math.floor(Math.random() * prev.wallets.length);
-        let receiverIdx = Math.floor(Math.random() * prev.wallets.length);
-        while (receiverIdx === senderIdx && prev.wallets.length > 1) {
-          receiverIdx = Math.floor(Math.random() * prev.wallets.length);
-        }
-        const sender = prev.wallets[senderIdx];
-        const receiver = prev.wallets[receiverIdx] || prev.wallets[0];
-        const newTx = createTransaction(sender, receiver);
+        const result = createNewTransaction(prev.wallets);
+        if (!result) return prev;
         return {
           ...prev,
           step: 'creating-tx',
-          currentTransaction: newTx,
-          activeWallet: sender,
+          currentTransaction: result.transaction,
+          activeWallet: result.sender,
           isAutoMode: true,
           isFullAuto: true,
           isPaused: false,
         };
       }
       
-      // If currently paused, resume
       if (prev.isPaused) {
         return { ...prev, isPaused: false, isAutoMode: true };
       }
       
-      // If currently playing, pause
       return { ...prev, isPaused: true, isAutoMode: false };
     });
   }, []);
@@ -321,33 +320,28 @@ export function useEthereumSimulation() {
     });
   }, [clearAutoTimer]);
 
-  // Auto-advance logic - only runs when not paused
   useEffect(() => {
-    if (state.isAutoMode && !state.isPaused && state.step !== 'idle' && isInitialized) {
-      autoTimerRef.current = setTimeout(() => {
-        setState(prev => processStep(prev));
-      }, state.speed);
-    }
-    return clearAutoTimer;
-  }, [state.isAutoMode, state.isPaused, state.step, state.speed, processStep, clearAutoTimer, isInitialized]);
+    clearAutoTimer();
+    
+    if (!isInitialized) return;
 
-  // Full auto: restart when complete (only if not paused)
-  useEffect(() => {
-    if (state.isFullAuto && !state.isPaused && state.step === 'idle' && isInitialized && state.totalTransactions > 0) {
+    const shouldAutoAdvance = state.isAutoMode && !state.isPaused && state.step !== 'idle';
+    const shouldRestart = state.isFullAuto && !state.isPaused && state.step === 'idle' && state.totalTransactions > 0;
+
+    if (shouldAutoAdvance || shouldRestart) {
+      const delay = shouldRestart ? state.speed / 2 : state.speed;
       autoTimerRef.current = setTimeout(() => {
         setState(prev => processStep(prev));
-      }, state.speed / 2);
+      }, delay);
     }
+
     return clearAutoTimer;
-  }, [state.isFullAuto, state.isPaused, state.step, state.speed, state.totalTransactions, processStep, clearAutoTimer, isInitialized]);
+  }, [state.isAutoMode, state.isFullAuto, state.isPaused, state.step, state.speed, state.totalTransactions, processStep, clearAutoTimer, isInitialized]);
 
   const currentStepIndex = STEP_ORDER.indexOf(state.step);
   const progress = state.step === 'idle' ? 0 : ((currentStepIndex) / (STEP_ORDER.length - 1)) * 100;
   
-  // Determine if playing (not paused and in auto mode)
   const isPlaying = state.isAutoMode && !state.isPaused;
-  
-  // Can advance manually when paused or in manual mode (but not when idle or complete without full auto)
   const canAdvance = state.step !== 'idle' || state.isPaused;
 
   return {

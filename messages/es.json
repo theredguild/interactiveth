@@ -1,0 +1,326 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "tutorials": "Tutoriales",
+    "about": "Acerca de"
+  },
+  "hero": {
+    "title": "Ethereum Interactivo",
+    "subtitle": "Aprende los conceptos del protocolo Ethereum a través de visualizaciones interactivas",
+    "cta": "Comenzar a Aprender",
+    "ctaSecondary": "Ver Tutoriales"
+  },
+  "tutorials": {
+    "title": "Tutoriales",
+    "subtitle": "Explora los conceptos de Ethereum paso a paso",
+    "available": "Disponible",
+    "comingSoon": "Próximamente",
+    "progress": "Progreso",
+    "start": "Iniciar",
+    "continue": "Continuar"
+  },
+  "tutorial": {
+    "transactions": {
+      "title": "Transacciones",
+      "description": "Aprende cómo las transacciones fluyen desde tu billetera hasta la blockchain"
+    },
+    "blocks": {
+      "title": "Bloques",
+      "description": "Comprende cómo se crean y confirman los bloques"
+    },
+    "smartContracts": {
+      "title": "Contratos Inteligentes",
+      "description": "Explora cómo funcionan los contratos inteligentes en Ethereum"
+    },
+    "gas": {
+      "title": "Gas y Comisiones",
+      "description": "Comprende el gas, las comisiones y la economía de la red"
+    },
+    "evm": {
+      "title": "EVM",
+      "description": "La Máquina Virtual de Ethereum explicada"
+    },
+    "mev": {
+      "title": "MEV",
+      "description": "Valor Extraíble Máximo y construcción de bloques"
+    }
+  },
+  "simulator": {
+    "header": {
+      "title": "Visualizador del Protocolo Ethereum",
+      "subtitle": "Observa cómo las transacciones fluyen a través de la red Ethereum - desde tu billetera hasta la finalidad de la blockchain",
+      "hint": "Arrastra paneles entre columnas \u00b7 Flechas para mover \u00b7 Arrastra borde inferior para redimensionar"
+    },
+    "controls": {
+      "resetLayout": "Reiniciar Diseño",
+      "resetLayoutAria": "Reiniciar diseño de paneles por defecto",
+      "playing": "Reproduciendo",
+      "paused": "Pausado",
+      "completed": "Completado",
+      "ready": "Listo",
+      "manualMode": "Modo Manual",
+      "nextStep": "Siguiente Paso",
+      "pauseFirst": "Pausa primero para avanzar manualmente",
+      "advanceOneStep": "Avanzar un paso",
+      "resetSimulation": "Reiniciar simulación",
+      "txProcessed": "{count} tx procesadas",
+      "slow": "Lento",
+      "normal": "Normal",
+      "fast": "Rápido"
+    },
+    "participants": {
+      "title": "¿Quién Participa en la Red Ethereum?",
+      "user": {
+        "name": "Usuario",
+        "description": "¡Tú! Inicia transacciones usando software de billetera"
+      },
+      "wallet": {
+        "name": "Billetera",
+        "description": "Software que crea y firma transacciones con tus llaves"
+      },
+      "node": {
+        "name": "Nodo",
+        "description": "Computadoras que validan, almacenan y retransmiten datos de blockchain"
+      },
+      "mempool": {
+        "name": "Mempool",
+        "description": "Cola local de transacciones pendientes de cada nodo"
+      },
+      "validator": {
+        "name": "Validador",
+        "description": "Nodos con stake que proponen y attestan nuevos bloques"
+      },
+      "beaconChain": {
+        "name": "Beacon Chain",
+        "description": "Capa de consenso que coordina las funciones de validación"
+      }
+    },
+    "panels": {
+      "transaction": {
+        "title": "Transacción",
+        "ariaLabel": "Panel de transacción"
+      },
+      "participants": {
+        "title": "Participantes de la Red",
+        "ariaLabel": "Panel de participantes de la red"
+      },
+      "block": {
+        "title": "Bloque",
+        "ariaLabel": "Panel de bloque"
+      },
+      "validators": {
+        "title": "Validadores",
+        "ariaLabel": "Panel de validadores"
+      },
+      "mempool": {
+        "title": "Mempool",
+        "ariaLabel": "Panel de mempool"
+      }
+    },
+    "steps": {
+      "create": "Crear",
+      "sign": "Firmar",
+      "broadcast": "Transmitir",
+      "mempool": "Mempool",
+      "select": "Seleccionar",
+      "build": "Construir",
+      "propose": "Proponer",
+      "attest": "Attestar",
+      "finalize": "Finalizar",
+      "done": "Hecho",
+      "lifecycle": "Ciclo de Vida de Transacción",
+      "progress": "{percent}%"
+    },
+    "stepDescriptions": {
+      "idle": {
+        "title": "Listo para Comenzar",
+        "description": "Haz clic en \"Crear Transacción\" o activa Auto Completo para comenzar la simulación.",
+        "actor": "Tú (el usuario)",
+        "location": "Tu dispositivo"
+      },
+      "creating-tx": {
+        "title": "Usuario Crea Transacción",
+        "description": "Un usuario (tú) usa una aplicación de billetera (MetaMask, Ledger, etc.) para crear una transacción. El software de la billetera construye los datos de la transacción: dirección del destinatario, cantidad de ETH, límite de gas y precio de gas.",
+        "actor": "Software de Billetera (en nombre del usuario)",
+        "location": "Dispositivo del usuario (navegador/app)"
+      },
+      "signing-tx": {
+        "title": "Billetera Firma Transacción",
+        "description": "La billetera usa TU llave privada para firmar criptográficamente la transacción. Esta firma prueba que autorizaste esta transferencia sin revelar tu llave privada. La firma se crea localmente en tu dispositivo.",
+        "actor": "Software de Billetera + Tu Llave Privada",
+        "location": "Dispositivo del usuario (enclave seguro)"
+      },
+      "broadcasting": {
+        "title": "Billetera Transmite a Nodos",
+        "description": "Tu billetera se conecta a un nodo Ethereum (a través de endpoint RPC como Infura, Alchemy, o tu propio nodo) y envía la transacción firmada. El nodo la valida y la comparte con nodos pares en la red P2P.",
+        "actor": "Nodos Ethereum (Red P2P)",
+        "location": "Red de nodos global (miles de nodos)"
+      },
+      "mempool": {
+        "title": "Transacción Entra al Mempool",
+        "description": "Cada nodo mantiene su propio mempool (pool de memoria) - un área de espera para transacciones no confirmadas. Tu transacción ahora existe en el mempool de muchos nodos, esperando que un validador la incluya en un bloque.",
+        "actor": "Todos los Nodos Ethereum",
+        "location": "Distribuido en todos los mempools de nodos"
+      },
+      "selecting-validator": {
+        "title": "Protocolo Selecciona Propuesta",
+        "description": "El protocolo Ethereum (RANDAO) selecciona aleatoriamente un validador para proponer el siguiente bloque. La probabilidad de selección está ponderada por stake (32+ ETH). Esto ocurre cada 12 segundos (un slot).",
+        "actor": "Protocolo Ethereum (Capa de Consenso)",
+        "location": "Beacon Chain"
+      },
+      "building-block": {
+        "title": "Validador Construye Bloque",
+        "description": "El nodo del validador seleccionado extrae transacciones de su mempool, las ordena (a menudo por precio de gas) y las ensambla en un bloque. El validador ejecuta un cliente de ejecución para procesar cambios de estado.",
+        "actor": "Proponente de Bloque (Nodo Validador)",
+        "location": "Nodo validador del proponente"
+      },
+      "proposing-block": {
+        "title": "Validador Propone Bloque",
+        "description": "El proponente difunde el nuevo bloque a todos los otros validadores en la red. El bloque incluye la lista de transacciones, raíz de estado y firma del proponente.",
+        "actor": "Proponente de Bloque",
+        "location": "Difusión de red P2P"
+      },
+      "attesting": {
+        "title": "Comité Valida y Attesta",
+        "description": "Un comité de validadores (seleccionados aleatoriamente para este slot) verifican independientemente el bloque. Cada validador que attesta verifica la validez de la transacción y firma un voto de attestación. Las attestaciones se agregan.",
+        "actor": "Comité de Attestación (128+ validadores)",
+        "location": "Nodo de cada validador"
+      },
+      "finalizing": {
+        "title": "Bloque Alcanza Finalidad",
+        "description": "Cuando 2/3+ del total de ETH stakeado attesta a un bloque a través de dos épocas (~13 min), se vuelve \"finalizado\" - criptoeconómicamente irreversible. Revertirlo requeriría quemar billones en ETH stakeado.",
+        "actor": "Consenso de Red",
+        "location": "Red de validadores global"
+      },
+      "complete": {
+        "title": "Transacción Confirmada",
+        "description": "La transacción ahora es parte permanente de la blockchain canónica de Ethereum. El cambio de estado (transferencia de ETH) está finalizado, y el destinatario puede gastar los fondos.",
+        "actor": "Blockchain Ethereum",
+        "location": "Registro permanente on-chain"
+      }
+    },
+    "transaction": {
+      "title": "Transacción",
+      "waitingForUser": "Esperando acción del usuario",
+      "instruction": "Haz clic en \"Crear Transacción\" para simular un usuario creando una transacción en su billetera, o activa \"Auto Completo\" para simulación continua.",
+      "creating": "Creando Transacción",
+      "signing": "Firmando Transacción",
+      "broadcasting": "Transmitiendo",
+      "inMempool": "En Mempool",
+      "userInitiates": "Usuario inicia transferencia",
+      "walletOpens": "{wallet} abre su app de billetera e ingresa detalles de la transacción",
+      "walletSigns": "Billetera firma con llave privada",
+      "walletSignsDesc": "El software de la billetera usa la llave privada de {wallet} para crear una firma criptográfica. Esto ocurre localmente en el dispositivo del usuario.",
+      "walletSends": "Billetera envía a nodo RPC",
+      "walletSendsDesc": "La billetera se conecta a un nodo Ethereum (Infura, Alchemy, o nodo personal) vía JSON-RPC y envía la transacción firmada.",
+      "propagates": "Transacción se propaga a todos los nodos",
+      "propagatesDesc": "Cada nodo valida y agrega la transacción a su mempool local, luego la comparte con nodos pares en la red P2P.",
+      "from": "Desde (Remitente)",
+      "to": "Hasta (Destinatario)",
+      "value": "Valor",
+      "gasPrice": "Precio de Gas",
+      "signed": "Firmado",
+      "status": "Estado"
+    },
+    "panel": {
+      "participants": {
+        "title": "Participantes de la Red",
+        "subtitle": "Quién participa en cada paso",
+        "userAndWallet": "Usuario y Billetera",
+        "creating": "Creando transacción...",
+        "signing": "Firmando con llave privada...",
+        "ethereumNodes": "Nodos Ethereum (Red P2P)",
+        "nodesDescription": "Cada nodo mantiene su propio mempool. Las transacciones se propagan a miles de nodos globalmente.",
+        "moreNodes": "+ miles de nodos más en todo el mundo"
+      },
+      "validators": {
+        "title": "Validadores",
+        "attestedCount": "{attested}/{total} attestaron",
+        "whatAreValidators": "¿Qué son los validadores?",
+        "validatorsTooltip": "Los validadores son nodos que han stakeado 32+ ETH para participar en el consenso. Proponen nuevos bloques y attestan a bloques propuestos por otros. El comportamiento malicioso resulta en slashing (destrucción del stake).",
+        "proposer": "Proponente",
+        "attested": "Attestó",
+        "waiting": "Esperando",
+        "ethStaked": "{amount} ETH stakeado",
+        "randaoTitle": "Selección RANDAO",
+        "randaoDesc": "El protocolo selecciona aleatoriamente un validador para proponer el siguiente bloque. La probabilidad de selección está ponderada por la cantidad de stake.",
+        "attestationTitle": "Attestación en Progreso",
+        "attestationDesc": "Cada validador verifica independientemente el bloque y firma un voto de attestación. Esto ocurre cada 12 segundos (1 slot).",
+        "consensusTitle": "Consenso Alcanzado",
+        "consensusDesc": "2/3+ del ETH stakeado ha attestado. El bloque se finaliza y se vuelve criptoeconómicamente irreversible."
+      },
+      "mempool": {
+        "title": "Mempool",
+        "pendingTransactions": "{count} transacción pendiente",
+        "whatIsMempool": "¿Qué es el mempool?",
+        "mempoolTooltip": "El mempool NO es una ubicación única. Cada nodo Ethereum mantiene su propio mempool - una cola local de transacciones pendientes esperando ser incluidas en un bloque. Los validadores seleccionan transacciones de su mempool al construir bloques.",
+        "distributedAcross": "Distribuido en nodos:",
+        "thousandsMore": "+1000s",
+        "movedToBlock": "Transacciones movidas al bloque",
+        "noPending": "No hay transacciones pendientes",
+        "waitDescription": "Las transacciones esperan aquí hasta que un validador las incluya",
+        "gweiPriority": "{price} Gwei de prioridad"
+      },
+      "block": {
+        "title": "Bloque",
+        "waiting": "Esperando construcción de bloque...",
+        "blockNumber": "Bloque #{number}",
+        "hash": "Hash:",
+        "parent": "Padre:",
+        "proposer": "Proponente:",
+        "transactions": "Transacciones",
+        "gasUsed": "Gas Usado",
+        "attestations": "Attestaciones",
+        "validatorsPercent": "{attested}/{total} validadores ({percent}%)"
+      }
+    },
+    "info": {
+      "pos": {
+        "title": "Proof of Stake (PoS)",
+        "description": "Los validadores stakean 32+ ETH como garantía. Son seleccionados aleatoriamente para proponer bloques y attestar a bloques de otros. El comportamiento deshonesto resulta en slashing (pérdida de ETH stakeado)."
+      },
+      "finality": {
+        "title": "Finalidad",
+        "description": "Cuando 2/3+ de validadores attestan un bloque, se vuelve \"justificado.\" Después de dos tales épocas (~13 min), los bloques se \"finalizan\" - criptoeconómicamente irreversibles."
+      },
+      "lifecycle": {
+        "title": "Ciclo de Vida de Transacción",
+        "description": "Creada en billetera, firmada localmente, transmitida a nodos, en mempool, validador incluye en bloque, comité attesta, bloque finalizado."
+      }
+    },
+    "footer": "Simulación educativa demostrando conceptos del protocolo Ethereum. No conectado a blockchain real.",
+    "loading": "Inicializando simulación..."
+  },
+  "footer": {
+    "attribution": "Simulación educativa. No conectada a blockchain real.",
+    "bookCredit": "Basado en Mastering Ethereum"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "reset": "Reiniciar",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "expand": "Expandir",
+    "collapse": "Colapsar"
+  },
+  "landing": {
+    "features": {
+      "title": "¿Por qué InteractiveETH?",
+      "visual": {
+        "title": "Aprendizaje Visual",
+        "description": "Mira los conceptos en acción con diagramas interactivos"
+      },
+      "handsOn": {
+        "title": "Práctica Interactiva",
+        "description": "Controla la simulación paso a paso"
+      },
+      "openSource": {
+        "title": "Código Abierto",
+        "description": "Gratuito para usar, contribuciones bienvenidas"
+      }
+    }
+  }
+}

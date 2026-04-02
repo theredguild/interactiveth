@@ -1,0 +1,326 @@
+{
+  "nav": {
+    "home": "Home",
+    "tutorials": "Tutorials",
+    "about": "About"
+  },
+  "hero": {
+    "title": "Interactive Ethereum",
+    "subtitle": "Learn Ethereum protocol concepts through interactive visualizations",
+    "cta": "Start Learning",
+    "ctaSecondary": "Browse Tutorials"
+  },
+  "tutorials": {
+    "title": "Tutorials",
+    "subtitle": "Explore Ethereum concepts step by step",
+    "available": "Available",
+    "comingSoon": "Coming Soon",
+    "progress": "Progress",
+    "start": "Start",
+    "continue": "Continue"
+  },
+  "tutorial": {
+    "transactions": {
+      "title": "Transactions",
+      "description": "Learn how transactions flow from your wallet to the blockchain"
+    },
+    "blocks": {
+      "title": "Blocks",
+      "description": "Understand how blocks are created and confirmed"
+    },
+    "smartContracts": {
+      "title": "Smart Contracts",
+      "description": "Explore how smart contracts work on Ethereum"
+    },
+    "gas": {
+      "title": "Gas & Fees",
+      "description": "Understand gas, fees, and network economics"
+    },
+    "evm": {
+      "title": "EVM",
+      "description": "The Ethereum Virtual Machine explained"
+    },
+    "mev": {
+      "title": "MEV",
+      "description": "Maximal Extractable Value and block building"
+    }
+  },
+  "simulator": {
+    "header": {
+      "title": "Ethereum Protocol Visualizer",
+      "subtitle": "Watch how transactions flow through the Ethereum network - from your wallet to blockchain finality",
+      "hint": "Drag panels between columns \u00b7 Arrow keys to move \u00b7 Drag bottom edge to resize"
+    },
+    "controls": {
+      "resetLayout": "Reset Layout",
+      "resetLayoutAria": "Reset panel layout to default",
+      "playing": "Playing",
+      "paused": "Paused",
+      "completed": "Completed",
+      "ready": "Ready",
+      "manualMode": "Manual Mode",
+      "nextStep": "Next Step",
+      "pauseFirst": "Pause first to step manually",
+      "advanceOneStep": "Advance one step",
+      "resetSimulation": "Reset simulation",
+      "txProcessed": "{count} tx processed",
+      "slow": "Slow",
+      "normal": "Normal",
+      "fast": "Fast"
+    },
+    "steps": {
+      "create": "Create",
+      "sign": "Sign",
+      "broadcast": "Broadcast",
+      "mempool": "Mempool",
+      "select": "Select",
+      "build": "Build",
+      "propose": "Propose",
+      "attest": "Attest",
+      "finalize": "Finalize",
+      "done": "Done",
+      "lifecycle": "Transaction Lifecycle",
+      "progress": "{percent}%"
+    },
+    "stepDescriptions": {
+      "idle": {
+        "title": "Ready to Start",
+        "description": "Click \"Create Transaction\" or enable Full Auto to begin the simulation.",
+        "actor": "You (the user)",
+        "location": "Your device"
+      },
+      "creating-tx": {
+        "title": "User Creates Transaction",
+        "description": "A user (you) uses a wallet application (MetaMask, Ledger, etc.) to create a transaction. The wallet software constructs the transaction data: recipient address, ETH amount, gas limit, and gas price.",
+        "actor": "Wallet Software (on behalf of user)",
+        "location": "User's device (browser/app)"
+      },
+      "signing-tx": {
+        "title": "Wallet Signs Transaction",
+        "description": "The wallet uses YOUR private key to cryptographically sign the transaction. This signature proves you authorized this transfer without revealing your private key. The signature is created locally on your device.",
+        "actor": "Wallet Software + Your Private Key",
+        "location": "User's device (secure enclave)"
+      },
+      "broadcasting": {
+        "title": "Wallet Broadcasts to Nodes",
+        "description": "Your wallet connects to an Ethereum node (via RPC endpoint like Infura, Alchemy, or your own node) and sends the signed transaction. The node validates it and gossips it to peer nodes across the P2P network.",
+        "actor": "Ethereum Nodes (P2P Network)",
+        "location": "Global node network (thousands of nodes)"
+      },
+      "mempool": {
+        "title": "Transaction Enters Mempool",
+        "description": "Each node maintains its own mempool (memory pool) - a waiting area for unconfirmed transactions. Your transaction now exists in the mempool of many nodes, waiting for a validator to include it in a block.",
+        "actor": "All Ethereum Nodes",
+        "location": "Distributed across all node mempools"
+      },
+      "selecting-validator": {
+        "title": "Protocol Selects Proposer",
+        "description": "The Ethereum protocol (RANDAO) randomly selects one validator to propose the next block. Selection probability is weighted by stake (32+ ETH). This happens every 12 seconds (one slot).",
+        "actor": "Ethereum Protocol (Consensus Layer)",
+        "location": "Beacon Chain"
+      },
+      "building-block": {
+        "title": "Validator Builds Block",
+        "description": "The selected validator's node pulls transactions from its mempool, orders them (often by gas price), and assembles them into a block. The validator runs an execution client to process state changes.",
+        "actor": "Block Proposer (Validator Node)",
+        "location": "Proposer's validator node"
+      },
+      "proposing-block": {
+        "title": "Validator Proposes Block",
+        "description": "The proposer broadcasts the new block to all other validators in the network. The block includes the transaction list, state root, and proposer signature.",
+        "actor": "Block Proposer",
+        "location": "P2P network broadcast"
+      },
+      "attesting": {
+        "title": "Committee Validates & Attests",
+        "description": "A committee of validators (randomly selected for this slot) independently verify the block. Each attesting validator checks transaction validity and signs an attestation vote. Attestations are aggregated.",
+        "actor": "Attestation Committee (128+ validators)",
+        "location": "Each validator's node"
+      },
+      "finalizing": {
+        "title": "Block Achieves Finality",
+        "description": "When 2/3+ of total staked ETH attests to a block across two epochs (~13 min), it becomes \"finalized\" - cryptoeconomically irreversible. Reversing would require burning billions in staked ETH.",
+        "actor": "Network Consensus",
+        "location": "Global validator network"
+      },
+      "complete": {
+        "title": "Transaction Confirmed",
+        "description": "The transaction is now permanently part of the canonical Ethereum blockchain. The state change (ETH transfer) is finalized, and the recipient can spend the funds.",
+        "actor": "Ethereum Blockchain",
+        "location": "Permanent on-chain record"
+      }
+    },
+    "transaction": {
+      "title": "Transaction",
+      "waitingForUser": "Waiting for user action",
+      "instruction": "Click \"Create Transaction\" to simulate a user creating a transaction in their wallet, or enable \"Full Auto\" for continuous simulation.",
+      "creating": "Creating Transaction",
+      "signing": "Signing Transaction",
+      "broadcasting": "Broadcasting",
+      "inMempool": "In Mempool",
+      "userInitiates": "User initiates transfer",
+      "walletOpens": "{wallet} opens their wallet app and enters transaction details",
+      "walletSigns": "Wallet signs with private key",
+      "walletSignsDesc": "The wallet software uses {wallet}'s private key to create a cryptographic signature. This happens locally on the user's device.",
+      "walletSends": "Wallet sends to RPC node",
+      "walletSendsDesc": "The wallet connects to an Ethereum node (Infura, Alchemy, or personal node) via JSON-RPC and submits the signed transaction.",
+      "propagates": "Transaction propagates to all nodes",
+      "propagatesDesc": "Each node validates and adds the transaction to its local mempool, then gossips it to peer nodes across the P2P network.",
+      "from": "From (Sender)",
+      "to": "To (Recipient)",
+      "value": "Value",
+      "gasPrice": "Gas Price",
+      "signed": "Signed",
+      "status": "Status"
+    },
+    "panel": {
+      "participants": {
+        "title": "Network Participants",
+        "subtitle": "Who is involved at each step",
+        "userAndWallet": "User & Wallet",
+        "creating": "Creating transaction...",
+        "signing": "Signing with private key...",
+        "ethereumNodes": "Ethereum Nodes (P2P Network)",
+        "nodesDescription": "Each node maintains its own mempool. Transactions propagate across thousands of nodes globally.",
+        "moreNodes": "+ thousands more nodes worldwide"
+      },
+      "validators": {
+        "title": "Validators",
+        "attestedCount": "{attested}/{total} attested",
+        "whatAreValidators": "What are validators?",
+        "validatorsTooltip": "Validators are nodes that have staked 32+ ETH to participate in consensus. They propose new blocks and attest to blocks proposed by others. Malicious behavior results in stake being slashed (destroyed).",
+        "proposer": "Proposer",
+        "attested": "Attested",
+        "waiting": "Waiting",
+        "ethStaked": "{amount} ETH staked",
+        "randaoTitle": "RANDAO Selection",
+        "randaoDesc": "Protocol randomly selects a validator to propose the next block. Selection probability is weighted by stake amount.",
+        "attestationTitle": "Attestation in Progress",
+        "attestationDesc": "Each validator independently verifies the block and signs an attestation vote. This happens every 12 seconds (1 slot).",
+        "consensusTitle": "Consensus Reached",
+        "consensusDesc": "2/3+ of staked ETH has attested. Block becomes finalized and cryptoeconomically irreversible."
+      },
+      "mempool": {
+        "title": "Mempool",
+        "pendingTransactions": "{count} pending transaction{count, plural, one {} other {s}}",
+        "whatIsMempool": "What is the mempool?",
+        "mempoolTooltip": "The mempool is NOT a single location. Each Ethereum node maintains its own mempool - a local queue of pending transactions waiting to be included in a block. Validators select transactions from their mempool when building blocks.",
+        "distributedAcross": "Distributed across nodes:",
+        "thousandsMore": "+1000s",
+        "movedToBlock": "Transactions moved to block",
+        "noPending": "No pending transactions",
+        "waitDescription": "Transactions wait here until a validator includes them",
+        "gweiPriority": "{price} Gwei priority"
+      },
+      "block": {
+        "title": "Block",
+        "waiting": "Waiting for block construction...",
+        "blockNumber": "Block #{number}",
+        "hash": "Hash:",
+        "parent": "Parent:",
+        "proposer": "Proposer:",
+        "transactions": "Transactions",
+        "gasUsed": "Gas Used",
+        "attestations": "Attestations",
+        "validatorsPercent": "{attested}/{total} validators ({percent}%)"
+      }
+    },
+    "participants": {
+      "title": "Who Participates in the Ethereum Network?",
+      "user": {
+        "name": "User",
+        "description": "You! Initiates transactions using wallet software"
+      },
+      "wallet": {
+        "name": "Wallet",
+        "description": "Software that creates & signs transactions with your keys"
+      },
+      "node": {
+        "name": "Node",
+        "description": "Computers that validate, store, and relay blockchain data"
+      },
+      "mempool": {
+        "name": "Mempool",
+        "description": "Each node's local queue of pending transactions"
+      },
+      "validator": {
+        "name": "Validator",
+        "description": "Staked nodes that propose & attest to new blocks"
+      },
+      "beaconChain": {
+        "name": "Beacon Chain",
+        "description": "Consensus layer coordinating validator duties"
+      }
+    },
+    "panels": {
+      "transaction": {
+        "title": "Transaction",
+        "ariaLabel": "Transaction panel"
+      },
+      "participants": {
+        "title": "Network Participants",
+        "ariaLabel": "Network Participants panel"
+      },
+      "block": {
+        "title": "Block",
+        "ariaLabel": "Block panel"
+      },
+      "validators": {
+        "title": "Validators",
+        "ariaLabel": "Validators panel"
+      },
+      "mempool": {
+        "title": "Mempool",
+        "ariaLabel": "Mempool panel"
+      }
+    },
+    "info": {
+      "pos": {
+        "title": "Proof of Stake (PoS)",
+        "description": "Validators stake 32+ ETH as collateral. They're randomly selected to propose blocks and attest to others' blocks. Dishonest behavior results in slashing (losing staked ETH)."
+      },
+      "finality": {
+        "title": "Finality",
+        "description": "When 2/3+ of validators attest to a block, it becomes \"justified.\" After two such epochs (~13 min), blocks become \"finalized\" - cryptoeconomically irreversible."
+      },
+      "lifecycle": {
+        "title": "Transaction Lifecycle",
+        "description": "Created in wallet, signed locally, broadcast to nodes, sits in mempool, validator includes in block, committee attests, block finalized."
+      }
+    },
+    "footer": "Educational simulation demonstrating Ethereum protocol concepts. Not connected to actual blockchain.",
+    "loading": "Initializing simulation..."
+  },
+  "footer": {
+    "attribution": "Educational simulation. Not connected to actual blockchain.",
+    "bookCredit": "Based on Mastering Ethereum"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "reset": "Reset",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next",
+    "previous": "Previous",
+    "expand": "Expand",
+    "collapse": "Collapse"
+  },
+  "landing": {
+    "features": {
+      "title": "Why InteractiveETH?",
+      "visual": {
+        "title": "Visual Learning",
+        "description": "See concepts in action with interactive diagrams"
+      },
+      "handsOn": {
+        "title": "Hands-on Practice",
+        "description": "Control the simulation step by step"
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Free to use, contributions welcome"
+      }
+    }
+  }
+}

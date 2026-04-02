@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import type { Block, SimulationStep } from '@/lib/ethereum-types';
 import { shortenHash, shortenAddress } from '@/lib/ethereum-utils';
 import { Box, Hash, Clock, Fuel, User } from 'lucide-react';
@@ -11,6 +12,7 @@ interface BlockVisualizationProps {
 }
 
 export function BlockVisualization({ block, step }: BlockVisualizationProps) {
+  const t = useTranslations();
   const isActive = ['building-block', 'proposing-block', 'attesting', 'finalizing'].includes(step);
 
   if (!block) {
@@ -20,10 +22,10 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
           <div className="flex size-10 items-center justify-center rounded-lg bg-secondary">
             <Box className="size-5 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-semibold text-foreground">Block</h3>
+          <h3 className="text-lg font-semibold text-foreground">{t('simulator.panels.block.title')}</h3>
         </div>
         <p className="text-sm text-muted-foreground">
-          Waiting for block construction...
+          {t('simulator.panel.block.waiting')}
         </p>
       </div>
     );
@@ -52,7 +54,7 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
           <Box className="size-5" />
         </motion.div>
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Block #{block.number}</h3>
+          <h3 className="text-lg font-semibold text-foreground">{t('simulator.panel.block.blockNumber', { number: block.number })}</h3>
           <div className="flex items-center gap-2">
             <span
               className={`size-2 rounded-full ${
@@ -71,7 +73,7 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
       <div className="space-y-3">
         <div className="flex items-center gap-2 text-sm">
           <Hash className="size-4 text-muted-foreground" />
-          <span className="text-muted-foreground">Hash:</span>
+          <span className="text-muted-foreground">{t('simulator.panel.block.hash')}</span>
           <code className="rounded bg-secondary px-2 py-1 font-mono text-xs text-foreground">
             {shortenHash(block.hash)}
           </code>
@@ -79,7 +81,7 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
 
         <div className="flex items-center gap-2 text-sm">
           <Hash className="size-4 text-muted-foreground" />
-          <span className="text-muted-foreground">Parent:</span>
+          <span className="text-muted-foreground">{t('simulator.panel.block.parent')}</span>
           <code className="rounded bg-secondary px-2 py-1 font-mono text-xs text-foreground">
             {shortenHash(block.parentHash)}
           </code>
@@ -87,7 +89,7 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
 
         <div className="flex items-center gap-2 text-sm">
           <User className="size-4 text-muted-foreground" />
-          <span className="text-muted-foreground">Proposer:</span>
+          <span className="text-muted-foreground">{t('simulator.panel.block.proposer')}</span>
           <code className="rounded bg-secondary px-2 py-1 font-mono text-xs text-foreground">
             {shortenAddress(block.miner)}
           </code>
@@ -97,14 +99,14 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
           <div className="flex items-center gap-2">
             <Clock className="size-4 text-muted-foreground" />
             <div>
-              <p className="text-xs text-muted-foreground">Transactions</p>
+              <p className="text-xs text-muted-foreground">{t('simulator.panel.block.transactions')}</p>
               <p className="font-mono font-semibold text-foreground">{block.transactions.length}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Fuel className="size-4 text-muted-foreground" />
             <div>
-              <p className="text-xs text-muted-foreground">Gas Used</p>
+              <p className="text-xs text-muted-foreground">{t('simulator.panel.block.gasUsed')}</p>
               <p className="font-mono font-semibold text-foreground">
                 {(block.gasUsed / 1000).toFixed(1)}K
               </p>
@@ -114,7 +116,7 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
 
         {block.attestations > 0 && (
           <div className="mt-2 border-t border-border pt-4">
-            <p className="text-xs text-muted-foreground">Attestations</p>
+            <p className="text-xs text-muted-foreground">{t('simulator.panel.block.attestations')}</p>
             <div className="mt-2 flex items-center gap-1">
               {Array.from({ length: 8 }).map((_, i) => (
                 <motion.div
@@ -129,7 +131,11 @@ export function BlockVisualization({ block, step }: BlockVisualizationProps) {
               ))}
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              {block.attestations}/8 validators ({((block.attestations / 8) * 100).toFixed(0)}%)
+              {t('simulator.panel.block.validatorsPercent', { 
+                attested: block.attestations, 
+                total: 8, 
+                percent: ((block.attestations / 8) * 100).toFixed(0) 
+              })}
             </p>
           </div>
         )}

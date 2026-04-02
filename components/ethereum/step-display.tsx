@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import type { SimulationStep } from '@/lib/ethereum-types';
-import { STEP_DESCRIPTIONS } from '@/lib/ethereum-utils';
 import { 
   FileText, 
   Key, 
@@ -23,30 +23,53 @@ interface StepDisplayProps {
   progress: number;
 }
 
-const steps: { key: SimulationStep; icon: React.ReactNode; label: string }[] = [
-  { key: 'creating-tx', icon: <FileText className="size-3 sm:size-4" />, label: 'Create' },
-  { key: 'signing-tx', icon: <Key className="size-3 sm:size-4" />, label: 'Sign' },
-  { key: 'broadcasting', icon: <Radio className="size-3 sm:size-4" />, label: 'Broadcast' },
-  { key: 'mempool', icon: <Inbox className="size-3 sm:size-4" />, label: 'Mempool' },
-  { key: 'selecting-validator', icon: <Users className="size-3 sm:size-4" />, label: 'Select' },
-  { key: 'building-block', icon: <Box className="size-3 sm:size-4" />, label: 'Build' },
-  { key: 'proposing-block', icon: <Send className="size-3 sm:size-4" />, label: 'Propose' },
-  { key: 'attesting', icon: <Vote className="size-3 sm:size-4" />, label: 'Attest' },
-  { key: 'finalizing', icon: <Lock className="size-3 sm:size-4" />, label: 'Finalize' },
-  { key: 'complete', icon: <CheckCircle2 className="size-3 sm:size-4" />, label: 'Done' },
-];
+const steps = [
+  { key: 'creating-tx', icon: <FileText className="size-3 sm:size-4" /> },
+  { key: 'signing-tx', icon: <Key className="size-3 sm:size-4" /> },
+  { key: 'broadcasting', icon: <Radio className="size-3 sm:size-4" /> },
+  { key: 'mempool', icon: <Inbox className="size-3 sm:size-4" /> },
+  { key: 'selecting-validator', icon: <Users className="size-3 sm:size-4" /> },
+  { key: 'building-block', icon: <Box className="size-3 sm:size-4" /> },
+  { key: 'proposing-block', icon: <Send className="size-3 sm:size-4" /> },
+  { key: 'attesting', icon: <Vote className="size-3 sm:size-4" /> },
+  { key: 'finalizing', icon: <Lock className="size-3 sm:size-4" /> },
+  { key: 'complete', icon: <CheckCircle2 className="size-3 sm:size-4" /> },
+] as const;
 
 const stepOrder = steps.map(s => s.key);
 
 export function StepDisplay({ currentStep, progress }: StepDisplayProps) {
-  const currentIndex = stepOrder.indexOf(currentStep);
-  const stepInfo = STEP_DESCRIPTIONS[currentStep] || STEP_DESCRIPTIONS['idle'];
+  const t = useTranslations();
+  const currentIndex = stepOrder.indexOf(currentStep as typeof stepOrder[number]);
+  
+  const getStepLabel = (stepKey: string) => {
+    const labelMap: Record<string, string> = {
+      'creating-tx': t('simulator.steps.create'),
+      'signing-tx': t('simulator.steps.sign'),
+      'broadcasting': t('simulator.steps.broadcast'),
+      'mempool': t('simulator.steps.mempool'),
+      'selecting-validator': t('simulator.steps.select'),
+      'building-block': t('simulator.steps.build'),
+      'proposing-block': t('simulator.steps.propose'),
+      'attesting': t('simulator.steps.attest'),
+      'finalizing': t('simulator.steps.finalize'),
+      'complete': t('simulator.steps.done'),
+    };
+    return labelMap[stepKey] || stepKey;
+  };
+  
+  const stepInfo = currentStep === 'idle' ? null : {
+    title: t(`simulator.stepDescriptions.${currentStep}.title`),
+    description: t(`simulator.stepDescriptions.${currentStep}.description`),
+    actor: t(`simulator.stepDescriptions.${currentStep}.actor`),
+    location: t(`simulator.stepDescriptions.${currentStep}.location`),
+  };
 
   return (
     <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
       {/* Header with progress */}
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-foreground sm:text-base">Transaction Lifecycle</h3>
+        <h3 className="text-sm font-medium text-foreground sm:text-base">{t('simulator.steps.lifecycle')}</h3>
         <div className="flex items-center gap-2">
           <div className="h-2 w-24 overflow-hidden rounded-full bg-secondary sm:w-32">
             <motion.div
@@ -56,7 +79,7 @@ export function StepDisplay({ currentStep, progress }: StepDisplayProps) {
               transition={{ duration: 0.3 }}
             />
           </div>
-          <span className="text-xs text-muted-foreground">{Math.round(progress)}%</span>
+          <span className="text-xs text-muted-foreground">{t('simulator.steps.progress', { percent: Math.round(progress) })}</span>
         </div>
       </div>
 
@@ -88,7 +111,7 @@ export function StepDisplay({ currentStep, progress }: StepDisplayProps) {
                     isCurrent ? 'font-medium text-foreground' : 'text-muted-foreground'
                   }`}
                 >
-                  {step.label}
+                  {getStepLabel(step.key)}
                 </span>
               </div>
               {index < steps.length - 1 && (
@@ -104,7 +127,7 @@ export function StepDisplay({ currentStep, progress }: StepDisplayProps) {
       </div>
 
       {/* Current step description */}
-      {currentStep !== 'idle' && (
+      {stepInfo && (
         <motion.div
           key={currentStep}
           initial={{ opacity: 0, y: 5 }}

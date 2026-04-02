@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import type { SimulationStep } from '@/lib/ethereum-types';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -29,16 +30,17 @@ export function TopControlBar({
   onSetSpeed,
   onReset,
 }: TopControlBarProps) {
+  const t = useTranslations();
   const isIdle = step === 'idle';
   const isComplete = step === 'complete';
   
   // Determine status text
   const getStatusText = () => {
-    if (isPlaying) return 'Playing';
-    if (isPaused) return 'Paused';
-    if (isComplete) return 'Completed';
-    if (isIdle) return 'Ready';
-    return 'Manual Mode';
+    if (isPlaying) return t('simulator.controls.playing');
+    if (isPaused) return t('simulator.controls.paused');
+    if (isComplete) return t('simulator.controls.completed');
+    if (isIdle) return t('simulator.controls.ready');
+    return t('simulator.controls.manualMode');
   };
 
   // Next step is enabled when paused or when in manual mode (not playing)
@@ -67,7 +69,7 @@ export function TopControlBar({
               {getStatusText()}
             </p>
             <p className="text-xs text-muted-foreground">
-              {totalTransactions > 0 && `${totalTransactions} tx processed`}
+              {totalTransactions > 0 && t('simulator.controls.txProcessed', { count: totalTransactions })}
             </p>
           </div>
         </div>
@@ -84,12 +86,12 @@ export function TopControlBar({
             {isPlaying ? (
               <>
                 <Pause className="size-5" />
-                <span className="hidden sm:inline">Pause</span>
+                <span className="hidden sm:inline">{t('common.pause')}</span>
               </>
             ) : (
               <>
                 <Play className="size-5" />
-                <span className="hidden sm:inline">{isPaused ? 'Resume' : 'Play'}</span>
+                <span className="hidden sm:inline">{isPaused ? t('common.play') : t('common.play')}</span>
               </>
             )}
           </Button>
@@ -101,10 +103,10 @@ export function TopControlBar({
             size="lg"
             disabled={!canNextStep && !isIdle}
             className="gap-2"
-            title={isPlaying ? 'Pause first to step manually' : 'Advance one step'}
+            title={isPlaying ? t('simulator.controls.pauseFirst') : t('simulator.controls.advanceOneStep')}
           >
             <SkipForward className="size-5" />
-            <span className="hidden sm:inline">Next Step</span>
+            <span className="hidden sm:inline">{t('simulator.controls.nextStep')}</span>
           </Button>
 
           {/* Reset button */}
@@ -113,7 +115,7 @@ export function TopControlBar({
             variant="ghost"
             size="icon"
             className="size-10"
-            title="Reset simulation"
+            title={t('simulator.controls.resetSimulation')}
           >
             <RotateCcw className="size-5" />
           </Button>
@@ -133,7 +135,7 @@ export function TopControlBar({
             />
           </div>
           <span className="w-12 text-xs text-muted-foreground">
-            {speed >= 2000 ? 'Slow' : speed >= 1000 ? 'Normal' : 'Fast'}
+            {speed >= 2000 ? t('simulator.controls.slow') : speed >= 1000 ? t('simulator.controls.normal') : t('simulator.controls.fast')}
           </span>
         </div>
       </div>

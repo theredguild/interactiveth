@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import type { Validator, SimulationStep } from '@/lib/ethereum-types';
 import { shortenAddress } from '@/lib/ethereum-utils';
 import { Users, Crown, CheckCircle2, Shield, HelpCircle } from 'lucide-react';
@@ -11,6 +12,7 @@ interface ValidatorsVisualizationProps {
 }
 
 export function ValidatorsVisualization({ validators, step }: ValidatorsVisualizationProps) {
+  const t = useTranslations();
   const isActive = ['selecting-validator', 'attesting', 'finalizing'].includes(step);
 
   return (
@@ -31,18 +33,21 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
             <Users className="size-5" />
           </motion.div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground">Validators</h3>
+            <h3 className="text-lg font-semibold text-foreground">{t('simulator.panels.validators.title')}</h3>
             <p className="text-xs text-muted-foreground">
-              {validators.filter(v => v.hasAttested).length}/{validators.length} attested
+              {t('simulator.panel.validators.attestedCount', { 
+                attested: validators.filter(v => v.hasAttested).length, 
+                total: validators.length 
+              })}
             </p>
           </div>
         </div>
         <div className="group relative">
           <HelpCircle className="size-4 cursor-help text-muted-foreground" />
           <div className="absolute right-0 top-6 z-50 hidden w-64 rounded-lg border border-border bg-popover p-3 text-sm shadow-lg group-hover:block">
-            <p className="font-medium text-foreground">What are validators?</p>
+            <p className="font-medium text-foreground">{t('simulator.panel.validators.whatAreValidators')}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              Validators are nodes that have staked 32+ ETH to participate in consensus. They propose new blocks and attest to blocks proposed by others. Malicious behavior results in stake being slashed (destroyed).
+              {t('simulator.panel.validators.validatorsTooltip')}
             </p>
           </div>
         </div>
@@ -52,15 +57,15 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
       <div className="mb-4 flex gap-4 text-xs">
         <div className="flex items-center gap-1">
           <Crown className="size-3 text-primary" />
-          <span className="text-muted-foreground">Proposer</span>
+          <span className="text-muted-foreground">{t('simulator.panel.validators.proposer')}</span>
         </div>
         <div className="flex items-center gap-1">
           <CheckCircle2 className="size-3 text-accent" />
-          <span className="text-muted-foreground">Attested</span>
+          <span className="text-muted-foreground">{t('simulator.panel.validators.attested')}</span>
         </div>
         <div className="flex items-center gap-1">
           <Shield className="size-3 text-muted-foreground" />
-          <span className="text-muted-foreground">Waiting</span>
+          <span className="text-muted-foreground">{t('simulator.panel.validators.waiting')}</span>
         </div>
       </div>
 
@@ -104,7 +109,7 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
                   {validator.name}
                 </p>
                 <p className="font-mono text-xs text-muted-foreground">
-                  {validator.stake} ETH staked
+                  {t('simulator.panel.validators.ethStaked', { amount: validator.stake })}
                 </p>
               </div>
             </div>
@@ -115,7 +120,7 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
                 animate={{ opacity: 1, scale: 1 }}
                 className="absolute -right-1 -top-1 rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground"
               >
-                Proposer
+                {t('simulator.panel.validators.proposer')}
               </motion.div>
             )}
 
@@ -138,9 +143,9 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
           animate={{ opacity: 1 }}
           className="mt-4 rounded-lg bg-secondary/50 p-3 text-sm"
         >
-          <p className="font-medium text-foreground">RANDAO Selection</p>
+          <p className="font-medium text-foreground">{t('simulator.panel.validators.randaoTitle')}</p>
           <p className="text-xs text-muted-foreground">
-            Protocol randomly selects a validator to propose the next block. Selection probability is weighted by stake amount.
+            {t('simulator.panel.validators.randaoDesc')}
           </p>
         </motion.div>
       )}
@@ -151,9 +156,9 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
           animate={{ opacity: 1 }}
           className="mt-4 rounded-lg bg-accent/10 p-3 text-sm"
         >
-          <p className="font-medium text-accent">Attestation in Progress</p>
+          <p className="font-medium text-accent">{t('simulator.panel.validators.attestationTitle')}</p>
           <p className="text-xs text-muted-foreground">
-            Each validator independently verifies the block and signs an attestation vote. This happens every 12 seconds (1 slot).
+            {t('simulator.panel.validators.attestationDesc')}
           </p>
         </motion.div>
       )}
@@ -164,9 +169,9 @@ export function ValidatorsVisualization({ validators, step }: ValidatorsVisualiz
           animate={{ opacity: 1 }}
           className="mt-4 rounded-lg bg-primary/10 p-3 text-sm"
         >
-          <p className="font-medium text-primary">Consensus Reached</p>
+          <p className="font-medium text-primary">{t('simulator.panel.validators.consensusTitle')}</p>
           <p className="text-xs text-muted-foreground">
-            2/3+ of staked ETH has attested. Block becomes finalized and cryptoeconomically irreversible.
+            {t('simulator.panel.validators.consensusDesc')}
           </p>
         </motion.div>
       )}

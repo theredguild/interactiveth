@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import type { SimulationStep, Wallet, Node } from '@/lib/ethereum-types';
 import { shortenAddress } from '@/lib/ethereum-utils';
 import { User, Wallet as WalletIcon, Server, Globe, Radio, ArrowRight } from 'lucide-react';
@@ -18,6 +19,7 @@ export function ParticipantVisualization({
   activeWallet,
   nodes 
 }: ParticipantVisualizationProps) {
+  const t = useTranslations();
   const isUserActive = ['creating-tx', 'signing-tx'].includes(step);
   const isNodeActive = ['broadcasting', 'mempool'].includes(step);
   
@@ -28,8 +30,8 @@ export function ParticipantVisualization({
           <Globe className="size-5" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Network Participants</h3>
-          <p className="text-xs text-muted-foreground">Who is involved at each step</p>
+          <h3 className="text-lg font-semibold text-foreground">{t('simulator.panel.participants.title')}</h3>
+          <p className="text-xs text-muted-foreground">{t('simulator.panel.participants.subtitle')}</p>
         </div>
       </div>
 
@@ -37,7 +39,7 @@ export function ParticipantVisualization({
       <div className="mb-4">
         <div className="mb-2 flex items-center gap-2">
           <User className="size-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-foreground">User & Wallet</span>
+          <span className="text-sm font-medium text-foreground">{t('simulator.panel.participants.userAndWallet')}</span>
         </div>
         <div className="grid grid-cols-2 gap-2">
           {wallets.map((wallet) => {
@@ -75,7 +77,7 @@ export function ParticipantVisualization({
                     className="mt-2 border-t border-border pt-2"
                   >
                     <p className="text-xs text-primary">
-                      {step === 'creating-tx' ? 'Creating transaction...' : 'Signing with private key...'}
+                      {step === 'creating-tx' ? t('simulator.panel.participants.creating') : t('simulator.panel.participants.signing')}
                     </p>
                   </motion.div>
                 )}
@@ -99,10 +101,10 @@ export function ParticipantVisualization({
       <div>
         <div className="mb-2 flex items-center gap-2">
           <Server className="size-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-foreground">Ethereum Nodes (P2P Network)</span>
+          <span className="text-sm font-medium text-foreground">{t('simulator.panel.participants.ethereumNodes')}</span>
         </div>
         <p className="mb-3 text-xs text-muted-foreground">
-          Each node maintains its own mempool. Transactions propagate across thousands of nodes globally.
+          {t('simulator.panel.participants.nodesDescription')}
         </p>
         <div className="grid grid-cols-3 gap-2">
           {nodes.map((node, idx) => {
@@ -138,14 +140,14 @@ export function ParticipantVisualization({
                 <p className="truncate text-xs font-medium text-foreground">{node.name.split('-')[0]}</p>
                 <p className="text-xs text-muted-foreground">{node.location}</p>
                 {isActive && step === 'mempool' && (
-                  <p className="mt-1 text-xs text-accent">Mempool</p>
+                  <p className="mt-1 text-xs text-accent">{t('simulator.panels.mempool.title')}</p>
                 )}
               </motion.div>
             );
           })}
         </div>
         <p className="mt-2 text-center text-xs text-muted-foreground">
-          + thousands more nodes worldwide
+          {t('simulator.panel.participants.moreNodes')}
         </p>
       </div>
     </div>

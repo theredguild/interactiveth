@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import type { Transaction, SimulationStep, Node } from '@/lib/ethereum-types';
 import { shortenHash } from '@/lib/ethereum-utils';
 import { Inbox, ArrowRight, Server, HelpCircle } from 'lucide-react';
@@ -12,6 +13,7 @@ interface MempoolVisualizationProps {
 }
 
 export function MempoolVisualization({ transactions, step, nodes }: MempoolVisualizationProps) {
+  const t = useTranslations();
   const isActive = step === 'mempool';
   const isExtracting = ['building-block', 'proposing-block'].includes(step);
 
@@ -33,18 +35,18 @@ export function MempoolVisualization({ transactions, step, nodes }: MempoolVisua
             <Inbox className="size-5" />
           </motion.div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground">Mempool</h3>
+            <h3 className="text-lg font-semibold text-foreground">{t('simulator.panels.mempool.title')}</h3>
             <p className="text-xs text-muted-foreground">
-              {transactions.length} pending transaction{transactions.length !== 1 ? 's' : ''}
+              {t('simulator.panel.mempool.pendingTransactions', { count: transactions.length })}
             </p>
           </div>
         </div>
         <div className="group relative">
           <HelpCircle className="size-4 cursor-help text-muted-foreground" />
           <div className="absolute right-0 top-6 z-50 hidden w-64 rounded-lg border border-border bg-popover p-3 text-sm shadow-lg group-hover:block">
-            <p className="font-medium text-foreground">What is the mempool?</p>
+            <p className="font-medium text-foreground">{t('simulator.panel.mempool.whatIsMempool')}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              The mempool is NOT a single location. Each Ethereum node maintains its own mempool - a local queue of pending transactions waiting to be included in a block. Validators select transactions from their mempool when building blocks.
+              {t('simulator.panel.mempool.mempoolTooltip')}
             </p>
           </div>
         </div>
@@ -52,7 +54,7 @@ export function MempoolVisualization({ transactions, step, nodes }: MempoolVisua
 
       {/* Visual representation of distributed mempool */}
       <div className="mb-4 rounded-lg bg-secondary/30 p-3">
-        <p className="mb-2 text-xs text-muted-foreground">Distributed across nodes:</p>
+        <p className="mb-2 text-xs text-muted-foreground">{t('simulator.panel.mempool.distributedAcross')}</p>
         <div className="flex flex-wrap gap-1">
           {nodes.slice(0, 4).map((node, idx) => (
             <motion.div
@@ -65,7 +67,7 @@ export function MempoolVisualization({ transactions, step, nodes }: MempoolVisua
               <span className="text-xs text-muted-foreground">{node.name.split('-')[0]}</span>
             </motion.div>
           ))}
-          <span className="flex items-center px-2 text-xs text-muted-foreground">+1000s</span>
+          <span className="flex items-center px-2 text-xs text-muted-foreground">{t('simulator.panel.mempool.thousandsMore')}</span>
         </div>
       </div>
 
@@ -80,11 +82,11 @@ export function MempoolVisualization({ transactions, step, nodes }: MempoolVisua
             >
               <Inbox className="mb-2 size-8 text-muted-foreground/50" />
               <p className="text-sm text-muted-foreground">
-                {isExtracting ? 'Transactions moved to block' : 'No pending transactions'}
+                {isExtracting ? t('simulator.panel.mempool.movedToBlock') : t('simulator.panel.mempool.noPending')}
               </p>
               {!isExtracting && (
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Transactions wait here until a validator includes them
+                  {t('simulator.panel.mempool.waitDescription')}
                 </p>
               )}
             </motion.div>
@@ -107,7 +109,7 @@ export function MempoolVisualization({ transactions, step, nodes }: MempoolVisua
                       {shortenHash(tx.hash)}
                     </code>
                     <p className="text-xs text-muted-foreground">
-                      {tx.gasPrice} Gwei priority
+                      {t('simulator.panel.mempool.gweiPriority', { price: tx.gasPrice })}
                     </p>
                   </div>
                   <span className="text-xs font-medium text-foreground">{tx.value.toFixed(2)} ETH</span>
