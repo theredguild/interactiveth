@@ -16,9 +16,11 @@ import {
   User,
   Target,
   Wallet,
-  CheckCircle
+  CheckCircle,
+  Code2,
 } from 'lucide-react';
 import { TutorialLayout } from '@/components/layout/tutorial-layout';
+import { CodeBlock } from '@/components/ui/code-block';
 
 // Types
 interface MempoolTx {
@@ -133,12 +135,13 @@ export default function SandwichAttackSimulator() {
   const [useFlashbots, setUseFlashbots] = useState(false);
   const [hasSentTx, setHasSentTx] = useState(false);
   const [selectedTarget, setSelectedTarget] = useState<string | null>(null);
+  const [wasSandwiched, setWasSandwiched] = useState(false);
 
   // Use refs to track current values in callbacks (avoids stale closures)
-  const stateRef = useRef({ ethReserve, daiReserve, step, logs, tradeSize, attackerGasPrice, victimGasPrice, useFlashbots, perspective, selectedTarget, mempool });
+  const stateRef = useRef({ ethReserve, daiReserve, step, logs, tradeSize, attackerGasPrice, victimGasPrice, useFlashbots, perspective, selectedTarget, mempool, wasSandwiched });
   useEffect(() => {
-    stateRef.current = { ethReserve, daiReserve, step, logs, tradeSize, attackerGasPrice, victimGasPrice, useFlashbots, perspective, selectedTarget, mempool };
-  }, [ethReserve, daiReserve, step, logs, tradeSize, attackerGasPrice, victimGasPrice, useFlashbots, perspective, selectedTarget, mempool]);
+    stateRef.current = { ethReserve, daiReserve, step, logs, tradeSize, attackerGasPrice, victimGasPrice, useFlashbots, perspective, selectedTarget, mempool, wasSandwiched };
+  }, [ethReserve, daiReserve, step, logs, tradeSize, attackerGasPrice, victimGasPrice, useFlashbots, perspective, selectedTarget, mempool, wasSandwiched]);
 
   // Initialize mempool (without user tx)
   useEffect(() => {
@@ -156,6 +159,7 @@ export default function SandwichAttackSimulator() {
     setDaiReserve(INITIAL_DAI_RESERVE);
     setAttackerProfitETH(0);
     setVictimLossETH(0);
+    setWasSandwiched(false);
     setMempool(generateMempoolTransactions());
     setUserTxInMempool(false);
     setUseFlashbots(false);
@@ -185,6 +189,7 @@ export default function SandwichAttackSimulator() {
         const idealEth = state.tradeSize / INITIAL_ETH_PRICE;
         const actualSlippageLoss = idealEth - result.ethReceived;
         setVictimLossETH(Math.max(0, actualSlippageLoss));
+        setWasSandwiched(false);
         
         setLogs([{
           actor: 'victim',
@@ -213,6 +218,7 @@ export default function SandwichAttackSimulator() {
           const idealEth = state.tradeSize / INITIAL_ETH_PRICE;
           const slippageLoss = idealEth - result.ethReceived;
           setVictimLossETH(Math.max(0, slippageLoss));
+          setWasSandwiched(false);
           
           setLogs([{
             actor: 'victim',
@@ -234,6 +240,7 @@ export default function SandwichAttackSimulator() {
         
         setEthReserve(frontRunResult.newEthReserve);
         setDaiReserve(frontRunResult.newDaiReserve);
+        setWasSandwiched(true);
         
         setLogs([{
           actor: 'attacker_front',
@@ -323,6 +330,7 @@ export default function SandwichAttackSimulator() {
           
           // No profit - victim got mined first
           setAttackerProfitETH(0);
+          setWasSandwiched(false);
           
           setLogs([{
             actor: 'victim',
@@ -344,6 +352,7 @@ export default function SandwichAttackSimulator() {
         
         setEthReserve(result.newEthReserve);
         setDaiReserve(result.newDaiReserve);
+        setWasSandwiched(true);
         
         setLogs([{
           actor: 'attacker_front',
@@ -454,8 +463,11 @@ export default function SandwichAttackSimulator() {
     if (step === 1) return '🔴 Attacker front-running...';
     if (step === 2) return '🟠 Your transaction executing...';
     if (step === 3) {
-      if (logs.length === 1 && useFlashbots) return '✅ Protected! Transaction sent privately via Flashbots.';
-      if (logs.length === 1 && victimGasPrice >= attackerGasPrice) return '✅ Safe! High gas price prevented the attack.';
+      if (!wasSandwiched) {
+        return useFlashbots 
+          ? '✅ Protected! Transaction sent privately via Flashbots.'
+          : '✅ Safe! High gas price prevented the attack.';
+      }
       if (perspective === 'attacker') return `💰 Profit: ${attackerProfitETH.toFixed(4)} ETH ($${(attackerProfitETH * currentEthPrice).toFixed(2)})`;
       return `⚠️ Sandwiched! Lost ${victimLossETH.toFixed(4)} ETH ($${(victimLossETH * currentEthPrice).toFixed(2)})`;
     }
@@ -815,7 +827,7 @@ export default function SandwichAttackSimulator() {
                     <span className="font-mono">{daiReserve.toLocaleString()} DAI</span>
                   </div>
                   
-                  {perspective === 'victim' && victimLossETH > 0 && (
+                  {wasSandwiched && perspective === 'victim' && (
                     <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/30">
                       <div className="flex justify-between items-center text-red-500">
                         <span className="text-sm font-medium">Your Loss</span>
@@ -824,6 +836,15 @@ export default function SandwichAttackSimulator() {
                       <p className="text-xs text-red-600 text-right">
                         (${(victimLossETH * currentEthPrice).toFixed(2)})
                       </p>
+                    </div>
+                  )}
+                  
+                  {!wasSandwiched && perspective === 'victim' && (
+                    <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/30">
+                      <div className="flex justify-between items-center text-green-500">
+                        <span className="text-sm font-medium">Status</span>
+                        <span className="font-mono font-bold text-sm">Protected</span>
+                      </div>
                     </div>
                   )}
                   
@@ -1020,18 +1041,14 @@ export default function SandwichAttackSimulator() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className={`mt-3 pt-3 border-t text-center text-xs ${
-                          (perspective === 'victim' && victimLossETH === 0) || (perspective === 'attacker' && attackerProfitETH > 0)
+                          !wasSandwiched
                             ? 'border-green-400 text-green-600'
-                            : perspective === 'victim' && victimLossETH > 0
-                            ? 'border-red-400 text-red-600'
-                            : 'border-border text-muted-foreground'
+                            : 'border-red-400 text-red-600'
                         }`}
                       >
-                        {(perspective === 'victim' && victimLossETH === 0) || (perspective === 'attacker' && attackerProfitETH > 0)
-                          ? '✅ Block sealed successfully'
-                          : perspective === 'victim' && victimLossETH > 0
-                          ? '⚠️ Sandwich attack confirmed in block'
-                          : 'Block sealed'}
+                        {!wasSandwiched
+                          ? '✅ Block sealed safely - no attack occurred'
+                          : '⚠️ Sandwich attack confirmed in block'}
                       </motion.div>
                     )}
                   </div>
@@ -1056,31 +1073,27 @@ export default function SandwichAttackSimulator() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className={`rounded-xl border-2 p-5 ${
-                    (perspective === 'victim' && victimLossETH === 0) || (perspective === 'attacker' && attackerProfitETH > 0)
+                    !wasSandwiched
                       ? 'bg-green-500/10 border-green-500' 
-                      : perspective === 'victim' && victimLossETH > 0
-                        ? 'bg-red-500/10 border-red-500'
-                        : 'bg-secondary/30 border-border'
+                      : 'bg-red-500/10 border-red-500'
                   }`}
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    {(perspective === 'victim' && victimLossETH === 0) || (perspective === 'attacker' && attackerProfitETH > 0) ? (
+                    {!wasSandwiched ? (
                       <>
                         <div className="flex size-10 items-center justify-center rounded-full bg-green-500/20">
                           <CheckCircle className="size-5 text-green-500" />
                         </div>
                         <div>
-                          <p className={`font-bold ${
-                            (perspective === 'victim' && victimLossETH === 0) || (perspective === 'attacker' && attackerProfitETH > 0)
-                              ? 'text-green-700'
-                              : 'text-foreground'
-                          }`}>
-                            {perspective === 'victim' 
-                              ? (useFlashbots ? 'Protected by Flashbots!' : 'High Gas Saved You!')
-                              : 'Attack Successful!'}
+                          <p className="font-bold text-green-700">
+                            {perspective === 'attacker'
+                              ? 'Attack Failed'
+                              : useFlashbots ? 'Protected by Flashbots!' : 'High Gas Saved You!'}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {perspective === 'victim' ? 'No sandwich attack occurred' : 'Profit captured from victim'}
+                            {perspective === 'attacker'
+                              ? 'Victim had higher gas — no front-run possible'
+                              : 'No sandwich attack occurred'}
                           </p>
                         </div>
                       </>
@@ -1102,7 +1115,7 @@ export default function SandwichAttackSimulator() {
                   </div>
                   
                   <div className="space-y-2">
-                    {perspective === 'victim' && victimLossETH > 0 && (
+                    {wasSandwiched && perspective === 'victim' && (
                       <div className="flex justify-between items-center p-2 rounded bg-red-500/10">
                         <span className="text-sm text-red-700 font-medium">Your Loss</span>
                         <div className="text-right">
@@ -1112,7 +1125,7 @@ export default function SandwichAttackSimulator() {
                       </div>
                     )}
                     
-                    {perspective === 'victim' && victimLossETH === 0 && (
+                    {!wasSandwiched && perspective === 'victim' && (
                       <div className="flex justify-between items-center p-2 rounded bg-green-500/10">
                         <span className="text-sm text-green-700 font-medium">Amount Saved</span>
                         <div className="text-right">
@@ -1122,7 +1135,7 @@ export default function SandwichAttackSimulator() {
                       </div>
                     )}
                     
-                    {perspective === 'attacker' && attackerProfitETH > 0 && (
+                    {wasSandwiched && perspective === 'attacker' && (
                       <div className="flex justify-between items-center p-2 rounded bg-green-500/10">
                         <span className="text-sm text-green-700 font-medium">Your Profit</span>
                         <div className="text-right">
@@ -1131,22 +1144,29 @@ export default function SandwichAttackSimulator() {
                         </div>
                       </div>
                     )}
+                    
+                    {!wasSandwiched && perspective === 'attacker' && (
+                      <div className="flex justify-between items-center p-2 rounded bg-yellow-500/10">
+                        <span className="text-sm text-yellow-700 font-medium">Result</span>
+                        <span className="font-mono font-bold text-yellow-700">No profit — victim went first</span>
+                      </div>
+                    )}
                   </div>
                   
                   <p className={`text-xs mt-3 ${
-                    (perspective === 'victim' && victimLossETH === 0) || (perspective === 'attacker' && attackerProfitETH > 0)
+                    !wasSandwiched
                       ? 'text-green-700'
-                      : perspective === 'victim'
-                        ? 'text-red-700'
-                        : 'text-muted-foreground'
+                      : 'text-red-700'
                   }`}>
-                    {perspective === 'victim' && victimLossETH > 0
-                      ? "The attacker bought ETH before you (pushing price up), forcing you to pay more. Then they sold at your inflated price."
-                      : perspective === 'victim' && victimLossETH === 0
-                        ? (useFlashbots 
-                            ? "Your transaction bypassed the public mempool. Attackers never saw it coming!" 
-                            : "Your gas bid was higher, so you were mined before the attacker could sandwich you.")
-                        : "You front-ran the victim to pump the price, then sold after them to capture the spread."}
+                    {perspective === 'victim' && !wasSandwiched && useFlashbots
+                      ? "Your transaction was sent privately via Flashbots, bypassing the public mempool entirely. No attacker could see or front-run your trade."
+                      : perspective === 'victim' && !wasSandwiched && !useFlashbots
+                        ? "Your gas bid was higher than the attacker's, so your transaction was mined first. The sandwich attack was prevented — you only paid normal DEX slippage."
+                        : perspective === 'victim' && wasSandwiched
+                          ? "The attacker bought ETH before you (pushing the price up), forcing you to pay more. Then they sold at your inflated price, extracting value from your trade."
+                          : perspective === 'attacker' && wasSandwiched
+                            ? "You front-ran the victim to pump the ETH price, then sold after them to capture the spread. This is how MEV bots profit from public DEX trades."
+                            : "The victim's gas price was higher than yours, so they were mined first. Without front-running, you couldn't manipulate the price — no profit possible."}
                   </p>
                 </motion.div>
               )}
@@ -1180,25 +1200,6 @@ export default function SandwichAttackSimulator() {
                 </div>
               </div>
 
-              {/* Real Cases */}
-              <div className="rounded-xl border border-border bg-card p-5">
-                <h2 className="mb-3 font-semibold flex items-center gap-2">
-                  <History className="size-4 text-primary" />
-                  Real Attacks
-                </h2>
-                <div className="space-y-3">
-                  {CASE_STUDIES.map((study, index) => (
-                    <div key={index} className="rounded-lg border border-border p-3">
-                      <div className="flex justify-between items-start mb-1">
-                        <span className="font-medium text-sm">{study.protocol}</span>
-                        <span className="text-xs text-red-500 font-bold">{study.loss}</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">{study.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Protection Strategies */}
               {perspective === 'victim' && (
                 <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-5">
@@ -1222,6 +1223,64 @@ export default function SandwichAttackSimulator() {
                   </ul>
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Below Simulator: Reference Sections */}
+          <div className="mt-12 pt-8 border-t border-border">
+            <h2 className="text-2xl font-bold mb-6">Deep Dive</h2>
+            <div className="grid gap-6 lg:grid-cols-2">
+              {/* AMM Formula Code Block */}
+              <div className="rounded-xl border border-border bg-card p-5">
+                <h2 className="mb-3 font-semibold flex items-center gap-2">
+                  <Code2 className="size-4 text-primary" />
+                  AMM Math: x * y = k
+                </h2>
+                <p className="mb-3 text-sm text-muted-foreground">
+                  Uniswap V2 uses a constant product formula. The attacker exploits this:
+                </p>
+                <CodeBlock
+                  code={`// Constant Product AMM: x * y = k
+// x = ETH reserve, y = DAI reserve
+
+k = ethReserve * daiReserve;  // k is constant
+newDaiReserve = daiReserve + daiInput;
+newEthReserve = k / newDaiReserve;
+ethReceived = ethReserve - newEthReserve;
+
+// Price impact calculation
+oldPrice = daiReserve / ethReserve;
+newPrice = newDaiReserve / newEthReserve;
+priceImpact = (newPrice - oldPrice) / oldPrice * 100;
+
+// Example: 1000 ETH, 2,500,000 DAI pool
+// k = 2,500,000,000
+// Buy 10,000 DAI → get 3.984 ETH (price: $2,510/ETH)
+// Without attack: 4.000 ETH (price: $2,500/ETH)
+// Loss: 0.016 ETH ($40) from slippage manipulation`}
+                  language="javascript"
+                  title="Uniswap V2 AMM Formula"
+                />
+              </div>
+
+              {/* Real Cases */}
+              <div className="rounded-xl border border-border bg-card p-5">
+                <h2 className="mb-3 font-semibold flex items-center gap-2">
+                  <History className="size-4 text-primary" />
+                  Real Attacks
+                </h2>
+                <div className="space-y-3">
+                  {CASE_STUDIES.map((study, index) => (
+                    <div key={index} className="rounded-lg border border-border p-3">
+                      <div className="flex justify-between items-start mb-1">
+                        <span className="font-medium text-sm">{study.protocol}</span>
+                        <span className="text-xs text-red-500 font-bold">{study.loss}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">{study.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </main>

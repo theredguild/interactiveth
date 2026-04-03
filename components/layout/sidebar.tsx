@@ -26,7 +26,9 @@ import {
   Scan,
   Bug,
   Radio,
-  FileWarning
+  FileWarning,
+  Search,
+  Command,
 } from 'lucide-react';
 import { LocaleSwitcher } from '@/components/locale-switcher';
 import {
@@ -36,7 +38,19 @@ import {
 } from '@/components/ui/collapsible';
 
 // Hierarchical navigation structure
-const NAVIGATION = [
+type Difficulty = 'beginner' | 'intermediate' | 'advanced';
+
+interface NavItem {
+  slug: string;
+  translationKey: string;
+  icon: React.ComponentType<{ className?: string }>;
+  available: boolean;
+  difficulty?: Difficulty;
+  isCollapsible?: boolean;
+  children?: NavItem[];
+}
+
+const NAVIGATION: NavItem[] = [
   { slug: '', translationKey: 'home', icon: Globe, available: true },
   // Core Concepts Section
   {
@@ -46,15 +60,15 @@ const NAVIGATION = [
     available: true,
     isCollapsible: true,
     children: [
-      { slug: 'transactions', translationKey: 'transactions', icon: ArrowRight, available: true },
-      { slug: 'gas', translationKey: 'gas', icon: Zap, available: true },
-      { slug: 'validator', translationKey: 'validator', icon: Crown, available: true },
-      { slug: 'block-internals', translationKey: 'blockInternals', icon: Binary, available: true },
-      { slug: 'protocol-visualizer', translationKey: 'protocolVisualizer', icon: Network, available: true },
+      { slug: 'transactions', translationKey: 'transactions', icon: ArrowRight, available: true, difficulty: 'beginner' },
+      { slug: 'gas', translationKey: 'gas', icon: Zap, available: true, difficulty: 'intermediate' },
+      { slug: 'validator', translationKey: 'validator', icon: Crown, available: true, difficulty: 'intermediate' },
+      { slug: 'block-internals', translationKey: 'blockInternals', icon: Binary, available: true, difficulty: 'intermediate' },
+      { slug: 'protocol-visualizer', translationKey: 'protocolVisualizer', icon: Network, available: true, difficulty: 'beginner' },
       // Coming Soon under Core Concepts
-      { slug: 'smart-contracts', translationKey: 'smartContracts', icon: Code, available: false },
-      { slug: 'evm', translationKey: 'evm', icon: Cpu, available: false },
-      { slug: 'mev', translationKey: 'mev', icon: Timer, available: false },
+      { slug: 'smart-contracts', translationKey: 'smartContracts', icon: Code, available: false, difficulty: 'advanced' },
+      { slug: 'evm', translationKey: 'evm', icon: Cpu, available: false, difficulty: 'advanced' },
+      { slug: 'mev', translationKey: 'mev', icon: Timer, available: false, difficulty: 'advanced' },
     ]
   },
   // Security Section
@@ -65,24 +79,31 @@ const NAVIGATION = [
     available: true,
     isCollapsible: true,
     children: [
-      { slug: 'security/sandwich-attack', translationKey: 'sandwichAttack', icon: AlertTriangle, available: true },
-      { slug: 'security/front-running', translationKey: 'frontRunning', icon: Eye, available: false },
-      { slug: 'security/reentrancy', translationKey: 'reentrancy', icon: Bug, available: false },
-      { slug: 'security/oracle-manipulation', translationKey: 'oracleManipulation', icon: Scan, available: false },
-      { slug: 'security/rogue-proposer', translationKey: 'rogueProposer', icon: FileWarning, available: false },
-      { slug: 'security/double-signing', translationKey: 'doubleSigning', icon: Lock, available: false },
-      { slug: 'security/eclipse-attack', translationKey: 'eclipseAttack', icon: Radio, available: false },
-      { slug: 'security/51-percent', translationKey: 'fiftyOnePercent', icon: FileWarning, available: false },
+      { slug: 'security/sandwich-attack', translationKey: 'sandwichAttack', icon: AlertTriangle, available: true, difficulty: 'advanced' },
+      { slug: 'security/front-running', translationKey: 'frontRunning', icon: Eye, available: false, difficulty: 'advanced' },
+      { slug: 'security/reentrancy', translationKey: 'reentrancy', icon: Bug, available: false, difficulty: 'advanced' },
+      { slug: 'security/oracle-manipulation', translationKey: 'oracleManipulation', icon: Scan, available: false, difficulty: 'advanced' },
+      { slug: 'security/rogue-proposer', translationKey: 'rogueProposer', icon: FileWarning, available: false, difficulty: 'advanced' },
+      { slug: 'security/double-signing', translationKey: 'doubleSigning', icon: Lock, available: false, difficulty: 'advanced' },
+      { slug: 'security/eclipse-attack', translationKey: 'eclipseAttack', icon: Radio, available: false, difficulty: 'advanced' },
+      { slug: 'security/51-percent', translationKey: 'fiftyOnePercent', icon: FileWarning, available: false, difficulty: 'advanced' },
     ]
   },
 ];
 
+const DIFFICULTY_CONFIG: Record<Difficulty, { label: string; color: string; bgColor: string }> = {
+  beginner: { label: 'B', color: 'text-green-600', bgColor: 'bg-green-500/10' },
+  intermediate: { label: 'I', color: 'text-yellow-600', bgColor: 'bg-yellow-500/10' },
+  advanced: { label: 'A', color: 'text-red-600', bgColor: 'bg-red-500/10' },
+};
+
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onSearchOpen?: () => void;
 }
 
-export function Sidebar({ isOpen, onClose }: SidebarProps) {
+export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
   const t = useTranslations('sidebar');
   const locale = useLocale();
   const pathname = usePathname();
@@ -95,13 +116,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     onClick, 
     isNested = false 
   }: { 
-    item: any, 
+    item: NavItem, 
     onClick?: () => void,
     isNested?: boolean
   }) => {
     const isActive = currentPath === item.slug;
     const Icon = item.icon;
     const label = t(item.translationKey);
+    const diffConfig = item.difficulty ? DIFFICULTY_CONFIG[item.difficulty] : null;
     
     if (!item.available) {
       return (
@@ -124,8 +146,13 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         } ${isNested ? 'ml-2 text-sm' : ''}`}
       >
         <Icon className={`${isActive ? 'text-primary' : ''} ${isNested ? 'size-3' : 'size-4'}`} />
-        <span className={`${isNested ? 'text-sm' : 'text-sm'}`}>{label}</span>
-        {isActive && <ChevronRight className="ml-auto size-4" />}
+        <span className="flex-1 truncate">{label}</span>
+        {diffConfig && (
+          <span className={`inline-flex size-4 items-center justify-center rounded text-[9px] font-bold ${diffConfig.bgColor} ${diffConfig.color}`}>
+            {diffConfig.label}
+          </span>
+        )}
+        {isActive && <ChevronRight className="size-4 shrink-0" />}
       </Link>
     );
   };
@@ -134,7 +161,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     section, 
     onClick 
   }: { 
-    section: any, 
+    section: NavItem, 
     onClick?: () => void 
   }) => {
     const Icon = section.icon;
@@ -241,11 +268,19 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       <aside className="fixed left-0 top-0 z-50 h-full w-[250px] border-r border-border bg-card hidden lg:block">
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex h-16 items-center border-b border-border px-4">
+          <div className="flex h-16 items-center justify-between border-b border-border px-4">
             <Link href={`/${locale}`} className="flex items-center gap-2">
               <Globe className="size-6 text-primary" />
               <span className="font-bold">InteractiveETH</span>
             </Link>
+            <button
+              onClick={onSearchOpen}
+              className="flex items-center gap-1.5 rounded-lg border border-border px-2 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
+              aria-label="Search pages"
+            >
+              <Search className="size-3.5" />
+              <Command className="size-3" />
+            </button>
           </div>
 
           <SidebarContent />
@@ -277,12 +312,21 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     <Globe className="size-6 text-primary" />
                     <span className="font-bold">InteractiveETH</span>
                   </Link>
-                  <button
-                    onClick={onClose}
-                    className="rounded p-1 hover:bg-secondary"
-                  >
-                    <X className="size-5" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={onSearchOpen}
+                      className="p-1.5 rounded-lg hover:bg-secondary/50 transition-colors"
+                      aria-label="Search pages"
+                    >
+                      <Search className="size-4 text-muted-foreground" />
+                    </button>
+                    <button
+                      onClick={onClose}
+                      className="rounded p-1 hover:bg-secondary"
+                    >
+                      <X className="size-5" />
+                    </button>
+                  </div>
                 </div>
 
                 <SidebarContent onItemClick={onClose} />

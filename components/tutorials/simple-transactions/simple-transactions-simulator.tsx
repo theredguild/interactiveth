@@ -18,8 +18,10 @@ import {
   AlertCircle,
   ExternalLink,
   Network,
-  ChevronDown
+  ChevronDown,
+  Code2,
 } from 'lucide-react';
+import { CodeBlock } from '@/components/ui/code-block';
 
 interface Wallet {
   id: string;
@@ -667,6 +669,39 @@ export function SimpleTransactionsSimulator() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Transaction Structure Code Example */}
+            <div className="rounded-xl border border-border bg-card p-6">
+              <h2 className="mb-4 text-lg font-semibold flex items-center gap-2">
+                <Code2 className="size-5 text-primary" />
+                Transaction Structure
+              </h2>
+              <p className="mb-4 text-sm text-muted-foreground">
+                This is what a real Ethereum transaction looks like under the hood:
+              </p>
+              <CodeBlock
+                code={`{
+  "nonce": "0x01",
+  "gasPrice": "0x04a817c800",
+  "gasLimit": "0x5208",
+  "to": "0x742d35Cc6634C0532925a3b844Bc9e7595f8fA1",
+  "value": "0x0de0b6b3a7640000",
+  "data": "0x",
+  "v": "0x1c",
+  "r": "0x88ff6cf0fefd94db46111149ae4bfc179e9b94721fffd821d38d16464b3f71d0",
+  "s": "0x45e0aff800961cfce805daef7016b9b675c137a6a41a548f7b60a3484c06a33a"
+}
+
+// nonce: transaction counter (prevents replay attacks)
+// gasPrice: 20 Gwei = 0x04a817c800
+// gasLimit: 21,000 = 0x5208 (simple ETH transfer)
+// value: 1 ETH = 0x0de0b6b3a7640000 (in wei)
+// data: empty for simple transfers
+// v, r, s: cryptographic signature components`}
+                language="json"
+                title="Raw Transaction (RLP Encoded)"
+              />
             </div>
 
             <div className="rounded-xl border border-border bg-card p-6">

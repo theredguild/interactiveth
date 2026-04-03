@@ -48,6 +48,24 @@
   --destructive: oklch(0.60 0.22 25);
   --destructive-foreground: oklch(0.95 0 0);
   
+  /* ===== PROTOCOL-SPECIFIC COLORS ===== */
+  /* Ethereum - Native brand */
+  --ethereum: oklch(0.65 0.20 290);
+  --ethereum-light: oklch(0.75 0.18 290);
+  --ethereum-muted: oklch(0.55 0.18 290);
+  
+  /* Uniswap - Pink/Red */
+  --uniswap: oklch(0.60 0.25 10);
+  --uniswap-light: oklch(0.70 0.22 10);
+  
+  /* Aave - Purple */
+  --aave: oklch(0.55 0.20 320);
+  --aave-light: oklch(0.65 0.18 320);
+  
+  /* Chainlink - Blue */
+  --chainlink: oklch(0.60 0.18 250);
+  --chainlink-light: oklch(0.70 0.16 250);
+  
   /* ===== UTILITIES ===== */
   /* More prominent border for depth */
   --border: oklch(0.28 0.015 265);
@@ -73,6 +91,16 @@
   /* Info (familiar cyan) */
   --info: oklch(0.68 0.15 200);
   --info-foreground: oklch(0.115 0.008 265);
+  
+  /* ===== SYNTAX HIGHLIGHTING COLORS ===== */
+  --syntax-keyword: oklch(0.65 0.20 290);
+  --syntax-string: oklch(0.60 0.18 145);
+  --syntax-number: oklch(0.70 0.14 60);
+  --syntax-comment: oklch(0.50 0.01 260);
+  --syntax-function: oklch(0.68 0.15 200);
+  --syntax-operator: oklch(0.60 0.22 25);
+  --syntax-variable: oklch(0.70 0.12 330);
+  --syntax-type: oklch(0.62 0.18 280);
   
   /* ===== SPACING & RADIUS ===== */
   --radius: 0.625rem;
@@ -106,6 +134,15 @@
   --accent-foreground: oklch(0.115 0.008 265);
   --destructive: oklch(0.60 0.22 25);
   --destructive-foreground: oklch(0.95 0 0);
+  --ethereum: oklch(0.65 0.20 290);
+  --ethereum-light: oklch(0.75 0.18 290);
+  --ethereum-muted: oklch(0.55 0.18 290);
+  --uniswap: oklch(0.60 0.25 10);
+  --uniswap-light: oklch(0.70 0.22 10);
+  --aave: oklch(0.55 0.20 320);
+  --aave-light: oklch(0.65 0.18 320);
+  --chainlink: oklch(0.60 0.18 250);
+  --chainlink-light: oklch(0.70 0.16 250);
   --border: oklch(0.28 0.015 265);
   --input: oklch(0.19 0.01 265);
   --ring: oklch(0.65 0.20 290);
@@ -115,6 +152,14 @@
   --warning-foreground: oklch(0.115 0.008 265);
   --info: oklch(0.68 0.15 200);
   --info-foreground: oklch(0.115 0.008 265);
+  --syntax-keyword: oklch(0.65 0.20 290);
+  --syntax-string: oklch(0.60 0.18 145);
+  --syntax-number: oklch(0.70 0.14 60);
+  --syntax-comment: oklch(0.50 0.01 260);
+  --syntax-function: oklch(0.68 0.15 200);
+  --syntax-operator: oklch(0.60 0.22 25);
+  --syntax-variable: oklch(0.70 0.12 330);
+  --syntax-type: oklch(0.62 0.18 280);
   --chart-1: oklch(0.65 0.20 290);
   --chart-2: oklch(0.68 0.15 200);
   --chart-3: oklch(0.62 0.18 280);
@@ -152,15 +197,30 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  /* Protocol Colors */
+  --color-ethereum: var(--ethereum);
+  --color-ethereum-light: var(--ethereum-light);
+  --color-ethereum-muted: var(--ethereum-muted);
+  --color-uniswap: var(--uniswap);
+  --color-uniswap-light: var(--uniswap-light);
+  --color-aave: var(--aave);
+  --color-aave-light: var(--aave-light);
+  --color-chainlink: var(--chainlink);
+  --color-chainlink-light: var(--chainlink-light);
+  /* Status Colors */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  /* Chart */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* Sidebar */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -169,6 +229,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
@@ -228,5 +293,208 @@
   /* Link styling */
   a {
     @apply text-primary hover:text-primary/80 transition-colors;
+  }
+  
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  
+  /* Custom scrollbar with protocol colors */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: oklch(0.115 0.008 265);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.28 0.015 265);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.35 0.01 260);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES - GLOW, GRADIENTS, SYNTAX
+   ============================================ */
+
+@layer utilities {
+  /* ===== GLOW EFFECTS ===== */
+  .glow-primary {
+    box-shadow: 0 0 20px oklch(0.65 0.20 290 / 0.3), 0 0 40px oklch(0.65 0.20 290 / 0.1);
+  }
+  
+  .glow-success {
+    box-shadow: 0 0 20px oklch(0.60 0.18 145 / 0.3), 0 0 40px oklch(0.60 0.18 145 / 0.1);
+  }
+  
+  .glow-danger {
+    box-shadow: 0 0 20px oklch(0.60 0.22 25 / 0.3), 0 0 40px oklch(0.60 0.22 25 / 0.1);
+  }
+  
+  .glow-warning {
+    box-shadow: 0 0 20px oklch(0.72 0.15 90 / 0.3), 0 0 40px oklch(0.72 0.15 90 / 0.1);
+  }
+  
+  .glow-info {
+    box-shadow: 0 0 20px oklch(0.68 0.15 200 / 0.3), 0 0 40px oklch(0.68 0.15 200 / 0.1);
+  }
+  
+  .glow-ethereum {
+    box-shadow: 0 0 20px oklch(0.65 0.20 290 / 0.3), 0 0 40px oklch(0.65 0.20 290 / 0.1);
+  }
+  
+  /* ===== GRADIENT BACKGROUNDS ===== */
+  .gradient-ethereum {
+    background: linear-gradient(135deg, oklch(0.65 0.20 290), oklch(0.55 0.18 290));
+  }
+  
+  .gradient-hero {
+    background: linear-gradient(180deg, oklch(0.115 0.008 265) 0%, oklch(0.14 0.01 265) 50%, oklch(0.115 0.008 265) 100%);
+  }
+  
+  .gradient-ethereum-hero {
+    background: radial-gradient(ellipse at 50% 0%, oklch(0.65 0.20 290 / 0.15) 0%, transparent 60%),
+                linear-gradient(180deg, oklch(0.115 0.008 265) 0%, oklch(0.115 0.008 265) 100%);
+  }
+  
+  /* ===== PROTOCOL COLOR UTILITIES ===== */
+  .text-ethereum { color: var(--ethereum); }
+  .text-ethereum-light { color: var(--ethereum-light); }
+  .text-ethereum-muted { color: var(--ethereum-muted); }
+  .bg-ethereum { background-color: var(--ethereum); }
+  .bg-ethereum\/5 { background-color: oklch(0.65 0.20 290 / 0.05); }
+  .bg-ethereum\/10 { background-color: oklch(0.65 0.20 290 / 0.1); }
+  .bg-ethereum\/20 { background-color: oklch(0.65 0.20 290 / 0.2); }
+  .border-ethereum { border-color: var(--ethereum); }
+  
+  .text-uniswap { color: var(--uniswap); }
+  .text-uniswap-light { color: var(--uniswap-light); }
+  .bg-uniswap { background-color: var(--uniswap); }
+  .bg-uniswap\/5 { background-color: oklch(0.60 0.25 10 / 0.05); }
+  .bg-uniswap\/10 { background-color: oklch(0.60 0.25 10 / 0.1); }
+  .bg-uniswap\/20 { background-color: oklch(0.60 0.25 10 / 0.2); }
+  .border-uniswap { border-color: var(--uniswap); }
+  
+  .text-aave { color: var(--aave); }
+  .text-aave-light { color: var(--aave-light); }
+  .bg-aave { background-color: var(--aave); }
+  .bg-aave\/5 { background-color: oklch(0.55 0.20 320 / 0.05); }
+  .bg-aave\/10 { background-color: oklch(0.55 0.20 320 / 0.1); }
+  .bg-aave\/20 { background-color: oklch(0.55 0.20 320 / 0.2); }
+  .border-aave { border-color: var(--aave); }
+  
+  .text-chainlink { color: var(--chainlink); }
+  .text-chainlink-light { color: var(--chainlink-light); }
+  .bg-chainlink { background-color: var(--chainlink); }
+  .bg-chainlink\/5 { background-color: oklch(0.60 0.18 250 / 0.05); }
+  .bg-chainlink\/10 { background-color: oklch(0.60 0.18 250 / 0.1); }
+  .bg-chainlink\/20 { background-color: oklch(0.60 0.18 250 / 0.2); }
+  .border-chainlink { border-color: var(--chainlink); }
+  
+  /* ===== STATUS COLOR UTILITIES ===== */
+  .text-success { color: var(--success); }
+  .bg-success { background-color: var(--success); }
+  .bg-success\/5 { background-color: oklch(0.60 0.18 145 / 0.05); }
+  .bg-success\/10 { background-color: oklch(0.60 0.18 145 / 0.1); }
+  .bg-success\/20 { background-color: oklch(0.60 0.18 145 / 0.2); }
+  .border-success { border-color: var(--success); }
+  
+  .text-warning { color: var(--warning); }
+  .bg-warning { background-color: var(--warning); }
+  .bg-warning\/5 { background-color: oklch(0.72 0.15 90 / 0.05); }
+  .bg-warning\/10 { background-color: oklch(0.72 0.15 90 / 0.1); }
+  .bg-warning\/20 { background-color: oklch(0.72 0.15 90 / 0.2); }
+  .border-warning { border-color: var(--warning); }
+  
+  .text-info { color: var(--info); }
+  .bg-info { background-color: var(--info); }
+  .bg-info\/5 { background-color: oklch(0.68 0.15 200 / 0.05); }
+  .bg-info\/10 { background-color: oklch(0.68 0.15 200 / 0.1); }
+  .bg-info\/20 { background-color: oklch(0.68 0.15 200 / 0.2); }
+  .border-info { border-color: var(--info); }
+  
+  /* ===== SYNTAX HIGHLIGHTING ===== */
+  .syntax-keyword { color: var(--syntax-keyword); font-weight: 500; }
+  .syntax-string { color: var(--syntax-string); }
+  .syntax-number { color: var(--syntax-number); }
+  .syntax-comment { color: var(--syntax-comment); font-style: italic; }
+  .syntax-function { color: var(--syntax-function); }
+  .syntax-operator { color: var(--syntax-operator); }
+  .syntax-variable { color: var(--syntax-variable); }
+  .syntax-type { color: var(--syntax-type); }
+  
+  /* ===== CARD HOVER EFFECTS ===== */
+  .card-hover {
+    transition: all 0.2s ease;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px oklch(0 0 0 / 0.3), 0 0 15px oklch(0.65 0.20 290 / 0.1);
+    border-color: oklch(0.65 0.20 290 / 0.3);
+  }
+  
+  /* ===== ANIMATIONS ===== */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  /* ===== STATUS BADGES ===== */
+  .badge-success {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    background-color: oklch(0.60 0.18 145 / 0.15);
+    color: var(--success);
+    border: 1px solid oklch(0.60 0.18 145 / 0.3);
+  }
+  
+  .badge-warning {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    background-color: oklch(0.72 0.15 90 / 0.15);
+    color: var(--warning);
+    border: 1px solid oklch(0.72 0.15 90 / 0.3);
+  }
+  
+  .badge-danger {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    background-color: oklch(0.60 0.22 25 / 0.15);
+    color: var(--destructive);
+    border: 1px solid oklch(0.60 0.22 25 / 0.3);
+  }
+  
+  .badge-info {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    background-color: oklch(0.68 0.15 200 / 0.15);
+    color: var(--info);
+    border: 1px solid oklch(0.68 0.15 200 / 0.3);
+  }
+  
+  .badge-ethereum {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    background-color: oklch(0.65 0.20 290 / 0.15);
+    color: var(--ethereum);
+    border: 1px solid oklch(0.65 0.20 290 / 0.3);
   }
 }

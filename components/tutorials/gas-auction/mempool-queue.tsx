@@ -23,9 +23,9 @@ export function MempoolQueue({ transactions, userPosition, userPriorityFee }: Me
         </span>
       </div>
 
-      <div className="space-y-2 pr-2">
-        {/* Show first 20 txs */}
-        {transactions.slice(0, 20).map((tx, index) => (
+      <div className="space-y-2 pr-2 max-h-[350px] overflow-y-auto">
+        {/* Show first 8 txs */}
+        {transactions.slice(0, 8).map((tx, index) => (
           <motion.div
             key={tx.id}
             initial={{ opacity: 0, x: -20 }}
