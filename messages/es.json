@@ -4,6 +4,29 @@
     "tutorials": "Tutoriales",
     "about": "Acerca de"
   },
+  "sidebar": {
+    "sectionTitle": "Tutoriales",
+    "home": "Inicio",
+    "coreConcepts": "Conceptos Básicos",
+    "transactions": "Transacciones",
+    "validator": "Constructor de Bloques",
+    "gas": "Subasta de Gas",
+    "blockInternals": "Internos de Bloque",
+    "protocolVisualizer": "Visualizador de Protocolo",
+    "securityOverview": "Seguridad",
+    "sandwichAttack": "Ataque Sandwich",
+    "frontRunning": "Front-Running",
+    "reentrancy": "Reentrancy (Hack DAO)",
+    "oracleManipulation": "Manipulación de Oráculos",
+    "rogueProposer": "Proponente Malicioso",
+    "doubleSigning": "Firma Doble",
+    "eclipseAttack": "Ataque Eclipse",
+    "fiftyOnePercent": "Ataque 51%",
+    "smartContracts": "Contratos Inteligentes",
+    "evm": "EVM",
+    "mev": "MEV",
+    "soon": "Próximamente"
+  },
   "hero": {
     "title": "Ethereum Interactivo",
     "subtitle": "Aprende los conceptos del protocolo Ethereum a través de visualizaciones interactivas",
@@ -27,6 +50,14 @@
     "blocks": {
       "title": "Bloques",
       "description": "Comprende cómo se crean y confirman los bloques"
+    },
+    "validator": {
+      "title": "Sé el Validador",
+      "description": "Construye bloques y gana recompensas como validador Ethereum"
+    },
+    "blockInternals": {
+      "title": "Internos de Bloque",
+      "description": "Inmersión profunda en encabezados, árboles Merkle y estructura de bloques"
     },
     "smartContracts": {
       "title": "Contratos Inteligentes",
@@ -289,7 +320,150 @@
       }
     },
     "footer": "Simulación educativa demostrando conceptos del protocolo Ethereum. No conectado a blockchain real.",
-    "loading": "Inicializando simulación..."
+    "loading": "Inicializando simulación...",
+    "validator": {
+      "title": "Sé el Validador",
+      "subtitle": "Construye bloques y gana recompensas como validador Ethereum",
+      "instructions": {
+        "title": "Cómo Jugar",
+        "step1": "Tienes 12 segundos para construir un bloque (un slot)",
+        "step2": "Haz clic en transacciones del mempool para agregarlas a tu bloque",
+        "step3": "Observa tu límite de gas (30M máximo) - llénalo eficientemente",
+        "step4": "¡Mayor precio de gas = más recompensas! Haz clic en 'Proponer Bloque' cuando estés listo"
+      },
+      "start": "Comenzar",
+      "nextRound": "Siguiente Bloque",
+      "proposeBlock": "Proponer Bloque",
+      "roundScore": "Puntuación",
+      "mempool": {
+        "title": "Mempool",
+        "count": "{count} pendientes",
+        "hint": "Haz clic en transacciones para agregarlas a tu bloque",
+        "gasLimit": "{limit} gas",
+        "clickToAdd": "Clic para agregar",
+        "empty": "No hay transacciones disponibles"
+      },
+      "block": {
+        "title": "Tu Bloque",
+        "transactions": "txs",
+        "gasUsed": "{used} / {limit}",
+        "gasUtilization": "Gas Usado",
+        "almostFull": "¡Bloque casi lleno!",
+        "empty": "Tu bloque está vacío",
+        "hint": "Selecciona transacciones del mempool",
+        "ready": "¡Bloque listo para proponer!"
+      },
+      "gas": {
+        "title": "Gas"
+      },
+      "stats": {
+        "blocks": "Bloques Construidos",
+        "txs": "Transacciones",
+        "utilization": "Util. Gas",
+        "rewards": "Recompensas Totales"
+      },
+      "timer": {
+        "remaining": "Tiempo Restante",
+        "completed": "Completado"
+      }
+    },
+    "gas": {
+      "title": "Subasta de Precio de Gas",
+      "subtitle": "Comprende EIP-1559 y optimiza tus tarifas de transacción",
+      "baseFee": "Tarifa Base",
+      "block": "Bloque",
+      "start": "Iniciar Simulación",
+      "congestion": "Congestión de Red",
+      "queue": {
+        "title": "Cola del Mempool",
+        "count": "{count} txs pendientes",
+        "yourTx": "Tu Transacción",
+        "empty": "No hay transacciones pendientes"
+      },
+      "chart": {
+        "title": "Historial de Tarifa Base",
+        "blocks": "Últimos {count} bloques",
+        "range": "Rango: {min} - {max} Gwei"
+      },
+      "controls": {
+        "title": "Tu Transacción",
+        "maxFee": "Tarifa Máxima Por Gas",
+        "maxFeeHint": "Tarifa total máxima que estás dispuesto a pagar",
+        "priorityFee": "Tarifa Prioritaria (Propina)",
+        "priorityFeeHint": "Extra pagado a validadores para inclusión más rápida",
+        "gasLimit": "Límite de Gas",
+        "transfer": "Transferencia Simple",
+        "contract": "Llamada a Contrato",
+        "effectivePrice": "Precio Efectivo de Gas",
+        "totalCost": "Total: {cost} ETH"
+      },
+      "estimator": {
+        "title": "Estimador de Inclusión",
+        "position": "Posición en Cola",
+        "time": "Tiempo Est. de Inclusión",
+        "calculating": "Calculando...",
+        "fast": "¡Rápido - Siguiente bloque!",
+        "medium": "Medio - Algunos bloques",
+        "slow": "Lento - Alta congestión",
+        "howItWorks": "Cómo funciona",
+        "explanation": "Las transacciones se ordenan por tarifa prioritaria. Propinas más altas = inclusión más rápida."
+      },
+      "education": {
+        "title": "Entendiendo Tarifas de Gas",
+        "baseFee": {
+          "title": "Tarifa Base (EIP-1559)",
+          "description": "La tarifa base se determina algorítmicamente por la demanda de la red. Quema ETH y se ajusta hasta 12.5% por bloque."
+        },
+        "priorityFee": {
+          "title": "Tarifa Prioritaria (Propina)",
+          "description": "Una propina opcional pagada a validadores. Propinas más altas incentivan inclusión más rápida, especialmente durante congestión."
+        },
+        "congestion": {
+          "title": "Congestión de Red",
+          "description": "Cuando muchas transacciones compiten por espacio limitado en bloques, las tarifas base suben. Los usuarios deben pagar más por inclusión."
+        }
+      }
+    },
+    "block": {
+      "title": "Construcción de Bloque a Fondo",
+      "subtitle": "Explora la anatomía del encabezado de un bloque Ethereum",
+      "progress": "Progreso de Exploración",
+      "blockHash": "Hash del Bloque",
+      "hashDescription": "Este es el hash final del encabezado completo del bloque - huella digital única de este bloque.",
+      "builder": {
+        "title": "Campos del Encabezado"
+      },
+      "nextStep": "Continuar",
+      "restart": "Explorar de Nuevo",
+      "steps": {
+        "intro": {
+          "title": "Bienvenido a la Construcción de Bloques",
+          "description": "Cada bloque Ethereum contiene un encabezado con metadatos críticos. Exploremos cada campo y entendamos cómo trabajan juntos."
+        },
+        "parent": {
+          "title": "1. Hash Padre - El Eslabón de la Cadena",
+          "description": "Cada bloque referencia el hash de su bloque padre. Esto crea la estructura de cadena y asegura inmutabilidad."
+        },
+        "trie": {
+          "title": "2. Raíces Merkle - Verificación de Estado",
+          "description": "Tres raíces de árbol Merkle verifican: el estado global, todas las transacciones, y todos los recibos. Esto permite que clientes ligeros verifiquen sin descargar todo."
+        },
+        "metadata": {
+          "title": "3. Campos de Metadatos",
+          "description": "La marca de tiempo asegura orden secuencial. El recipiente de tarifas identifica al validador que propuso este bloque."
+        },
+        "hash": {
+          "title": "4. Computando el Hash del Bloque",
+          "description": "Finalmente, todos los campos del encabezado son codificados RLP y hasheados con Keccak-256 para crear el hash único del bloque."
+        }
+      },
+      "learn": {
+        "title": "¿Sabías Que?",
+        "merkle": "Los árboles Merkle permiten verificar cualquier pieza de datos con solo una pequeña prueba (prueba Merkle).",
+        "immutable": "Cambiar cualquier campo cambiaría completamente el hash del bloque, haciendo la manipulación detectable.",
+        "consensus": "Los validadores deben acordar la raíz de estado exacta - es cómo alcanzan consenso sobre el estado de la red."
+      }
+    }
   },
   "footer": {
     "attribution": "Simulación educativa. No conectada a blockchain real.",
@@ -304,22 +478,61 @@
     "next": "Siguiente",
     "previous": "Anterior",
     "expand": "Expandir",
-    "collapse": "Colapsar"
+    "collapse": "Colapsar",
+    "dismiss": "Cerrar"
   },
   "landing": {
-    "features": {
-      "title": "¿Por qué InteractiveETH?",
-      "visual": {
-        "title": "Aprendizaje Visual",
-        "description": "Mira los conceptos en acción con diagramas interactivos"
+    "hero": {
+      "ctaSecondary": "Unirse al Grupo de Estudio"
+    },
+    "why": {
+      "title": "Qué Aprenderás",
+      "subtitle": "Domina Ethereum mediante la exploración interactiva",
+      "transactions": {
+        "title": "Ciclo de Vida de Transacciones",
+        "description": "Sigue el ETH desde tu billetera hasta la finalidad de la blockchain. Aprende cómo las transacciones se firman, se transmiten por la red P2P y se confirman por los validadores."
       },
-      "handsOn": {
-        "title": "Práctica Interactiva",
-        "description": "Controla la simulación paso a paso"
+      "validator": {
+        "title": "Sé el Validador",
+        "description": "Experimenta la presión de construir bloques. Selecciona transacciones del mempool bajo un temporizador de 12 segundos mientras maximizas el uso de gas y las recompensas."
       },
-      "openSource": {
-        "title": "Código Abierto",
-        "description": "Gratuito para usar, contribuciones bienvenidas"
+      "gas": {
+        "title": "Gas y Mercados de Tarifas",
+        "description": "Domina la dinámica de EIP-1559. Comprende cómo las tarifas base se ajustan con la congestión, cómo funcionan las tarifas prioritarias y optimiza tus costos de transacción."
+      },
+      "blockInternals": {
+        "title": "Estructura de Bloques",
+        "description": "Sumérgete en los encabezados de bloques, los árboles Merkle Patricia y cómo se calculan los hashes de bloques. Observa las estructuras de datos que impulsan Ethereum."
+      },
+      "security": {
+        "title": "Seguridad y Ataques",
+        "description": "Aprende sobre ataques sandwich, front-running, reentrancy y otros exploits. Comprende cómo protegerte y construir protocolos seguros."
+      }
+    },
+    "comingSoon": {
+      "smartContracts": {
+        "title": "Contratos Inteligentes",
+        "description": "Despliega e interactúa con contratos en Solidity. Aprende patrones de seguridad."
+      },
+      "evm": {
+        "title": "EVM en Profundidad",
+        "description": "Entendiendo la Máquina Virtual de Ethereum a nivel de opcode."
+      },
+      "mev": {
+        "title": "MEV y PBS",
+        "description": "Valor Máximo Extraíble y Separación Proponente-Constructor explicado."
+      }
+    },
+    "community": {
+      "title": "Desarrollado por The Red Guild",
+      "subtitle": "🪷",
+      "description": "Este material de aprendizaje interactivo fue creado por The Red Guild como una forma de enseñar conceptos del protocolo Ethereum mediante la exploración práctica y el aprendizaje visual.",
+      "studyGroup": {
+        "title": "Estudia Con Nosotros",
+        "description": "Únete al grupo de estudio de la comunidad WebtrES donde exploramos Mastering Ethereum juntos mediante sesiones interactivas y discusiones.",
+        "discord": "Unirse a Discord WebtrES",
+        "channel": "#mastering-ethereum",
+        "youtube": "Ver Sesiones de Estudio"
       }
     }
   }

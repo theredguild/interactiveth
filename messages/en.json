@@ -4,6 +4,29 @@
     "tutorials": "Tutorials",
     "about": "About"
   },
+  "sidebar": {
+    "sectionTitle": "Tutorials",
+    "home": "Home",
+    "coreConcepts": "Core Concepts",
+    "transactions": "Transactions",
+    "validator": "Block Builder",
+    "gas": "Gas Auction",
+    "blockInternals": "Block Internals",
+    "protocolVisualizer": "Protocol Visualizer",
+    "securityOverview": "Security",
+    "sandwichAttack": "Sandwich Attack",
+    "frontRunning": "Front-Running",
+    "reentrancy": "Reentrancy (DAO Hack)",
+    "oracleManipulation": "Oracle Manipulation",
+    "rogueProposer": "Rogue Proposer",
+    "doubleSigning": "Double-Signing",
+    "eclipseAttack": "Eclipse Attack",
+    "fiftyOnePercent": "51% Attack",
+    "smartContracts": "Smart Contracts",
+    "evm": "EVM",
+    "mev": "MEV",
+    "soon": "Soon"
+  },
   "hero": {
     "title": "Interactive Ethereum",
     "subtitle": "Learn Ethereum protocol concepts through interactive visualizations",
@@ -27,6 +50,14 @@
     "blocks": {
       "title": "Blocks",
       "description": "Understand how blocks are created and confirmed"
+    },
+    "validator": {
+      "title": "Be the Validator",
+      "description": "Build blocks and earn rewards as an Ethereum validator"
+    },
+    "blockInternals": {
+      "title": "Block Internals",
+      "description": "Deep dive into block headers, Merkle trees, and block structure"
     },
     "smartContracts": {
       "title": "Smart Contracts",
@@ -289,7 +320,150 @@
       }
     },
     "footer": "Educational simulation demonstrating Ethereum protocol concepts. Not connected to actual blockchain.",
-    "loading": "Initializing simulation..."
+    "loading": "Initializing simulation...",
+    "validator": {
+      "title": "Be the Validator",
+      "subtitle": "Build blocks and earn rewards as an Ethereum validator",
+      "instructions": {
+        "title": "How to Play",
+        "step1": "You have 12 seconds to build a block (one slot)",
+        "step2": "Click transactions from the mempool to add them to your block",
+        "step3": "Watch your gas limit (30M max) - fill it efficiently",
+        "step4": "Higher gas price = more rewards! Click 'Propose Block' when ready"
+      },
+      "start": "Start Building",
+      "nextRound": "Next Block",
+      "proposeBlock": "Propose Block",
+      "roundScore": "Round Score",
+      "mempool": {
+        "title": "Mempool",
+        "count": "{count} pending",
+        "hint": "Click transactions to add them to your block",
+        "gasLimit": "{limit} gas",
+        "clickToAdd": "Click to add",
+        "empty": "No transactions available"
+      },
+      "block": {
+        "title": "Your Block",
+        "transactions": "txs",
+        "gasUsed": "{used} / {limit}",
+        "gasUtilization": "Gas Used",
+        "almostFull": "Block almost full!",
+        "empty": "Your block is empty",
+        "hint": "Select transactions from the mempool",
+        "ready": "Block ready to propose!"
+      },
+      "gas": {
+        "title": "Gas"
+      },
+      "stats": {
+        "blocks": "Blocks Built",
+        "txs": "Transactions",
+        "utilization": "Gas Util",
+        "rewards": "Total Rewards"
+      },
+      "timer": {
+        "remaining": "Time Remaining",
+        "completed": "Completed"
+      }
+    },
+    "gas": {
+      "title": "Gas Price Auction",
+      "subtitle": "Understand EIP-1559 and optimize your transaction fees",
+      "baseFee": "Base Fee",
+      "block": "Block",
+      "start": "Start Simulation",
+      "congestion": "Network Congestion",
+      "queue": {
+        "title": "Mempool Queue",
+        "count": "{count} pending txs",
+        "yourTx": "Your Transaction",
+        "empty": "No pending transactions"
+      },
+      "chart": {
+        "title": "Base Fee History",
+        "blocks": "Last {count} blocks",
+        "range": "Range: {min} - {max} Gwei"
+      },
+      "controls": {
+        "title": "Your Transaction",
+        "maxFee": "Max Fee Per Gas",
+        "maxFeeHint": "Maximum total fee you're willing to pay",
+        "priorityFee": "Priority Fee (Tip)",
+        "priorityFeeHint": "Extra paid to validators for faster inclusion",
+        "gasLimit": "Gas Limit",
+        "transfer": "Simple Transfer",
+        "contract": "Contract Call",
+        "effectivePrice": "Effective Gas Price",
+        "totalCost": "Total: {cost} ETH"
+      },
+      "estimator": {
+        "title": "Inclusion Estimator",
+        "position": "Position in Queue",
+        "time": "Est. Inclusion Time",
+        "calculating": "Calculating...",
+        "fast": "Fast - Next block!",
+        "medium": "Medium - A few blocks",
+        "slow": "Slow - High congestion",
+        "howItWorks": "How it works",
+        "explanation": "Transactions are ordered by priority fee. Higher tips = faster inclusion."
+      },
+      "education": {
+        "title": "Understanding Gas Fees",
+        "baseFee": {
+          "title": "Base Fee (EIP-1559)",
+          "description": "The base fee is algorithmically determined by network demand. It burns ETH and adjusts by up to 12.5% per block."
+        },
+        "priorityFee": {
+          "title": "Priority Fee (Tip)",
+          "description": "An optional tip paid to validators. Higher tips incentivize faster inclusion, especially during congestion."
+        },
+        "congestion": {
+          "title": "Network Congestion",
+          "description": "When many transactions compete for limited block space, base fees rise. Users must pay more for inclusion."
+        }
+      }
+    },
+    "block": {
+      "title": "Block Construction Deep Dive",
+      "subtitle": "Explore the anatomy of an Ethereum block header",
+      "progress": "Exploration Progress",
+      "blockHash": "Block Hash",
+      "hashDescription": "This is the final hash of the entire block header - unique fingerprint of this block.",
+      "builder": {
+        "title": "Block Header Fields"
+      },
+      "nextStep": "Continue",
+      "restart": "Explore Again",
+      "steps": {
+        "intro": {
+          "title": "Welcome to Block Construction",
+          "description": "Every Ethereum block contains a header with critical metadata. Let's explore each field and understand how they work together."
+        },
+        "parent": {
+          "title": "1. Parent Hash - The Chain Link",
+          "description": "Every block references its parent block's hash. This creates the chain structure and ensures immutability."
+        },
+        "trie": {
+          "title": "2. Merkle Roots - State Verification",
+          "description": "Three Merkle tree roots verify: the global state, all transactions, and all receipts. These enable light clients to verify without downloading everything."
+        },
+        "metadata": {
+          "title": "3. Metadata Fields",
+          "description": "Timestamp ensures sequential ordering. Fee recipient identifies the validator who proposed this block."
+        },
+        "hash": {
+          "title": "4. Computing the Block Hash",
+          "description": "Finally, all header fields are RLP-encoded and hashed with Keccak-256 to create the unique block hash."
+        }
+      },
+      "learn": {
+        "title": "Did You Know?",
+        "merkle": "Merkle trees allow verifying any piece of data with just a small proof (Merkle proof).",
+        "immutable": "Changing any field would completely change the block hash, making tampering detectable.",
+        "consensus": "Validators must agree on the exact state root - it's how they reach consensus on the network state."
+      }
+    }
   },
   "footer": {
     "attribution": "Educational simulation. Not connected to actual blockchain.",
@@ -304,22 +478,61 @@
     "next": "Next",
     "previous": "Previous",
     "expand": "Expand",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "dismiss": "Dismiss"
   },
   "landing": {
-    "features": {
-      "title": "Why InteractiveETH?",
-      "visual": {
-        "title": "Visual Learning",
-        "description": "See concepts in action with interactive diagrams"
+    "hero": {
+      "ctaSecondary": "Join Study Group"
+    },
+    "why": {
+      "title": "What You'll Learn",
+      "subtitle": "Master Ethereum through interactive exploration",
+      "transactions": {
+        "title": "Transaction Lifecycle",
+        "description": "Follow ETH from your wallet to blockchain finality. Learn how transactions are signed, broadcast through the P2P network, and confirmed by validators."
       },
-      "handsOn": {
-        "title": "Hands-on Practice",
-        "description": "Control the simulation step by step"
+      "validator": {
+        "title": "Be the Validator",
+        "description": "Experience the pressure of block building. Select transactions from the mempool under a 12-second timer while maximizing gas usage and rewards."
       },
-      "openSource": {
-        "title": "Open Source",
-        "description": "Free to use, contributions welcome"
+      "gas": {
+        "title": "Gas & Fee Markets",
+        "description": "Master EIP-1559 dynamics. Understand how base fees adjust with congestion, how priority fees work, and optimize your transaction costs."
+      },
+      "blockInternals": {
+        "title": "Block Structure",
+        "description": "Dive deep into block headers, Merkle Patricia trees, and how block hashes are calculated. See the data structures that power Ethereum."
+      },
+      "security": {
+        "title": "Security & Attacks",
+        "description": "Learn about sandwich attacks, front-running, reentrancy, and other exploits. Understand how to protect yourself and build secure protocols."
+      }
+    },
+    "comingSoon": {
+      "smartContracts": {
+        "title": "Smart Contracts",
+        "description": "Deploy and interact with Solidity smart contracts. Learn about contract security patterns."
+      },
+      "evm": {
+        "title": "EVM Deep Dive",
+        "description": "Understanding the Ethereum Virtual Machine at the opcode level."
+      },
+      "mev": {
+        "title": "MEV & PBS",
+        "description": "Maximum Extractable Value and Proposer-Builder Separation explained."
+      }
+    },
+    "community": {
+      "title": "Powered by The Red Guild",
+      "subtitle": "🪷",
+      "description": "This interactive learning material was created by The Red Guild as a way to teach Ethereum protocol concepts through hands-on exploration and visual learning.",
+      "studyGroup": {
+        "title": "Study With Us",
+        "description": "Join the WebtrES community study group where we explore Mastering Ethereum together through interactive sessions and discussions.",
+        "discord": "Join WebtrES Discord",
+        "channel": "#mastering-ethereum",
+        "youtube": "Watch Study Sessions"
       }
     }
   }
