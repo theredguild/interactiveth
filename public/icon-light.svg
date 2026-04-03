@@ -1,24 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <style>
-    @media (prefers-color-scheme: light) {
-      .petal { fill: #7c3aed; }
-      .petal-center { fill: #a855f7; }
-    }
-    @media (prefers-color-scheme: dark) {
-      .petal { fill: #a78bfa; }
-      .petal-center { fill: #c084fc; }
-    }
+    .petal { fill: #7c3aed; }
+    .petal-center { fill: #a855f7; }
   </style>
-  <!-- Center petal -->
   <ellipse class="petal-center" cx="16" cy="10" rx="3" ry="7" />
-  <!-- Inner left petal -->
   <ellipse class="petal" cx="11" cy="12" rx="2.5" ry="6" transform="rotate(-25 11 12)" />
-  <!-- Inner right petal -->
   <ellipse class="petal" cx="21" cy="12" rx="2.5" ry="6" transform="rotate(25 21 12)" />
-  <!-- Outer left petal -->
   <ellipse class="petal" cx="7" cy="16" rx="2" ry="5.5" transform="rotate(-45 7 16)" />
-  <!-- Outer right petal -->
   <ellipse class="petal" cx="25" cy="16" rx="2" ry="5.5" transform="rotate(45 25 16)" />
-  <!-- Base/water -->
   <path class="petal" d="M6 22 Q16 28 26 22 Q20 24 16 24 Q12 24 6 22Z" opacity="0.7" />
 </svg>
