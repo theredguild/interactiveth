@@ -19,6 +19,7 @@ import {
   CheckCircle,
   Code2,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { TutorialLayout } from '@/components/layout/tutorial-layout';
 import { CodeBlock } from '@/components/ui/code-block';
 
@@ -108,6 +109,8 @@ function generateMempoolTransactions(): MempoolTx[] {
 }
 
 export default function SandwichAttackSimulator() {
+  const t = useTranslations('sandwich');
+  const td = useTranslations('difficulty');
   // Mode state
   const [mode, setMode] = useState<'beginner' | 'advanced'>('beginner');
   const [perspective, setPerspective] = useState<'victim' | 'attacker'>('victim');
@@ -453,20 +456,20 @@ export default function SandwichAttackSimulator() {
   const getStatusMessage = () => {
     if (step === 0 && !isRunning) {
       if (perspective === 'attacker' && !selectedTarget) {
-        return '👆 Select a target transaction from the mempool';
+        return t('statusSelectTarget');
       }
       return perspective === 'victim' 
-        ? 'Ready - Configure your swap and send it' 
-        : 'Ready - Select a target to attack';
+        ? t('statusReadyVictim') 
+        : t('statusReadyAttacker');
     }
-    if (step === 0 && isRunning) return perspective === 'victim' ? 'Sending to mempool...' : 'Executing attack...';
-    if (step === 1) return '🔴 Attacker front-running...';
-    if (step === 2) return '🟠 Your transaction executing...';
+    if (step === 0 && isRunning) return perspective === 'victim' ? t('statusSending') : t('statusExecuting');
+    if (step === 1) return t('statusFrontRunning');
+    if (step === 2) return t('statusVictimExecuting');
     if (step === 3) {
       if (!wasSandwiched) {
         return useFlashbots 
-          ? '✅ Protected! Transaction sent privately via Flashbots.'
-          : '✅ Safe! High gas price prevented the attack.';
+          ? t('statusProtected')
+          : t('statusSafe');
       }
       if (perspective === 'attacker') return `💰 Profit: ${attackerProfitETH.toFixed(4)} ETH ($${(attackerProfitETH * currentEthPrice).toFixed(2)})`;
       return `⚠️ Sandwiched! Lost ${victimLossETH.toFixed(4)} ETH ($${(victimLossETH * currentEthPrice).toFixed(2)})`;
@@ -511,9 +514,9 @@ export default function SandwichAttackSimulator() {
                   <AlertTriangle className="size-5 text-red-500" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">Sandwich Attack Simulator</h1>
+                  <h1 className="text-xl font-bold text-foreground">{t('title')}</h1>
                   <p className="text-sm text-muted-foreground">
-                    {perspective === 'victim' ? 'Experience getting sandwiched on a DEX trade' : 'Learn how MEV bots profit from your trades'}
+                    {perspective === 'victim' ? t('subtitleVictim') : t('subtitleAttacker')}
                   </p>
                 </div>
               </div>
@@ -529,7 +532,7 @@ export default function SandwichAttackSimulator() {
                         : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    Beginner
+                    {td('beginner')}
                   </button>
                   <button
                     onClick={() => setMode('advanced')}
@@ -539,7 +542,7 @@ export default function SandwichAttackSimulator() {
                         : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    Advanced
+                    {td('advanced')}
                   </button>
                 </div>
                 
@@ -559,7 +562,7 @@ export default function SandwichAttackSimulator() {
                       }`}
                     >
                       <User className="size-3" />
-                      Victim
+                      {t('perspectiveVictim')}
                     </button>
                     <button
                       onClick={() => { setPerspective('attacker'); reset(); }}
@@ -570,7 +573,7 @@ export default function SandwichAttackSimulator() {
                       }`}
                     >
                       <Target className="size-3" />
-                      Attacker
+                      {t('perspectiveAttacker')}
                     </button>
                   </motion.div>
                 )}
@@ -587,23 +590,23 @@ export default function SandwichAttackSimulator() {
               <div className="rounded-xl border border-border bg-card p-5">
                 <h2 className="mb-4 font-semibold flex items-center gap-2">
                   <Wallet className="size-4 text-primary" />
-                  {perspective === 'victim' ? 'Your Swap' : 'Attack Parameters'}
+                  {perspective === 'victim' ? t('yourSwap') : t('attackParams')}
                 </h2>
                 
                 <div className="space-y-4">
                   {perspective === 'victim' && (
                     <div className="p-3 rounded-lg bg-secondary/30 border border-border">
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-muted-foreground">From</span>
+                        <span className="text-muted-foreground">{t('from')}</span>
                         <span className="font-mono">Your Wallet</span>
                       </div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-muted-foreground">To</span>
+                        <span className="text-muted-foreground">{t('to')}</span>
                         <span className="font-mono">Uniswap V3</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Action</span>
-                        <span>DAI → ETH</span>
+                        <span className="text-muted-foreground">{t('action')}</span>
+                        <span>{t('daiToEth')}</span>
                       </div>
                     </div>
                   )}
@@ -612,7 +615,7 @@ export default function SandwichAttackSimulator() {
                   {perspective === 'victim' && (
                     <div>
                       <label className="mb-2 block text-sm font-medium">
-                        Amount to Swap (DAI)
+                        {t('amountToSwap')}
                       </label>
                       <input
                         type="range"
@@ -636,10 +639,10 @@ export default function SandwichAttackSimulator() {
                   {perspective === 'attacker' && (
                     <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
                       <p className="text-sm text-red-700 font-medium mb-1">
-                        Select a Target
+                        {t('selectTarget')}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Click on a transaction in the mempool to attack. Larger trades = more profit potential.
+                        {t('selectTargetHint')}
                       </p>
                     </div>
                   )}
@@ -653,10 +656,10 @@ export default function SandwichAttackSimulator() {
                     >
                       {perspective === 'victim' && (
                         <div>
-                          <label className="mb-2 block text-sm font-medium flex items-center gap-2">
-                            <Zap className="size-3 text-blue-500" />
-                            Your Gas Price (Gwei)
-                          </label>
+                        <label className="mb-2 block text-sm font-medium flex items-center gap-2">
+                          <Zap className="size-3 text-blue-500" />
+                          {t('yourGasPrice')}
+                        </label>
                           <input
                             type="range"
                             min="15"
@@ -674,17 +677,17 @@ export default function SandwichAttackSimulator() {
                           </div>
                           {victimGasPrice > attackerGasPrice && (
                             <p className="text-xs text-green-600 mt-1">
-                              ✅ Your gas is higher - you&apos;ll be mined first!
+                              ✅ {t('gasHigher')}
                             </p>
                           )}
                           {victimGasPrice < attackerGasPrice && (
                             <p className="text-xs text-red-600 mt-1">
-                              ⚠️ Attacker has higher gas - you may get sandwiched!
+                              ⚠️ {t('attackerHigherGas')}
                             </p>
                           )}
                           {victimGasPrice === attackerGasPrice && (
                             <p className="text-xs text-yellow-600 mt-1">
-                              ⚡ Same gas price - attacker wins ties!
+                              ⚡ {t('sameGasAttackerWins')}
                             </p>
                           )}
                         </div>
@@ -693,7 +696,7 @@ export default function SandwichAttackSimulator() {
                       <div>
                         <label className="mb-2 block text-sm font-medium text-red-500 flex items-center gap-2">
                           <Target className="size-3" />
-                          Attacker Gas Price (Gwei)
+                          {t('attackerGasPrice')}
                         </label>
                         <input
                           type="range"
@@ -723,7 +726,7 @@ export default function SandwichAttackSimulator() {
                         className="flex-1 rounded-lg bg-blue-500 px-4 py-3 font-medium text-white disabled:opacity-50 flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
                       >
                         <ArrowRight className="size-4" />
-                        {userTxInMempool ? 'Transaction Sent' : isRunning ? 'Processing...' : 'Send Transaction'}
+                        {userTxInMempool ? t('transactionSent') : isRunning ? t('processing') : t('sendTransaction')}
                       </button>
                     ) : (
                       <button
@@ -732,7 +735,7 @@ export default function SandwichAttackSimulator() {
                         className="flex-1 rounded-lg bg-red-500 px-4 py-3 font-medium text-white disabled:opacity-50 flex items-center justify-center gap-2 hover:bg-red-600 transition-colors"
                       >
                         <Target className="size-4" />
-                        {isRunning ? 'Attacking...' : selectedTarget ? 'Execute Attack' : 'Select Target First'}
+                        {isRunning ? t('attacking') : selectedTarget ? t('executeAttack') : t('selectTargetFirst')}
                       </button>
                     )}
                     <button
@@ -763,14 +766,14 @@ export default function SandwichAttackSimulator() {
                   >
                     <div className="flex items-center gap-2">
                       <Shield className={`size-5 ${useFlashbots ? 'text-green-500' : 'text-muted-foreground'}`} />
-                      <span className="font-semibold">Flashbots Protect</span>
+                      <span className="font-semibold">{t('flashbotsProtect')}</span>
                     </div>
                     <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                       useFlashbots 
                         ? 'bg-green-500 text-white' 
                         : 'bg-secondary text-muted-foreground'
                     }`}>
-                      {useFlashbots ? 'ON' : 'OFF'}
+                      {useFlashbots ? t('on') : t('off')}
                     </div>
                   </button>
                   
@@ -784,11 +787,11 @@ export default function SandwichAttackSimulator() {
                       >
                         <div className="flex items-start gap-2 text-sm">
                           <Lock className="size-4 text-green-500 shrink-0 mt-0.5" />
-                          <span>Private mempool - attackers cannot see your tx</span>
+                          <span>{t('privateMempoolHint')}</span>
                         </div>
                         <div>
                           <label className="block text-xs font-medium text-muted-foreground mb-1">
-                            Slippage Limit: {slippage}%
+                            {t('slippageLimit')}: {slippage}%
                           </label>
                           <input
                             type="range"
@@ -809,56 +812,56 @@ export default function SandwichAttackSimulator() {
 
               {/* Live Stats */}
               <div className="rounded-xl border border-border bg-card p-5">
-                <h2 className="mb-4 font-semibold">Pool Status</h2>
+                <h2 className="mb-4 font-semibold">{t('poolStatus')}</h2>
                 
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">ETH Price</span>
+                    <span className="text-sm text-muted-foreground">{t('ethPrice')}</span>
                     <span className="font-mono font-medium">${currentEthPrice.toFixed(2)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">ETH in Pool</span>
+                    <span className="text-muted-foreground">{t('ethInPool')}</span>
                     <span className="font-mono">{ethReserve.toFixed(2)} ETH</span>
                   </div>
                   
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">DAI in Pool</span>
+                    <span className="text-muted-foreground">{t('daiInPool')}</span>
                     <span className="font-mono">{daiReserve.toLocaleString()} DAI</span>
                   </div>
                   
-                  {wasSandwiched && perspective === 'victim' && (
-                    <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/30">
-                      <div className="flex justify-between items-center text-red-500">
-                        <span className="text-sm font-medium">Your Loss</span>
-                        <span className="font-mono font-bold">{victimLossETH.toFixed(4)} ETH</span>
+                    {wasSandwiched && perspective === 'victim' && (
+                      <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/30">
+                        <div className="flex justify-between items-center text-red-500">
+                          <span className="text-sm font-medium">{t('yourLoss')}</span>
+                          <span className="font-mono font-bold">{victimLossETH.toFixed(4)} ETH</span>
+                        </div>
+                        <p className="text-xs text-red-600 text-right">
+                          (${(victimLossETH * currentEthPrice).toFixed(2)})
+                        </p>
                       </div>
-                      <p className="text-xs text-red-600 text-right">
-                        (${(victimLossETH * currentEthPrice).toFixed(2)})
-                      </p>
-                    </div>
-                  )}
-                  
-                  {!wasSandwiched && perspective === 'victim' && (
-                    <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/30">
-                      <div className="flex justify-between items-center text-green-500">
-                        <span className="text-sm font-medium">Status</span>
-                        <span className="font-mono font-bold text-sm">Protected</span>
+                    )}
+                    
+                    {!wasSandwiched && perspective === 'victim' && (
+                      <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/30">
+                        <div className="flex justify-between items-center text-green-500">
+                          <span className="text-sm font-medium">{t('status')}</span>
+                          <span className="font-mono font-bold text-sm">{t('protected')}</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  
-                  {perspective === 'attacker' && attackerProfitETH > 0 && (
-                    <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/30">
-                      <div className="flex justify-between items-center text-green-500">
-                        <span className="text-sm font-medium">Your Profit</span>
-                        <span className="font-mono font-bold">{attackerProfitETH.toFixed(4)} ETH</span>
+                    )}
+                    
+                    {perspective === 'attacker' && attackerProfitETH > 0 && (
+                      <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/30">
+                        <div className="flex justify-between items-center text-green-500">
+                          <span className="text-sm font-medium">{t('yourProfit')}</span>
+                          <span className="font-mono font-bold">{attackerProfitETH.toFixed(4)} ETH</span>
+                        </div>
+                        <p className="text-xs text-green-600 text-right">
+                          (${(attackerProfitETH * currentEthPrice).toFixed(2)})
+                        </p>
                       </div>
-                      <p className="text-xs text-green-600 text-right">
-                        (${(attackerProfitETH * currentEthPrice).toFixed(2)})
-                      </p>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             </div>
@@ -869,7 +872,7 @@ export default function SandwichAttackSimulator() {
               <div className="rounded-xl border border-border bg-card p-5">
                 <h2 className="mb-4 font-semibold flex items-center gap-2">
                   <Database className="size-4 text-primary" />
-                  {useFlashbots && userTxInMempool ? 'Private Mempool (Flashbots)' : 'Public Mempool'}
+                  {useFlashbots && userTxInMempool ? t('privateMempoolLabel') : t('publicMempool')}
                 </h2>
                 
                 <div className="space-y-2 max-h-64 overflow-y-auto">
@@ -887,14 +890,14 @@ export default function SandwichAttackSimulator() {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
                           <User className={`size-4 ${useFlashbots ? 'text-green-500' : 'text-blue-500'}`} />
-                          <span className="font-bold text-xs">YOUR TX</span>
+                          <span className="font-bold text-xs">{t('yourTx')}</span>
                         </div>
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                           useFlashbots
                             ? 'bg-green-500 text-white'
                             : 'bg-blue-500 text-white'
                         }`}>
-                          {useFlashbots ? '🔒 PRIVATE' : '🔓 PUBLIC'}
+                          {useFlashbots ? t('private') : t('public')}
                         </span>
                       </div>
                       <div className="flex justify-between items-center mt-2">
@@ -903,11 +906,11 @@ export default function SandwichAttackSimulator() {
                           {victimGasPrice} Gwei
                         </span>
                       </div>
-                      {!useFlashbots && (
-                        <p className="text-xs text-red-600 mt-1">
-                          ⚠️ Visible to MEV bots!
-                        </p>
-                      )}
+                        {!useFlashbots && (
+                          <p className="text-xs text-red-600 mt-1">
+                            {t('visibleToMEV')}
+                          </p>
+                        )}
                     </motion.div>
                   )}
 
@@ -953,7 +956,7 @@ export default function SandwichAttackSimulator() {
                 {perspective === 'victim' && !userTxInMempool && (
                   <div className="mt-3 p-3 rounded-lg bg-secondary/30 border border-dashed border-border">
                     <p className="text-xs text-muted-foreground text-center">
-                      Your transaction will appear here after you click &quot;Send Transaction&quot;
+                      {t('txWillAppear')}
                     </p>
                   </div>
                 )}
@@ -965,7 +968,7 @@ export default function SandwichAttackSimulator() {
                   <div className="size-6 rounded bg-primary flex items-center justify-center">
                     <span className="text-xs text-primary-foreground font-bold">B</span>
                   </div>
-                  Block #{step > 0 ? '18,420,691' : 'Pending...'}
+                  Block #{step > 0 ? '18,420,691' : t('blockPending')}
                 </h2>
                 
                 <div className="relative">
@@ -977,18 +980,17 @@ export default function SandwichAttackSimulator() {
                   }`}>
                     {/* Block header */}
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
-                      <span className="text-xs text-muted-foreground">Transactions by gas price</span>
+                      <span className="text-xs text-muted-foreground">{t('txByGasPrice')}</span>
                       <span className="text-xs text-muted-foreground">
-                        {logs.length > 0 ? `${logs.length} txns` : 'Empty'}
+                        {logs.length > 0 ? `${logs.length} txns` : t('empty')}
                       </span>
                     </div>
                     
-                    {/* Transactions in block order */}
                     <div className="space-y-2">
                       {logs.length === 0 ? (
                         <div className="text-center py-6 text-sm text-muted-foreground">
-                          <p>Block is empty</p>
-                          <p className="text-xs mt-1">Transactions will be ordered here</p>
+                          <p>{t('blockIsEmpty')}</p>
+                          <p className="text-xs mt-1">{t('txOrderedHere')}</p>
                         </div>
                       ) : (
                         logs.map((log, index) => (
@@ -1017,9 +1019,9 @@ export default function SandwichAttackSimulator() {
                                     ? 'text-orange-500'
                                     : 'text-red-400'
                                 }`}>
-                                  {log.actor === 'attacker_front' && '🔴 Attacker (Front)'}
-                                  {log.actor === 'victim' && (perspective === 'victim' ? '🟠 You' : '🟠 Victim')}
-                                  {log.actor === 'attacker_back' && '🔴 Attacker (Back)'}
+                                  {log.actor === 'attacker_front' && t('attackerFront')}
+                                  {log.actor === 'victim' && (perspective === 'victim' ? t('you') : t('victim'))}
+                                  {log.actor === 'attacker_back' && t('attackerBack')}
                                 </span>
                               </div>
                               <div className="text-right">
@@ -1047,8 +1049,8 @@ export default function SandwichAttackSimulator() {
                         }`}
                       >
                         {!wasSandwiched
-                          ? '✅ Block sealed safely - no attack occurred'
-                          : '⚠️ Sandwich attack confirmed in block'}
+                          ? t('blockSealedSafely')
+                          : t('sandwichConfirmed')}
                       </motion.div>
                     )}
                   </div>
@@ -1056,9 +1058,9 @@ export default function SandwichAttackSimulator() {
                   {/* Gas price indicator arrow */}
                   {logs.length > 1 && (
                     <div className="absolute -right-3 top-1/2 -translate-y-1/2 flex flex-col items-center">
-                      <div className="text-[10px] text-muted-foreground rotate-90 whitespace-nowrap">
-                        High gas →
-                      </div>
+                        <div className="text-[10px] text-muted-foreground rotate-90 whitespace-nowrap">
+                          {t('highGas')}
+                        </div>
                     </div>
                   )}
                 </div>
@@ -1087,13 +1089,13 @@ export default function SandwichAttackSimulator() {
                         <div>
                           <p className="font-bold text-green-700">
                             {perspective === 'attacker'
-                              ? 'Attack Failed'
-                              : useFlashbots ? 'Protected by Flashbots!' : 'High Gas Saved You!'}
+                              ? t('attackFailed')
+                              : useFlashbots ? t('protectedByFlashbots') : t('highGasSaved')}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {perspective === 'attacker'
-                              ? 'Victim had higher gas — no front-run possible'
-                              : 'No sandwich attack occurred'}
+                              ? t('victimHigherGas')
+                              : t('noSandwichOccurred')}
                           </p>
                         </div>
                       </>
@@ -1104,10 +1106,10 @@ export default function SandwichAttackSimulator() {
                         </div>
                         <div>
                           <p className="font-bold text-red-700">
-                            You Got Sandwiched!
+                            {t('youGotSandwiched')}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            MEV bot extracted value from your trade
+                            {t('mevExtracted')}
                           </p>
                         </div>
                       </>
@@ -1117,7 +1119,7 @@ export default function SandwichAttackSimulator() {
                   <div className="space-y-2">
                     {wasSandwiched && perspective === 'victim' && (
                       <div className="flex justify-between items-center p-2 rounded bg-red-500/10">
-                        <span className="text-sm text-red-700 font-medium">Your Loss</span>
+                        <span className="text-sm text-red-700 font-medium">{t('yourLoss')}</span>
                         <div className="text-right">
                           <span className="font-mono font-bold text-red-700 block">{victimLossETH.toFixed(4)} ETH</span>
                           <span className="text-xs text-red-600">(${ (victimLossETH * currentEthPrice).toFixed(2) })</span>
@@ -1127,17 +1129,17 @@ export default function SandwichAttackSimulator() {
                     
                     {!wasSandwiched && perspective === 'victim' && (
                       <div className="flex justify-between items-center p-2 rounded bg-green-500/10">
-                        <span className="text-sm text-green-700 font-medium">Amount Saved</span>
+                        <span className="text-sm text-green-700 font-medium">{t('amountSaved')}</span>
                         <div className="text-right">
-                          <span className="font-mono font-bold text-green-700 block">Protected</span>
-                          <span className="text-xs text-green-600">{useFlashbots ? 'Private mempool' : 'Gas priority'}</span>
+                          <span className="font-mono font-bold text-green-700 block">{t('protected')}</span>
+                          <span className="text-xs text-green-600">{useFlashbots ? t('privateMempool') : t('gasPriority')}</span>
                         </div>
                       </div>
                     )}
                     
                     {wasSandwiched && perspective === 'attacker' && (
                       <div className="flex justify-between items-center p-2 rounded bg-green-500/10">
-                        <span className="text-sm text-green-700 font-medium">Your Profit</span>
+                        <span className="text-sm text-green-700 font-medium">{t('yourProfit')}</span>
                         <div className="text-right">
                           <span className="font-mono font-bold text-green-700 block">{attackerProfitETH.toFixed(4)} ETH</span>
                           <span className="text-xs text-green-600">(${ (attackerProfitETH * currentEthPrice).toFixed(2) })</span>
@@ -1147,8 +1149,8 @@ export default function SandwichAttackSimulator() {
                     
                     {!wasSandwiched && perspective === 'attacker' && (
                       <div className="flex justify-between items-center p-2 rounded bg-yellow-500/10">
-                        <span className="text-sm text-yellow-700 font-medium">Result</span>
-                        <span className="font-mono font-bold text-yellow-700">No profit — victim went first</span>
+                        <span className="text-sm text-yellow-700 font-medium">{t('result')}</span>
+                        <span className="font-mono font-bold text-yellow-700">{t('noProfit')}</span>
                       </div>
                     )}
                   </div>
@@ -1159,14 +1161,14 @@ export default function SandwichAttackSimulator() {
                       : 'text-red-700'
                   }`}>
                     {perspective === 'victim' && !wasSandwiched && useFlashbots
-                      ? "Your transaction was sent privately via Flashbots, bypassing the public mempool entirely. No attacker could see or front-run your trade."
+                      ? t('explanationFlashbots')
                       : perspective === 'victim' && !wasSandwiched && !useFlashbots
-                        ? "Your gas bid was higher than the attacker's, so your transaction was mined first. The sandwich attack was prevented — you only paid normal DEX slippage."
+                        ? t('explanationHighGas')
                         : perspective === 'victim' && wasSandwiched
-                          ? "The attacker bought ETH before you (pushing the price up), forcing you to pay more. Then they sold at your inflated price, extracting value from your trade."
+                          ? t('explanationSandwiched')
                           : perspective === 'attacker' && wasSandwiched
-                            ? "You front-ran the victim to pump the ETH price, then sold after them to capture the spread. This is how MEV bots profit from public DEX trades."
-                            : "The victim's gas price was higher than yours, so they were mined first. Without front-running, you couldn't manipulate the price — no profit possible."}
+                            ? t('explanationAttackerSuccess')
+                            : t('explanationAttackerFail')}
                   </p>
                 </motion.div>
               )}
@@ -1175,26 +1177,25 @@ export default function SandwichAttackSimulator() {
               <div className="rounded-xl border border-border bg-card p-5">
                 <h2 className="mb-3 font-semibold flex items-center gap-2">
                   <Info className="size-4 text-primary" />
-                  How It Works
+                  {t('howItWorks')}
                 </h2>
                 
                 <div className="space-y-3 text-sm">
                   <p className="text-muted-foreground">
-                    A sandwich attack exploits DEX price slippage. The attacker &quot;sandwiches&quot; 
-                    your trade between two of their own:
+                    {t('howItWorksDesc')}
                   </p>
                   <ol className="space-y-2 text-muted-foreground">
                     <li className="flex gap-2">
                       <span className="font-bold text-red-500">1.</span>
-                      <span><strong>Attacker buys</strong> ETH first, pushing the price up</span>
+                      <span><strong>{t('step1Attacker')}</strong></span>
                     </li>
                     <li className="flex gap-2">
                       <span className="font-bold text-orange-500">2.</span>
-                      <span><strong>You buy</strong> ETH at the inflated price (paying more)</span>
+                      <span><strong>{t('step2Victim')}</strong></span>
                     </li>
                     <li className="flex gap-2">
                       <span className="font-bold text-red-700">3.</span>
-                      <span><strong>Attacker sells</strong> ETH at the pumped price (profit!)</span>
+                      <span><strong>{t('step3Attacker')}</strong></span>
                     </li>
                   </ol>
                 </div>
@@ -1205,20 +1206,20 @@ export default function SandwichAttackSimulator() {
                 <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-5">
                   <h2 className="mb-3 font-semibold flex items-center gap-2 text-green-700">
                     <Shield className="size-4" />
-                    How to Protect Yourself
+                    {t('protectYourself')}
                   </h2>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <Lock className="size-4 text-green-500 shrink-0 mt-0.5" />
-                      <span><strong>Flashbots:</strong> Send privately, skip public mempool</span>
+                      <span><strong>Flashbots:</strong> {t('protectFlashbots')}</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Zap className="size-4 text-green-500 shrink-0 mt-0.5" />
-                      <span><strong>Higher gas:</strong> Outbid attackers to go first</span>
+                      <span><strong>{td('advanced')} gas:</strong> {t('protectHigherGas')}</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Lock className="size-4 text-green-500 shrink-0 mt-0.5" />
-                      <span><strong>Low slippage:</strong> Reject if price moves too much</span>
+                      <span><strong>{t('protectLowSlippage')}</strong></span>
                     </li>
                   </ul>
                 </div>
@@ -1228,16 +1229,15 @@ export default function SandwichAttackSimulator() {
 
           {/* Below Simulator: Reference Sections */}
           <div className="mt-12 pt-8 border-t border-border">
-            <h2 className="text-2xl font-bold mb-6">Deep Dive</h2>
+            <h2 className="text-2xl font-bold mb-6">{t('deepDive')}</h2>
             <div className="grid gap-6 lg:grid-cols-2">
-              {/* AMM Formula Code Block */}
               <div className="rounded-xl border border-border bg-card p-5">
                 <h2 className="mb-3 font-semibold flex items-center gap-2">
                   <Code2 className="size-4 text-primary" />
-                  AMM Math: x * y = k
+                  {t('ammMath')}
                 </h2>
                 <p className="mb-3 text-sm text-muted-foreground">
-                  Uniswap V2 uses a constant product formula. The attacker exploits this:
+                  {t('ammMathDesc')}
                 </p>
                 <CodeBlock
                   code={`// Constant Product AMM: x * y = k
@@ -1259,15 +1259,14 @@ priceImpact = (newPrice - oldPrice) / oldPrice * 100;
 // Without attack: 4.000 ETH (price: $2,500/ETH)
 // Loss: 0.016 ETH ($40) from slippage manipulation`}
                   language="javascript"
-                  title="Uniswap V2 AMM Formula"
+                  title={t('ammCodeTitle')}
                 />
               </div>
 
-              {/* Real Cases */}
               <div className="rounded-xl border border-border bg-card p-5">
                 <h2 className="mb-3 font-semibold flex items-center gap-2">
                   <History className="size-4 text-primary" />
-                  Real Attacks
+                  {t('realAttacks')}
                 </h2>
                 <div className="space-y-3">
                   {CASE_STUDIES.map((study, index) => (

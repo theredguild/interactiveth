@@ -25,7 +25,7 @@ const SECURITY_MODULES = [
     color: 'text-red-500',
     bgColor: 'bg-red-500/10',
     borderColor: 'border-red-500/30',
-    difficulty: 'Beginner',
+    difficulty: 'beginner',
     difficultyColor: 'text-green-500',
   },
   {
@@ -34,7 +34,7 @@ const SECURITY_MODULES = [
     color: 'text-orange-500',
     bgColor: 'bg-orange-500/10',
     borderColor: 'border-orange-500/30',
-    difficulty: 'Beginner',
+    difficulty: 'beginner',
     difficultyColor: 'text-green-500',
   },
   {
@@ -43,7 +43,7 @@ const SECURITY_MODULES = [
     color: 'text-purple-500',
     bgColor: 'bg-purple-500/10',
     borderColor: 'border-purple-500/30',
-    difficulty: 'Intermediate',
+    difficulty: 'intermediate',
     difficultyColor: 'text-yellow-500',
   },
   {
@@ -52,7 +52,7 @@ const SECURITY_MODULES = [
     color: 'text-blue-500',
     bgColor: 'bg-blue-500/10',
     borderColor: 'border-blue-500/30',
-    difficulty: 'Intermediate',
+    difficulty: 'intermediate',
     difficultyColor: 'text-yellow-500',
   },
   {
@@ -61,7 +61,7 @@ const SECURITY_MODULES = [
     color: 'text-yellow-500',
     bgColor: 'bg-yellow-500/10',
     borderColor: 'border-yellow-500/30',
-    difficulty: 'Intermediate',
+    difficulty: 'intermediate',
     difficultyColor: 'text-yellow-500',
   },
   {
@@ -70,7 +70,7 @@ const SECURITY_MODULES = [
     color: 'text-indigo-500',
     bgColor: 'bg-indigo-500/10',
     borderColor: 'border-indigo-500/30',
-    difficulty: 'Advanced',
+    difficulty: 'advanced',
     difficultyColor: 'text-red-500',
   },
   {
@@ -79,7 +79,7 @@ const SECURITY_MODULES = [
     color: 'text-teal-500',
     bgColor: 'bg-teal-500/10',
     borderColor: 'border-teal-500/30',
-    difficulty: 'Advanced',
+    difficulty: 'advanced',
     difficultyColor: 'text-red-500',
   },
   {
@@ -88,13 +88,15 @@ const SECURITY_MODULES = [
     color: 'text-rose-500',
     bgColor: 'bg-rose-500/10',
     borderColor: 'border-rose-500/30',
-    difficulty: 'Advanced',
+    difficulty: 'advanced',
     difficultyColor: 'text-red-500',
   },
 ];
 
 export default function SecurityPage() {
   const t = useTranslations();
+  const td = useTranslations('difficulty');
+  const ts = useTranslations('security');
   const locale = useLocale();
 
   return (
@@ -116,7 +118,7 @@ export default function SecurityPage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl font-bold tracking-tight md:text-5xl"
             >
-              Ethereum Security
+              {ts('title')}
             </motion.h1>
             
             <motion.p 
@@ -125,7 +127,7 @@ export default function SecurityPage() {
               transition={{ delay: 0.1 }}
               className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground"
             >
-              Learn about major attack vectors, vulnerabilities, and how to protect yourself and your protocols
+              {ts('subtitle')}
             </motion.p>
 
             {/* Warning Banner */}
@@ -138,7 +140,7 @@ export default function SecurityPage() {
               <div className="flex items-center gap-3">
                 <AlertCircle className="size-5 text-yellow-500 shrink-0" />
                 <p className="text-sm text-yellow-700">
-                  <strong>Educational Purpose Only:</strong> These simulations demonstrate attack mechanics for learning. Never use this knowledge maliciously. Always prioritize defensive security.
+                  <strong>Educational Purpose Only:</strong> {ts('warning')}
                 </p>
               </div>
             </motion.div>
@@ -151,19 +153,19 @@ export default function SecurityPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="rounded-xl border border-border bg-card p-4 text-center">
                 <p className="text-2xl font-bold text-red-500">$3.6B+</p>
-                <p className="text-xs text-muted-foreground mt-1">Lost to DeFi hacks (2020-2024)</p>
+                <p className="text-xs text-muted-foreground mt-1">{ts('stats.lost')}</p>
               </div>
               <div className="rounded-xl border border-border bg-card p-4 text-center">
                 <p className="text-2xl font-bold text-orange-500">600+</p>
-                <p className="text-xs text-muted-foreground mt-1">Documented attacks</p>
+                <p className="text-xs text-muted-foreground mt-1">{ts('stats.attacks')}</p>
               </div>
               <div className="rounded-xl border border-border bg-card p-4 text-center">
                 <p className="text-2xl font-bold text-yellow-500">8</p>
-                <p className="text-xs text-muted-foreground mt-1">Interactive modules</p>
+                <p className="text-xs text-muted-foreground mt-1">{ts('stats.modules')}</p>
               </div>
               <div className="rounded-xl border border-border bg-card p-4 text-center">
                 <p className="text-2xl font-bold text-green-500">100%</p>
-                <p className="text-xs text-muted-foreground mt-1">Prevention focus</p>
+                <p className="text-xs text-muted-foreground mt-1">{ts('stats.prevention')}</p>
               </div>
             </div>
           </div>
@@ -173,9 +175,9 @@ export default function SecurityPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="mb-8 text-center">
-              <h2 className="text-2xl font-bold">Attack Vectors & Defenses</h2>
+              <h2 className="text-2xl font-bold">{ts('attackVectors.title')}</h2>
               <p className="text-muted-foreground mt-2">
-                Interactive simulations of real-world attack scenarios
+                {ts('attackVectors.subtitle')}
               </p>
             </div>
 
@@ -198,20 +200,20 @@ export default function SecurityPage() {
                           <Icon className="size-6" />
                         </div>
                         <span className={`text-xs font-medium ${module.difficultyColor} bg-card px-2 py-1 rounded-full border border-border`}>
-                          {module.difficulty}
+                          {td(module.difficulty)}
                         </span>
                       </div>
                       
                       <h3 className="mt-4 text-lg font-semibold capitalize">
-                        {module.id.replace(/-/g, ' ')}
+                        {ts(`moduleNames.${module.id}`)}
                       </h3>
                       
                       <p className="mt-2 text-sm text-muted-foreground">
-                        Interactive demonstration with both Beginner and Advanced modes
+                        {ts('moduleDesc')}
                       </p>
 
                       <div className="mt-4 flex items-center gap-1 text-sm font-medium text-primary group-hover:underline">
-                        Start Learning
+                        {t('common.startLearning')}
                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                       </div>
                     </Link>
@@ -226,14 +228,14 @@ export default function SecurityPage() {
         <section className="py-16 bg-secondary/30">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl">
-              <h2 className="text-2xl font-bold text-center mb-8">Recommended Learning Path</h2>
+              <h2 className="text-2xl font-bold text-center mb-8">{ts('learningPath.title')}</h2>
               
               <div className="space-y-4">
                 {[
-                  { step: 1, title: 'MEV Attacks', desc: 'Start with Sandwich Attacks and Front-Running - the most common DeFi exploits', modules: ['Sandwich Attack', 'Front-Running'] },
-                  { step: 2, title: 'Smart Contract Vulnerabilities', desc: 'Learn about Reentrancy and Oracle manipulation - critical for developers', modules: ['Reentrancy', 'Oracle Manipulation'] },
-                  { step: 3, title: 'Consensus Attacks', desc: 'Understand validator misbehavior and slashing conditions', modules: ['Rogue Proposer', 'Double-Signing'] },
-                  { step: 4, title: 'Network-Level Attacks', desc: 'Advanced topics on network topology and majority attacks', modules: ['Eclipse Attack', '51% Attack'] },
+                  { step: 1, title: ts('learningPath.mev.title'), desc: ts('learningPath.mev.description'), modules: [ts('learningPathModules.sandwichAttack'), ts('learningPathModules.frontRunning')] },
+                  { step: 2, title: ts('learningPath.smartContract.title'), desc: ts('learningPath.smartContract.description'), modules: [ts('learningPathModules.reentrancy'), ts('learningPathModules.oracleManipulation')] },
+                  { step: 3, title: ts('learningPath.consensus.title'), desc: ts('learningPath.consensus.description'), modules: [ts('learningPathModules.rogueProposer'), ts('learningPathModules.doubleSigning')] },
+                  { step: 4, title: ts('learningPath.network.title'), desc: ts('learningPath.network.description'), modules: [ts('learningPathModules.eclipseAttack'), ts('learningPathModules.fiftyOnePercent')] },
                 ].map((phase) => (
                   <div key={phase.step} className="flex gap-4 rounded-xl border border-border bg-card p-4">
                     <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
@@ -262,22 +264,22 @@ export default function SecurityPage() {
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl rounded-2xl border border-green-500/30 bg-green-500/10 p-8 text-center">
               <CheckCircle2 className="mx-auto size-12 text-green-500 mb-4" />
-              <h2 className="text-2xl font-bold">Defense First Mindset</h2>
+              <h2 className="text-2xl font-bold">{ts('defense.title')}</h2>
               <p className="mt-4 text-muted-foreground">
-                Every module in this section includes comprehensive defensive measures. Understanding how attacks work is the first step to building secure protocols and protecting user funds.
+                {ts('defense.description')}
               </p>
               <div className="mt-6 flex justify-center gap-4 text-sm">
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-green-500" />
-                  Attack Prevention
+                  {ts('defense.prevention')}
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-green-500" />
-                  Detection Methods
+                  {ts('defense.detection')}
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-green-500" />
-                  Mitigation Strategies
+                  {ts('defense.mitigation')}
                 </span>
               </div>
             </div>
@@ -288,10 +290,10 @@ export default function SecurityPage() {
         <footer className="border-t border-border py-8 bg-background">
           <div className="container mx-auto px-4 text-center">
             <p className="text-sm text-muted-foreground">
-              Security content based on real-world incidents and academic research.
+              {ts('footer.research')}
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
-              Always follow responsible disclosure practices when discovering vulnerabilities.
+              {ts('footer.disclosure')}
             </p>
           </div>
         </footer>

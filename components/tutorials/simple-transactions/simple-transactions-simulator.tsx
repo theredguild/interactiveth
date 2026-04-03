@@ -198,7 +198,7 @@ function FakeWalletPopup({ isOpen, onClose, onConfirm, transaction, showGas }: F
 
               {/* Footer */}
               <div className="bg-secondary/50 px-4 py-2 flex items-center justify-between text-xs text-muted-foreground">
-                <span>Site: InteractiveETH</span>
+                <span>Site: InteractivETH</span>
                 <ExternalLink className="size-3" />
               </div>
             </div>

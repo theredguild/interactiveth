@@ -57,9 +57,9 @@ const LEARNING_CARDS = [
 ];
 
 const DIFFICULTY_BADGES = {
-  beginner: { label: 'Beginner', color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' },
-  intermediate: { label: 'Intermediate', color: 'text-yellow-500', bg: 'bg-yellow-500/10 border-yellow-500/20' },
-  advanced: { label: 'Advanced', color: 'text-red-500', bg: 'bg-red-500/10 border-red-500/20' },
+  beginner: { label: 'beginner', color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' },
+  intermediate: { label: 'intermediate', color: 'text-yellow-500', bg: 'bg-yellow-500/10 border-yellow-500/20' },
+  advanced: { label: 'advanced', color: 'text-red-500', bg: 'bg-red-500/10 border-red-500/20' },
 };
 
 const COMING_SOON_CARDS = [
@@ -167,6 +167,7 @@ function FloatingParticles() {
 
 export default function LandingPage() {
   const t = useTranslations();
+  const td = useTranslations('difficulty');
   const locale = useLocale();
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -413,7 +414,7 @@ export default function LandingPage() {
                     >
                       <div className="absolute top-4 right-4">
                         <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${badge.bg} ${badge.color}`}>
-                          {badge.label}
+                          {td(badge.label)}
                         </span>
                       </div>
                       <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
@@ -429,7 +430,7 @@ export default function LandingPage() {
                         href={`/${locale}${card.href}`}
                         className="mt-4 inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
                       >
-                        Learn more
+                        {t('common.learnMore')}
                         <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
                       </Link>
                     </motion.div>
@@ -444,10 +445,10 @@ export default function LandingPage() {
             <div className="container mx-auto px-4">
               <div className="mb-12 text-center">
                 <h2 className="text-3xl font-bold mb-3">
-                  Coming Soon
+                  {t('common.comingSoon')}
                 </h2>
                 <p className="text-muted-foreground max-w-xl mx-auto">
-                  More advanced topics in development
+                  {t('common.moreTopics')}
                 </p>
               </div>
               
@@ -473,7 +474,7 @@ export default function LandingPage() {
                         {t(`landing.comingSoon.${card.key}.description`)}
                       </p>
                       <span className="absolute top-4 right-4 text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground">
-                        Soon
+                        {t('common.soon')}
                       </span>
                     </motion.div>
                   );

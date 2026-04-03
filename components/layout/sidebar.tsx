@@ -310,7 +310,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
                 <div className="flex h-16 items-center justify-between border-b border-border px-4">
                   <Link href={`/${locale}`} className="flex items-center gap-2">
                     <Globe className="size-6 text-primary" />
-                    <span className="font-bold">InteractiveETH</span>
+              <span className="font-bold">InteractivETH</span>
                   </Link>
                   <div className="flex items-center gap-2">
                     <button

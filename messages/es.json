@@ -13,6 +13,7 @@
     "gas": "Subasta de Gas",
     "blockInternals": "Internos de Bloque",
     "protocolVisualizer": "Visualizador de Protocolo",
+    "security": "Seguridad",
     "securityOverview": "Seguridad",
     "sandwichAttack": "Ataque Sandwich",
     "frontRunning": "Front-Running",
@@ -534,6 +535,210 @@
         "channel": "#mastering-ethereum",
         "youtube": "Ver Sesiones de Estudio"
       }
+    }
+  },
+  "difficulty": {
+    "beginner": "Principiante",
+    "intermediate": "Intermedio",
+    "advanced": "Avanzado"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "reset": "Reiniciar",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "expand": "Expandir",
+    "collapse": "Colapsar",
+    "dismiss": "Cerrar",
+    "comingSoon": "Próximamente",
+    "inDevelopment": "En desarrollo",
+    "backToSecurity": "Volver a Seguridad",
+    "learnMore": "Más información",
+    "startLearning": "Comenzar a Aprender",
+    "soon": "Pronto",
+    "moreTopics": "Más temas avanzados en desarrollo"
+  },
+  "sandwich": {
+    "title": "Simulador de Ataque Sandwich",
+    "subtitleVictim": "Experimenta ser emparedado en un intercambio DEX",
+    "subtitleAttacker": "Aprende cómo los bots MEV obtienen ganancias de tus operaciones",
+    "yourSwap": "Tu Intercambio",
+    "attackParams": "Parámetros del Ataque",
+    "from": "Desde",
+    "to": "Hasta",
+    "action": "Acción",
+    "daiToEth": "DAI \u2192 ETH",
+    "amountToSwap": "Cantidad a Intercambiar (DAI)",
+    "selectTarget": "Selecciona un Objetivo",
+    "selectTargetHint": "Haz clic en una transacción en el mempool para atacar. Operaciones más grandes = mayor potencial de ganancia.",
+    "yourGasPrice": "Tu Precio de Gas (Gwei)",
+    "attackerGasPrice": "Precio de Gas del Atacante (Gwei)",
+    "gasHigher": "¡Tu gas es mayor - serás minado primero!",
+    "attackerHigherGas": "¡El atacante tiene más gas - puedes ser emparedado!",
+    "sameGasAttackerWins": "¡Mismo gas - el atacante gana los empates!",
+    "sendTransaction": "Enviar Transacción",
+    "transactionSent": "Transacción Enviada",
+    "processing": "Procesando...",
+    "executeAttack": "Ejecutar Ataque",
+    "attacking": "Atacando...",
+    "selectTargetFirst": "Selecciona un Objetivo Primero",
+    "flashbotsProtect": "Protección Flashbots",
+    "on": "ACTIVADO",
+    "off": "DESACTIVADO",
+    "privateMempoolHint": "Mempool privado - los atacantes no pueden ver tu tx",
+    "slippageLimit": "Límite de Slippage",
+    "poolStatus": "Estado del Pool",
+    "ethPrice": "Precio ETH",
+    "ethInPool": "ETH en el Pool",
+    "daiInPool": "DAI en el Pool",
+    "yourLoss": "Tu Pérdida",
+    "status": "Estado",
+    "protected": "Protegido",
+    "yourProfit": "Tu Ganancia",
+    "result": "Resultado",
+    "noProfit": "Sin ganancia \u2014 la víctima fue primero",
+    "amountSaved": "Cantidad Ahorrada",
+    "privateMempool": "Mempool privado",
+    "gasPriority": "Prioridad de gas",
+    "privateMempoolLabel": "Mempool Privado (Flashbots)",
+    "publicMempool": "Mempool Público",
+    "yourTx": "TU TX",
+    "private": "\ud83d\udd12 PRIVADO",
+    "public": "\ud83d\udd13 PÚBLICO",
+    "visibleToMEV": "\u26a0\ufe0f ¡Visible para bots MEV!",
+    "txWillAppear": "Tu transacción aparecerá aquí después de hacer clic en \"Enviar Transacción\"",
+    "blockPending": "Pendiente...",
+    "txByGasPrice": "Transacciones por precio de gas",
+    "empty": "Vacío",
+    "blockIsEmpty": "El bloque está vacío",
+    "txOrderedHere": "Las transacciones se ordenarán aquí",
+    "attackerFront": "\ud83d\udd34 Atacante (Frente)",
+    "you": "\ud83d\udfe0 Tú",
+    "victim": "\ud83d\udfe0 Víctima",
+    "attackerBack": "\ud83d\udd34 Atacante (Final)",
+    "highGas": "Gas alto \u2192",
+    "blockSealedSafely": "\u2705 Bloque sellado de forma segura - no ocurrió ningún ataque",
+    "sandwichConfirmed": "\u26a0\ufe0f Ataque sandwich confirmado en el bloque",
+    "attackFailed": "Ataque Fallido",
+    "protectedByFlashbots": "¡Protegido por Flashbots!",
+    "highGasSaved": "¡El Gas Alto te Salvó!",
+    "victimHigherGas": "La víctima tenía más gas \u2014 front-run imposible",
+    "noSandwichOccurred": "No ocurrió ningún ataque sandwich",
+    "youGotSandwiched": "¡Te Emparedaron!",
+    "mevExtracted": "Un bot MEV extrajo valor de tu operación",
+    "explanationFlashbots": "Tu transacción fue enviada de forma privada vía Flashbots, evitando por completo el mempool público. Ningún atacante pudo ver ni hacer front-run a tu operación.",
+    "explanationHighGas": "Tu oferta de gas fue mayor que la del atacante, por lo que tu transacción fue minada primero. El ataque sandwich fue prevenido \u2014 solo pagaste el slippage normal del DEX.",
+    "explanationSandwiched": "El atacante compró ETH antes que tú (subiendo el precio), obligándote a pagar más. Luego vendieron a tu precio inflado, extrayendo valor de tu operación.",
+    "explanationAttackerSuccess": "Hiciste front-run a la víctima para subir el precio del ETH, luego vendiste después de ella para capturar la diferencia. Así es como los bots MEV obtienen ganancias de operaciones públicas en DEX.",
+    "explanationAttackerFail": "El precio de gas de la víctima fue mayor que el tuyo, por lo que fue minada primero. Sin front-running, no pudiste manipular el precio \u2014 no hay ganancia posible.",
+    "howItWorks": "Cómo Funciona",
+    "howItWorksDesc": "Un ataque sandwich explota el slippage de precio en DEX. El atacante \"empareda\" tu operación entre dos propias:",
+    "step1Attacker": "El atacante compra ETH primero, subiendo el precio",
+    "step2Victim": "Tú compras ETH al precio inflado (pagando más)",
+    "step3Attacker": "El atacante vende ETH al precio inflado (¡ganancia!)",
+    "protectYourself": "Cómo Protegerte",
+    "protectFlashbots": "Flashbots: Envía de forma privada, evita el mempool público",
+    "protectHigherGas": "Gas más alto: Supera las ofertas de los atacantes para ir primero",
+    "protectLowSlippage": "Slippage bajo: Rechaza si el precio se mueve demasiado",
+    "deepDive": "Profundización",
+    "ammMath": "Matemáticas AMM: x * y = k",
+    "ammMathDesc": "Uniswap V2 usa una fórmula de producto constante. El atacante explota esto:",
+    "ammCodeTitle": "Fórmula AMM de Uniswap V2",
+    "realAttacks": "Ataques Reales",
+    "statusReadyVictim": "Listo - Configura tu intercambio y envíalo",
+    "statusReadyAttacker": "Listo - Selecciona un objetivo para atacar",
+    "statusSelectTarget": "\ud83d\udc46 Selecciona una transacción objetivo del mempool",
+    "statusSending": "Enviando al mempool...",
+    "statusExecuting": "Ejecutando ataque...",
+    "statusFrontRunning": "\ud83d\udd34 Atacante haciendo front-running...",
+    "statusVictimExecuting": "\ud83d\udfe0 Tu transacción ejecutándose...",
+    "statusProtected": "\u2705 ¡Protegido! Transacción enviada de forma privada vía Flashbots.",
+    "statusSafe": "\u2705 ¡Seguro! Un precio de gas alto previno el ataque.",
+    "perspectiveVictim": "Víctima",
+    "perspectiveAttacker": "Atacante",
+    "caseStudies": {
+      "cream": {
+        "protocol": "Cream Finance",
+        "date": "Agosto 2021",
+        "loss": "$130M",
+        "description": "Múltiples ataques sandwich en grandes intercambios durante la crisis de liquidez"
+      },
+      "sushi": {
+        "protocol": "Sushiswap",
+        "date": "2020-2023",
+        "loss": "$100M+ (acumulado)",
+        "description": "Extracción continua de MEV a través de bots sandwich"
+      }
+    }
+  },
+  "security": {
+    "title": "Seguridad de Ethereum",
+    "subtitle": "Aprende sobre los principales vectores de ataque, vulnerabilidades y cómo protegerte a ti mismo y a tus protocolos",
+    "warning": "Solo con Fines Educativos: Estas simulaciones demuestran la mecánica de ataques para aprendizaje. Nunca uses este conocimiento de forma maliciosa. Prioriza siempre la seguridad defensiva.",
+    "stats": {
+      "lost": "Perdido en hacks de DeFi (2020-2024)",
+      "attacks": "Ataques documentados",
+      "modules": "Módulos interactivos",
+      "prevention": "Enfoque en prevención"
+    },
+    "attackVectors": {
+      "title": "Vectores de Ataque y Defensas",
+      "subtitle": "Simulaciones interactivas de escenarios de ataque del mundo real",
+      "description": "Demostración interactiva con modos Principiante y Avanzado"
+    },
+    "learningPath": {
+      "title": "Ruta de Aprendizaje Recomendada",
+      "mev": {
+        "title": "Ataques MEV",
+        "description": "Comienza con Ataques Sandwich y Front-Running - las explotaciones DeFi más comunes"
+      },
+      "smartContract": {
+        "title": "Vulnerabilidades de Contratos Inteligentes",
+        "description": "Aprende sobre Reentrancy y manipulación de oráculos - crítico para desarrolladores"
+      },
+      "consensus": {
+        "title": "Ataques de Consenso",
+        "description": "Comprende el comportamiento indebido de validadores y las condiciones de slashing"
+      },
+      "network": {
+        "title": "Ataques a Nivel de Red",
+        "description": "Temas avanzados sobre topología de red y ataques de mayoría"
+      }
+    },
+    "defense": {
+      "title": "Mentalidad de Defensa Primero",
+      "description": "Cada módulo en esta sección incluye medidas defensivas integrales junto con demostraciones de ataques. Comprender cómo funcionan los ataques es el primer paso para prevenirlos.",
+      "prevention": "Prevención de Ataques",
+      "detection": "Métodos de Detección",
+      "mitigation": "Estrategias de Mitigación"
+    },
+    "footer": {
+      "research": "Contenido de seguridad basado en incidentes del mundo real e investigación académica.",
+      "disclosure": "Sigue siempre prácticas de divulgación responsable al descubrir vulnerabilidades."
+    },
+    "moduleDesc": "Demostración interactiva con modos Principiante y Avanzado",
+    "moduleNames": {
+      "sandwich-attack": "Ataque Sandwich",
+      "front-running": "Front-Running",
+      "reentrancy": "Reentrancy (Hack DAO)",
+      "oracle-manipulation": "Manipulación de Oráculos",
+      "rogue-proposer": "Proponente Malicioso",
+      "double-signing": "Firma Doble",
+      "eclipse-attack": "Ataque Eclipse",
+      "51-percent": "Ataque 51%"
+    },
+    "learningPathModules": {
+      "sandwichAttack": "Ataque Sandwich",
+      "frontRunning": "Front-Running",
+      "reentrancy": "Reentrancy",
+      "oracleManipulation": "Manipulación de Oráculos",
+      "rogueProposer": "Proponente Malicioso",
+      "doubleSigning": "Firma Doble",
+      "eclipseAttack": "Ataque Eclipse",
+      "fiftyOnePercent": "Ataque 51%"
     }
   }
 }

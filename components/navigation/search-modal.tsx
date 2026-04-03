@@ -20,7 +20,7 @@ const SEARCH_ITEMS: SearchItem[] = [
   {
     id: 'home',
     title: 'Home',
-    description: 'InteractiveETH landing page',
+    description: 'InteractivETH landing page',
     href: '/',
     section: 'core',
     icon: <BookOpen className="size-4" />,

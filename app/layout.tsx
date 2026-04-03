@@ -7,7 +7,7 @@ const geist = Geist({ subsets: ["latin"], variable: '--font-geist' });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: '--font-geist-mono' });
 
 export const metadata: Metadata = {
-  title: 'InteractiveETH - Ethereum Protocol Simulator',
+  title: 'InteractivETH - Ethereum Protocol Simulator',
   description: 'Interactive educational visualization of how Ethereum transactions, blocks, and consensus work',
   icons: {
     icon: [
