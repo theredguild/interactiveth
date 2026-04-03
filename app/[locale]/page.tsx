@@ -363,7 +363,7 @@ export default function LandingPage() {
                       <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-black shadow-lg">
                         <iframe
                           src="https://www.youtube.com/embed/videoseries?list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_&rel=0"
-                          title="Mastering Ethereum Study Group Playlist"
+                          title={t('landing.community.studyGroup.youtubePlaylistTitle')}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
                           className="absolute inset-0 h-full w-full"

@@ -533,7 +533,8 @@
         "description": "Join the WebtrES community study group where we explore Mastering Ethereum together through interactive sessions and discussions.",
         "discord": "Join WebtrES Discord",
         "channel": "#mastering-ethereum",
-        "youtube": "Watch Study Sessions"
+        "youtube": "Watch Study Sessions",
+        "youtubePlaylistTitle": "Mastering Ethereum Study Group Playlist"
       }
     }
   },
@@ -555,6 +556,7 @@
     "dismiss": "Dismiss",
     "comingSoon": "Coming Soon",
     "inDevelopment": "In development",
+    "moduleUnderDevelopment": "This security module is under development.",
     "backToSecurity": "Back to Security Overview",
     "learnMore": "Learn more",
     "startLearning": "Start Learning",
@@ -677,7 +679,8 @@
   "security": {
     "title": "Ethereum Security",
     "subtitle": "Learn about major attack vectors, vulnerabilities, and how to protect yourself and your protocols",
-    "warning": "Educational Purpose Only: These simulations demonstrate attack mechanics for learning. Never use this knowledge maliciously. Always prioritize defensive security.",
+    "warning": "These simulations demonstrate attack mechanics for learning. Never use this knowledge maliciously. Always prioritize defensive security.",
+    "educationalPurposeOnly": "Educational Purpose Only",
     "stats": {
       "lost": "Lost to DeFi hacks (2020-2024)",
       "attacks": "Documented attacks",

@@ -22,7 +22,7 @@ export default function ComingSoonPage() {
             <Construction className="size-10 text-primary" />
           </div>
           <h1 className="text-2xl font-bold mb-2">{t('comingSoon')}</h1>
-          <p className="text-muted-foreground mb-6">This security module is under development.</p>
+          <p className="text-muted-foreground mb-6">{t('moduleUnderDevelopment')}</p>
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-8">
             <Clock className="size-4" />
             <span>{t('inDevelopment')}</span>
