@@ -4,6 +4,8 @@
 Interactive educational visualizations for Ethereum protocol concepts, based on [Mastering Ethereum](https://github.com/ethereumbook/ethereumbook).
 
 ### Recent Updates
+- 2026-04-07: Added a Discord invite CTA to the current chapter area on the front page so people can join the study-group coordination space directly from the landing page.
+- 2026-04-07: Removed the dead Chapter 2 notes link from the front page and replaced it with a non-clickable "after reading" status until those notes actually exist.
 - 2026-04-07: Updated the front page chapter-link model to use explicit lesson mappings and linked Chapter 2 to the existing Transactions and Gas lessons, based on the chapter’s focus on wallets, transactions, and gas basics.
 - 2026-04-07: Added English note translations under `notes/translations/en/` and updated the notes page to render localized content, with an English-only notice that translations were produced using GPT-5.4.
 - 2026-04-07: Made the sidebar discover chapter notes dynamically from `notes/chapters/` through an API route, so new Markdown notes appear automatically without manual nav updates.
