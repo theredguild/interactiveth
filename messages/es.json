@@ -512,6 +512,7 @@
           "chapterLabel": "Capítulo {number}",
           "chapterCta": "Abrir capítulo",
           "eventCta": "Abrir Luma",
+          "discordCta": "Unirse al Discord",
           "routesLabel": "Lecciones interactivas",
           "resourcesLabel": "Recursos relacionados",
           "noRoute": "Ninguna lección interactiva está vinculada con este capítulo.",
@@ -586,6 +587,9 @@
       "linkLabels": {
         "notes": "Abrir apuntes",
         "slides": "Abrir slides"
+      },
+      "linkStatuses": {
+        "readingInProgress": "después de la lectura"
       },
       "resourcesList": {
         "simple-transactions": "Recorrido interactivo para entender cómo viajan las transacciones dentro de Ethereum.",

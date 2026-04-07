@@ -24,14 +24,20 @@ const YOUTUBE_PLAYLIST_URL =
   'https://www.youtube.com/playlist?list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_';
 const NOTEBOOK_LM_URL = 'https://notebooklm.google.com/notebook/f46ed908-e31c-47b5-aea9-fccfb2293c2d';
 const MASTERING_ETHEREUM_URL = 'https://masteringethereum.xyz';
+const DISCORD_INVITE_URL = 'https://discord.com/invite/eegRCDmwbM';
 const CHAPTER_1_SLIDES_URL =
   'https://drive.google.com/file/d/1kZLWj9N8C96wh-Ow2iV1D-Q9G_IU_4CU/view?usp=drive_link';
 const CHAPTER_1_NOTES_URL = '/notes/chapter-1';
-const CHAPTER_2_NOTES_URL = '/notes/chapter-2';
-
 type LessonLink = {
   slug: string;
   translationKey: string;
+};
+
+type ResourceLink = {
+  labelKey: string;
+  url?: string;
+  unavailableKey?: string;
+  prominent: boolean;
 };
 
 function resolveHref(locale: string, href: string) {
@@ -56,10 +62,10 @@ const CURRENT_CHAPTER = {
   resourceLinks: [
     {
       labelKey: 'notes',
-      url: CHAPTER_2_NOTES_URL,
+      unavailableKey: 'readingInProgress',
       prominent: false,
     },
-  ],
+  ] as ResourceLink[],
 } as const;
 
 const PAST_CHAPTERS = [
@@ -80,7 +86,7 @@ const PAST_CHAPTERS = [
         url: CHAPTER_1_SLIDES_URL,
         prominent: false,
       },
-    ],
+    ] as ResourceLink[],
   },
 ] as const;
 
@@ -94,20 +100,19 @@ function TerminalFrame({
   status: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-primary/18 bg-card/90 shadow-[0_0_0_1px_rgba(164,114,255,0.06),0_24px_80px_rgba(0,0,0,0.45)]">
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(164,114,255,0.06),transparent_18%,transparent_82%,rgba(34,211,238,0.04))]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(164,114,255,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[size:28px_28px] opacity-20" />
-      <div className="relative border-b border-primary/12 px-5 py-4 sm:px-6">
+    <div className="relative overflow-hidden rounded-[24px] border border-white/8 bg-card/88 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-sm">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="relative border-b border-white/8 px-5 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-primary/75">
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-primary/70">
             <div className="flex gap-1.5">
-              <span className="size-2 rounded-full bg-primary/80" />
-              <span className="size-2 rounded-full bg-accent/55" />
-              <span className="size-2 rounded-full bg-primary/30" />
+              <span className="size-2 rounded-full bg-primary/75" />
+              <span className="size-2 rounded-full bg-accent/45" />
+              <span className="size-2 rounded-full bg-white/18" />
             </div>
             <span>{title}</span>
           </div>
-          <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.32em] text-primary-foreground/85">
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.32em] text-primary-foreground/80 ring-1 ring-inset ring-primary/18">
             {status}
           </span>
         </div>
@@ -161,11 +166,11 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="mb-10 rounded-[32px] border border-primary/16 bg-card/45 p-6 shadow-[0_0_0_1px_rgba(164,114,255,0.05)] backdrop-blur-sm sm:p-8"
+            className="mb-10 border-b border-white/8 pb-8 sm:pb-10"
           >
-            <div className="mb-8 flex flex-col gap-4 border-b border-primary/10 pb-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div className="max-w-3xl">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.34em] text-primary/80">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.34em] text-primary/80 ring-1 ring-inset ring-primary/14">
                   <span className="size-2 rounded-full bg-primary shadow-[0_0_14px_rgba(164,114,255,0.7)]" />
                   {t('landing.frontPage.badge')}
                 </div>
@@ -193,11 +198,11 @@ export default function LandingPage() {
               </div>
 
               <div className="flex flex-col items-start gap-3 sm:flex-row lg:flex-col lg:items-end">
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:border-primary/35 hover:bg-primary/16"
-                >
+                  <button
+                    type="button"
+                    onClick={() => setSearchOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
+                  >
                   <Search className="size-4" />
                   {t('landing.frontPage.search')}
                   <kbd className="ml-1 hidden rounded border border-primary/20 bg-background/40 px-1.5 text-[10px] text-primary/80 sm:inline-flex">
@@ -205,29 +210,29 @@ export default function LandingPage() {
                   </kbd>
                 </button>
 
-                <Link
-                  href={`/${locale}/transactions`}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/25 hover:bg-secondary/60"
-                >
+                  <Link
+                    href={`/${locale}/transactions`}
+                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
+                  >
                   {t('landing.frontPage.primaryCta')}
                 </Link>
               </div>
             </div>
 
-            <div className="grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
-              <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+            <div className="grid gap-4 text-sm text-muted-foreground md:grid-cols-3 md:divide-x md:divide-white/8">
+              <div className="px-0 py-1 md:pr-4">
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-primary/65">
                   {t('landing.frontPage.panels.current.label')}
                 </p>
                 <p>{t('landing.frontPage.panels.current.value')}</p>
               </div>
-              <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+              <div className="px-0 py-1 md:px-4">
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-accent/80">
                   {t('landing.frontPage.panels.past.label')}
                 </p>
                 <p>{t('landing.frontPage.panels.past.value')}</p>
               </div>
-              <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+              <div className="px-0 py-1 md:pl-4">
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-primary/65">
                   {t('landing.frontPage.panels.resources.label')}
                 </p>
@@ -265,7 +270,7 @@ export default function LandingPage() {
                       href={CURRENT_CHAPTER.chapterUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/25 hover:bg-secondary/60"
+                      className="inline-flex items-center gap-2 rounded-full bg-secondary/40 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
                     >
                       {t('landing.frontPage.sections.current.chapterCta')}
                       <ExternalLink className="size-4" />
@@ -274,15 +279,24 @@ export default function LandingPage() {
                       href={LUMA_EVENT_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-primary/22 bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:border-primary/40 hover:bg-primary/16"
+                      className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
                     >
                       {t('landing.frontPage.sections.current.eventCta')}
+                      <ExternalLink className="size-4" />
+                    </a>
+                    <a
+                      href={DISCORD_INVITE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-secondary/40 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
+                    >
+                      {t('landing.frontPage.sections.current.discordCta')}
                       <ExternalLink className="size-4" />
                     </a>
                   </div>
                 </div>
 
-                <div className="mb-6 rounded-[24px] border border-border bg-background/40 p-5">
+                <div className="mb-6 border-y border-white/8 py-5">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className="max-w-2xl">
                       <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary/70">
@@ -296,8 +310,8 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  <div className="mt-5 grid gap-4 xl:grid-cols-[1fr_1fr]">
-                    <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+                  <div className="mt-5 grid gap-6 xl:grid-cols-[1fr_1fr]">
+                    <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:border-r xl:border-white/8 xl:pt-0 xl:pr-6">
                       <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
                         {t('landing.frontPage.sections.current.routesLabel')}
                       </p>
@@ -320,7 +334,7 @@ export default function LandingPage() {
                       </div>
                     </div>
 
-                    <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+                    <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:pl-2">
                       <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
                         {t('landing.frontPage.sections.current.resourcesLabel')}
                       </p>
@@ -335,25 +349,46 @@ export default function LandingPage() {
 
                       {CURRENT_CHAPTER.resourceLinks && CURRENT_CHAPTER.resourceLinks.length > 0 ? (
                         <div className="mt-4 flex flex-wrap gap-2">
-                          {CURRENT_CHAPTER.resourceLinks.map((resourceLink) => (
-                            <a
-                              key={resourceLink.url}
-                              href={resolveHref(locale, resourceLink.url)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 rounded-full border border-primary/18 bg-primary/8 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:border-primary/35 hover:bg-primary/14"
-                            >
-                              {t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`)}
-                              <ExternalLink className="size-4" />
-                            </a>
-                          ))}
+                          {CURRENT_CHAPTER.resourceLinks.map((resourceLink) => {
+                            const label = t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`);
+
+                            if (resourceLink.url) {
+                              return (
+                                <a
+                                  key={resourceLink.url}
+                                  href={resolveHref(locale, resourceLink.url)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/14 ring-1 ring-inset ring-primary/18"
+                                >
+                                  {label}
+                                  <ExternalLink className="size-4" />
+                                </a>
+                              );
+                            }
+
+                            const unavailableKey =
+                              resourceLink.unavailableKey ?? 'readingInProgress';
+
+                            return (
+                              <span
+                                key={`${resourceLink.labelKey}-${resourceLink.unavailableKey}`}
+                                className="inline-flex items-center gap-2 rounded-full bg-secondary/45 px-3 py-2 text-sm text-muted-foreground ring-1 ring-inset ring-white/10"
+                              >
+                                <span>{label}</span>
+                                <span className="text-xs uppercase tracking-[0.2em] text-primary/70">
+                                  {t(`landing.frontPage.linkStatuses.${unavailableKey}`)}
+                                </span>
+                              </span>
+                            );
+                          })}
                         </div>
                       ) : null}
                     </div>
                   </div>
                 </div>
 
-                <div className="overflow-hidden rounded-[22px] border border-border bg-background/50">
+                <div className="overflow-hidden rounded-[18px] bg-black/20 ring-1 ring-inset ring-white/8">
                   <iframe
                     src={LUMA_EVENT_EMBED_URL}
                     title={t('landing.frontPage.sections.current.embedTitle')}
@@ -377,7 +412,7 @@ export default function LandingPage() {
                 >
                   <div className="mb-5 flex items-start justify-between gap-4">
                     <div>
-                      <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-accent/90">
+                      <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-accent/90 ring-1 ring-inset ring-accent/18">
                         <PlayCircle className="size-3.5" />
                         {t('landing.frontPage.sections.playlist.kicker')}
                       </div>
@@ -391,7 +426,7 @@ export default function LandingPage() {
                     {t('landing.frontPage.sections.playlist.description')}
                   </p>
 
-                  <div className="overflow-hidden rounded-[22px] border border-border bg-background/50">
+                  <div className="overflow-hidden rounded-[18px] bg-black/20 ring-1 ring-inset ring-white/8">
                     <iframe
                       src={YOUTUBE_PLAYLIST_EMBED_URL}
                       title={t('landing.frontPage.sections.playlist.embedTitle')}
@@ -423,7 +458,7 @@ export default function LandingPage() {
                   title={t('landing.frontPage.sections.resources.frameTitle')}
                   status={t('landing.frontPage.sections.resources.status')}
                 >
-                  <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/16 bg-primary/8 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-primary/75">
+                  <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-primary/75 ring-1 ring-inset ring-primary/16">
                     <LibraryBig className="size-3.5" />
                     {t('landing.frontPage.sections.resources.kicker')}
                   </div>
@@ -435,7 +470,7 @@ export default function LandingPage() {
                     {t('landing.frontPage.sections.resources.description')}
                   </p>
 
-                  <div className="mt-6 rounded-[22px] border border-primary/16 bg-primary/6 p-5">
+                  <div className="mt-6 bg-primary/6 p-5 ring-1 ring-inset ring-primary/14">
                     <p className="font-mono text-sm uppercase tracking-[0.24em] text-primary/75">
                       {t('landing.frontPage.sections.resources.cardLabel')}
                     </p>
@@ -450,7 +485,7 @@ export default function LandingPage() {
                       href={NOTEBOOK_LM_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-5 inline-flex items-center gap-2 rounded-full border border-primary/22 bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:border-primary/40 hover:bg-primary/16"
+                      className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
                     >
                       {t('landing.frontPage.sections.resources.cta')}
                       <ExternalLink className="size-4" />
@@ -489,7 +524,7 @@ export default function LandingPage() {
                 {PAST_CHAPTERS.map((chapter) => (
                   <article
                     key={chapter.slug}
-                    className="rounded-[24px] border border-border bg-secondary/20 p-5 shadow-[0_0_0_1px_rgba(164,114,255,0.03)]"
+                    className="bg-secondary/16 p-5 ring-1 ring-inset ring-white/8"
                   >
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div className="max-w-2xl">
@@ -508,7 +543,7 @@ export default function LandingPage() {
                             href={YOUTUBE_PLAYLIST_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition hover:border-accent/35 hover:bg-accent/16"
+                            className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition hover:bg-accent/16 ring-1 ring-inset ring-accent/18"
                           >
                             {t('landing.frontPage.sections.past.videoCta')}
                             <ExternalLink className="size-4" />
@@ -517,20 +552,23 @@ export default function LandingPage() {
                           href={chapter.chapterUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:border-primary/35 hover:bg-primary/16"
+                            className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
                           >
                             {t('landing.frontPage.sections.past.webCta')}
                             <ExternalLink className="size-4" />
                           </a>
                           {chapter.resourceLinks
-                            ?.filter((resourceLink) => resourceLink.prominent)
+                            ?.filter(
+                              (resourceLink): resourceLink is ResourceLink & { url: string } =>
+                                Boolean(resourceLink.url) && resourceLink.prominent,
+                            )
                             .map((resourceLink) => (
                               <a
                                 key={resourceLink.url}
                                 href={resolveHref(locale, resourceLink.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-secondary/40 px-3 py-2 text-sm font-medium text-foreground transition hover:border-primary/35 hover:bg-secondary/60"
+                                className="inline-flex items-center gap-2 rounded-full bg-secondary/40 px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
                               >
                                 {t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`)}
                                 <ExternalLink className="size-4" />
@@ -539,8 +577,8 @@ export default function LandingPage() {
                         </div>
                     </div>
 
-                    <div className="mt-5 grid gap-4 xl:grid-cols-[1fr_1fr]">
-                      <div className="rounded-2xl border border-border bg-background/40 p-4">
+                    <div className="mt-5 grid gap-6 xl:grid-cols-[1fr_1fr]">
+                      <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:border-r xl:border-white/8 xl:pt-0 xl:pr-6">
                         <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
                           {t('landing.frontPage.sections.past.routesLabel')}
                         </p>
@@ -563,7 +601,7 @@ export default function LandingPage() {
                         </div>
                       </div>
 
-                      <div className="rounded-2xl border border-border bg-background/40 p-4">
+                      <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:pl-2">
                         <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
                           {t('landing.frontPage.sections.past.resourcesLabel')}
                         </p>
@@ -578,18 +616,23 @@ export default function LandingPage() {
 
                         {chapter.resourceLinks && chapter.resourceLinks.length > 0 ? (
                           <div className="mt-4 flex flex-wrap gap-2">
-                            {chapter.resourceLinks.map((resourceLink) => (
+                            {chapter.resourceLinks
+                              .filter(
+                                (resourceLink): resourceLink is ResourceLink & { url: string } =>
+                                  Boolean(resourceLink.url),
+                              )
+                              .map((resourceLink) => (
                               <a
                                 key={resourceLink.url}
                                 href={resolveHref(locale, resourceLink.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-full border border-primary/18 bg-primary/8 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:border-primary/35 hover:bg-primary/14"
+                                className="inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/14 ring-1 ring-inset ring-primary/18"
                               >
                                 {t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`)}
                                 <ExternalLink className="size-4" />
                               </a>
-                            ))}
+                              ))}
                           </div>
                         ) : null}
                       </div>
