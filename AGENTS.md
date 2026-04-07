@@ -62,6 +62,10 @@ components/
   tutorials/           → Per-tutorial components (validator/, gas-auction/, etc.)
   ui/                  → Reusable primitives (CodeBlock, etc.)
 messages/              → en.json, es.json (keep keys in sync!)
+notes/
+  chapters/            → Original Markdown study notes rendered for Spanish and auto-listed in the sidebar
+  translations/
+    en/                → English note translations rendered under /en/notes/[slug]
 book/                  → Mastering Ethereum git submodule (17 chapters)
 public/                → Static assets (lotus favicon)
 ```
@@ -94,6 +98,11 @@ All use the shared pattern in `security/*/page.tsx` with `useTranslations('commo
 2. **New translation key**: Add to `en.json` AND `es.json` simultaneously
 3. **New route**: Register in `breadcrumbs.tsx` PAGE_HIERARCHY and `sidebar.tsx`
 4. **Difficulty badges**: Use `useTranslations('difficulty')` → `td('beginner')`, `td('intermediate')`, `td('advanced')`
+
+### Study notes
+- Add chapter notes as Markdown files in `notes/chapters/`
+- Add English translations in `notes/translations/en/` when needed
+- Landing-page chapter resources can link to them through `/{locale}/notes/[slug]`
 
 ## Book Reference
 

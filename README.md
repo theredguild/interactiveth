@@ -83,6 +83,10 @@ Open [http://localhost:3000](http://localhost:3000).
 ├── i18n/                      # next-intl config & routing
 ├── lib/                       # Utilities and types
 ├── messages/                  # Translation files (en.json, es.json)
+├── notes/
+│   ├── chapters/              # Original Markdown study notes, used for Spanish and auto-listed in the sidebar
+│   └── translations/
+│       └── en/                # English note translations rendered for /en/notes/[slug]
 ├── public/                    # Static assets (lotus favicon, etc.)
 └── book/                      # Mastering Ethereum (git submodule)
 ```
