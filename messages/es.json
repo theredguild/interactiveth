@@ -7,6 +7,10 @@
   "sidebar": {
     "sectionTitle": "Tutoriales",
     "home": "Inicio",
+    "notes": "Apuntes",
+    "chapterNotes": "Apuntes Capítulo {number}",
+    "chapter-1": "Apuntes Capítulo 1",
+    "chapter-2": "Apuntes Capítulo 2",
     "coreConcepts": "Conceptos Básicos",
     "transactions": "Transacciones",
     "validator": "Constructor de Bloques",
@@ -470,73 +474,140 @@
     "attribution": "Simulación educativa. No conectada a blockchain real.",
     "bookCredit": "Basado en Mastering Ethereum"
   },
-  "common": {
-    "loading": "Cargando...",
-    "error": "Ocurrió un error",
-    "reset": "Reiniciar",
-    "play": "Reproducir",
-    "pause": "Pausar",
-    "next": "Siguiente",
-    "previous": "Anterior",
-    "expand": "Expandir",
-    "collapse": "Colapsar",
-    "dismiss": "Cerrar"
-  },
   "landing": {
-    "hero": {
-      "ctaSecondary": "Unirse al Grupo de Estudio"
-    },
-    "why": {
-      "title": "Qué Aprenderás",
-      "subtitle": "Domina Ethereum mediante la exploración interactiva",
-      "transactions": {
-        "title": "Ciclo de Vida de Transacciones",
-        "description": "Sigue el ETH desde tu billetera hasta la finalidad de la blockchain. Aprende cómo las transacciones se firman, se transmiten por la red P2P y se confirman por los validadores."
-      },
-      "validator": {
-        "title": "Sé el Validador",
-        "description": "Experimenta la presión de construir bloques. Selecciona transacciones del mempool bajo un temporizador de 12 segundos mientras maximizas el uso de gas y las recompensas."
-      },
-      "gas": {
-        "title": "Gas y Mercados de Tarifas",
-        "description": "Domina la dinámica de EIP-1559. Comprende cómo las tarifas base se ajustan con la congestión, cómo funcionan las tarifas prioritarias y optimiza tus costos de transacción."
-      },
-      "blockInternals": {
-        "title": "Estructura de Bloques",
-        "description": "Sumérgete en los encabezados de bloques, los árboles Merkle Patricia y cómo se calculan los hashes de bloques. Observa las estructuras de datos que impulsan Ethereum."
-      },
-      "security": {
-        "title": "Seguridad y Ataques",
-        "description": "Aprende sobre ataques sandwich, front-running, reentrancy y otros exploits. Comprende cómo protegerte y construir protocolos seguros."
-      }
-    },
-    "comingSoon": {
-      "smartContracts": {
-        "title": "Contratos Inteligentes",
-        "description": "Despliega e interactúa con contratos en Solidity. Aprende patrones de seguridad."
-      },
-      "evm": {
-        "title": "EVM en Profundidad",
-        "description": "Entendiendo la Máquina Virtual de Ethereum a nivel de opcode."
-      },
-      "mev": {
-        "title": "MEV y PBS",
-        "description": "Valor Máximo Extraíble y Separación Proponente-Constructor explicado."
-      }
-    },
-    "community": {
-      "title": "Desarrollado por The Red Guild",
-      "subtitle": "🪷",
-      "description": "Este material de aprendizaje interactivo fue creado por The Red Guild como una forma de enseñar conceptos del protocolo Ethereum mediante la exploración práctica y el aprendizaje visual.",
+    "frontPage": {
+      "badge": "The Red Guild",
+      "title": "Mastering Ethereum, capítulo por capítulo",
+      "subtitle": "Sumate a la sesión actual, ponete al día con capítulos anteriores y mantené cerca la lectura, las repeticiones y las notas mientras estudiás.",
       "studyGroup": {
-        "title": "Estudia Con Nosotros",
-        "description": "Únete al grupo de estudio de la comunidad WebtrES donde exploramos Mastering Ethereum juntos mediante sesiones interactivas y discusiones.",
-        "discord": "Unirse a Discord WebtrES",
-        "channel": "#mastering-ethereum",
-        "youtube": "Ver Sesiones de Estudio",
-        "youtubePlaylistTitle": "Lista de Reproducción del Grupo de Estudio Mastering Ethereum"
+        "prefix": "InteractivETH es el espacio del grupo de estudio que acompaña la lectura de",
+        "linkLabel": "masteringethereum.xyz"
+      },
+      "search": "Buscar tutoriales",
+      "primaryCta": "Abrir tutoriales",
+      "menu": {
+        "open": "Abrir menú"
+      },
+      "panels": {
+        "current": {
+          "label": "Capítulo actual",
+          "value": "Mirá qué está estudiando el grupo ahora, sumate a la próxima sesión y mantené el capítulo a mano mientras seguís la lectura."
+        },
+        "past": {
+          "label": "Capítulos pasados",
+          "value": "Ponete al día con capítulos anteriores desde un solo lugar, con replay, lectura y material de apoyo."
+        },
+        "resources": {
+          "label": "Recursos",
+          "value": "Tené cerca el libro, las notas y el archivo de sesiones para repasar con más facilidad."
+        }
+      },
+      "sections": {
+        "current": {
+          "frameTitle": "Capítulo actual",
+          "status": "Sesión en vivo",
+          "kicker": "Capítulo actual",
+          "title": "Lo que está estudiando el grupo ahora",
+          "description": "Este es el capítulo que guía la conversación actual del grupo de estudio. Abrí la lectura, sumate a la próxima sesión y usá los materiales de abajo para seguir el ritmo.",
+          "chapterLabel": "Capítulo {number}",
+          "chapterCta": "Abrir capítulo",
+          "eventCta": "Abrir Luma",
+          "routesLabel": "Lecciones interactivas",
+          "resourcesLabel": "Recursos relacionados",
+          "noRoute": "Ninguna lección interactiva está vinculada con este capítulo.",
+          "embedTitle": "Calendario de Luma de The Red Guild"
+        },
+        "playlist": {
+          "frameTitle": "Playlist de repeticiones",
+          "status": "Lista para ver",
+          "kicker": "Archivo de repeticiones",
+          "title": "Volvé a ver las sesiones",
+          "description": "Usá la playlist para recuperar lo que te perdiste o para repasar un capítulo antes de la próxima sesión en vivo.",
+          "cta": "Abrir playlist",
+          "embedTitle": "Playlist de sesiones de estudio de Mastering Ethereum"
+        },
+        "resources": {
+          "frameTitle": "Recursos de estudio",
+          "status": "Listos para repasar",
+          "kicker": "Recursos",
+          "title": "Seguí aprendiendo entre sesiones",
+          "description": "Usá el cuaderno complementario para repasar ideas, conectar conceptos y volver a los temas que necesiten otra pasada.",
+          "cardLabel": "NotebookLM",
+          "cardTitle": "Abrir cuaderno de estudio",
+          "cardDescription": "Un espacio de apoyo para volver sobre conceptos clave, preguntas y ejemplos de cada capítulo.",
+          "cta": "Abrir NotebookLM"
+        },
+        "past": {
+          "frameTitle": "Capítulos pasados",
+          "status": "Archivo de estudio",
+          "kicker": "Capítulos pasados",
+          "title": "Capítulos pasados con recursos",
+          "description": "Cada capítulo terminado queda acá como un pequeño centro de estudio, con lectura, replay y material de apoyo listo para cuando quieras repasarlo.",
+          "chapterLabel": "Capítulo {number}",
+          "videoCta": "Abrir video",
+          "webCta": "Abrir capítulo",
+          "routesLabel": "Lecciones interactivas",
+          "resourcesLabel": "Recursos relacionados",
+          "noRoute": "Ninguna lección interactiva está vinculada con este capítulo."
+        }
+      },
+      "chapters": {
+        "chapter-1": {
+          "title": "Capítulo 1"
+        },
+        "chapter-2": {
+          "title": "Capítulo 2"
+        },
+        "transactions": {
+          "title": "Transacciones"
+        },
+        "smart-contracts-solidity": {
+          "title": "Smart Contracts y Solidity"
+        },
+        "smart-contracts-vyper": {
+          "title": "Smart Contracts y Vyper"
+        },
+        "security": {
+          "title": "Seguridad en Smart Contracts"
+        },
+        "oracles": {
+          "title": "Oráculos"
+        },
+        "evm": {
+          "title": "La Ethereum Virtual Machine"
+        },
+        "consensus": {
+          "title": "Consenso"
+        },
+        "scaling": {
+          "title": "Escalando Ethereum"
+        }
+      },
+      "linkLabels": {
+        "notes": "Abrir apuntes",
+        "slides": "Abrir slides"
+      },
+      "resourcesList": {
+        "simple-transactions": "Recorrido interactivo para entender cómo viajan las transacciones dentro de Ethereum.",
+        "gas-auction": "Simulación interactiva para explorar fees, priority gas e inclusión de transacciones.",
+        "notebooklm": "Cuaderno complementario con notas, referencias cruzadas y apoyo para el grupo de estudio.",
+        "planned-smart-contracts": "La próxima lección interactiva de InteractivETH estará dedicada a smart contracts.",
+        "skills-reference": "Material extra de estudio para conectar los capítulos del libro con las lecciones de InteractivETH.",
+        "security-roadmap": "Temas de seguridad y casos históricos que expanden las ideas discutidas en el libro.",
+        "sandwich-simulator": "Simulador práctico para entender sandwich attacks desde ambos lados de la operación.",
+        "block-internals": "Lección interactiva para explorar la estructura interna de los bloques y sus headers.",
+        "planned-evm": "Más adelante habrá una lección enfocada en la EVM y su ejecución.",
+        "validator-components": "Lección interactiva para aprender cómo los validadores construyen bloques bajo restricciones.",
+        "planned-mev": "También llegará una lección futura sobre MEV y proposer-builder separation.",
+        "playlist": "Playlist con sesiones anteriores del grupo para volver a ver cuando quieras."
       }
     }
+  },
+  "notesPage": {
+    "badge": "Apuntes de estudio",
+    "title": "Apuntes del capítulo",
+    "subtitle": "Un acompañamiento de lectura para el grupo de estudio de InteractivETH, renderizado directamente dentro de la app.",
+    "translationNotice": "Original notes were written in spanish and translated using GPT-5.4"
   },
   "difficulty": {
     "beginner": "Principiante",
