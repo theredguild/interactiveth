@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -29,6 +29,8 @@ import {
   FileWarning,
   Search,
   Command,
+  BookText,
+  FileText,
 } from 'lucide-react';
 import { LocaleSwitcher } from '@/components/locale-switcher';
 import {
@@ -42,7 +44,8 @@ type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
 interface NavItem {
   slug: string;
-  translationKey: string;
+  translationKey?: string;
+  label?: string;
   icon: React.ComponentType<{ className?: string }>;
   available: boolean;
   difficulty?: Difficulty;
@@ -107,9 +110,75 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
   const t = useTranslations('sidebar');
   const locale = useLocale();
   const pathname = usePathname();
+  const [noteSlugs, setNoteSlugs] = useState<string[]>([]);
   
   // Extract current path for active state
   const currentPath = pathname.replace(`/${locale}/`, '');
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadNotes() {
+      try {
+        const response = await fetch('/api/notes');
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = (await response.json()) as { notes?: string[] };
+
+        if (isMounted) {
+          setNoteSlugs(Array.isArray(data.notes) ? data.notes : []);
+        }
+      } catch {
+        if (isMounted) {
+          setNoteSlugs([]);
+        }
+      }
+    }
+
+    loadNotes();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const noteItems = useMemo<NavItem[]>(() => {
+    return noteSlugs.map((slug) => {
+      const chapterMatch = slug.match(/chapter-(\d+)/);
+      const chapterNumber = chapterMatch ? Number(chapterMatch[1]) : null;
+
+      return {
+        slug: `notes/${slug}`,
+        label:
+          chapterNumber !== null
+            ? t('chapterNotes', { number: chapterNumber })
+            : slug,
+        icon: FileText,
+        available: true,
+      };
+    });
+  }, [noteSlugs, t]);
+
+  const navigationItems = useMemo<NavItem[]>(() => {
+    if (noteItems.length === 0) {
+      return NAVIGATION;
+    }
+
+    return [
+      ...NAVIGATION,
+      {
+        slug: 'notes',
+        translationKey: 'notes',
+        icon: BookText,
+        available: true,
+        isCollapsible: true,
+        children: noteItems,
+      },
+    ];
+  }, [noteItems]);
 
   const NavLink = ({ 
     item, 
@@ -122,7 +191,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
   }) => {
     const isActive = currentPath === item.slug;
     const Icon = item.icon;
-    const label = t(item.translationKey);
+    const label = item.label ?? (item.translationKey ? t(item.translationKey) : item.slug);
     const diffConfig = item.difficulty ? DIFFICULTY_CONFIG[item.difficulty] : null;
     
     if (!item.available) {
@@ -165,7 +234,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
     onClick?: () => void 
   }) => {
     const Icon = section.icon;
-    const label = t(section.translationKey);
+    const label = section.label ?? (section.translationKey ? t(section.translationKey) : section.slug);
     const isSectionActive = currentPath === section.slug;
     const hasActiveChild = section.children?.some((child: any) => currentPath === child.slug);
     
@@ -183,6 +252,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
           {/* Section Header */}
           <CollapsibleTrigger asChild>
             <button
+              type="button"
               className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
                 isSectionActive || hasActiveChild
                   ? 'bg-primary/10 text-primary font-medium' 
@@ -223,7 +293,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
           {t('sectionTitle')}
         </p>
         
-        {NAVIGATION.map((item) => {
+        {navigationItems.map((item) => {
           if (item.children) {
             return (
               <CollapsibleSection 
@@ -253,7 +323,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
-          <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+          <svg aria-hidden="true" className="size-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
           </svg>
           Mastering Ethereum
@@ -274,6 +344,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
               <span className="font-bold">InteractiveETH</span>
             </Link>
             <button
+              type="button"
               onClick={onSearchOpen}
               className="flex items-center gap-1.5 rounded-lg border border-border px-2 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
               aria-label="Search pages"
@@ -314,6 +385,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
                   </Link>
                   <div className="flex items-center gap-2">
                     <button
+                      type="button"
                       onClick={onSearchOpen}
                       className="p-1.5 rounded-lg hover:bg-secondary/50 transition-colors"
                       aria-label="Search pages"
@@ -321,6 +393,7 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
                       <Search className="size-4 text-muted-foreground" />
                     </button>
                     <button
+                      type="button"
                       onClick={onClose}
                       className="rounded p-1 hover:bg-secondary"
                     >
@@ -339,10 +412,11 @@ export function Sidebar({ isOpen, onClose, onSearchOpen }: SidebarProps) {
   );
 }
 
-export function MobileMenuButton({ onClick }: { onClick: () => void }) {
+export function MobileMenuButton({ onClickAction }: { onClickAction: () => void }) {
   return (
     <button
-      onClick={onClick}
+      type="button"
+      onClick={onClickAction}
       className="fixed top-4 left-4 z-40 rounded-lg border border-border bg-card p-2 shadow-sm lg:hidden"
     >
       <Menu className="size-5" />
