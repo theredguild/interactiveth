@@ -485,22 +485,12 @@
       },
       "search": "Buscar tutoriales",
       "primaryCta": "Abrir tutoriales",
+      "introVideo": "Mirá el video de introducción",
+      "lumaSubscribe": "Suscribite a las próximas sesiones en Luma",
+      "discordJoin": "Sumate a la comunidad de Discord",
+      "notebookLm": "Abrí la guía de estudio en NotebookLM",
       "menu": {
         "open": "Abrir menú"
-      },
-      "panels": {
-        "current": {
-          "label": "Capítulo actual",
-          "value": "Mirá qué está estudiando el grupo ahora, sumate a la próxima sesión y mantené el capítulo a mano mientras seguís la lectura."
-        },
-        "past": {
-          "label": "Capítulos pasados",
-          "value": "Ponete al día con capítulos anteriores desde un solo lugar, con replay, lectura y material de apoyo."
-        },
-        "resources": {
-          "label": "Recursos",
-          "value": "Tené cerca el libro, las notas y el archivo de sesiones para repasar con más facilidad."
-        }
       },
       "sections": {
         "current": {
@@ -518,38 +508,17 @@
           "noRoute": "Ninguna lección interactiva está vinculada con este capítulo.",
           "embedTitle": "Calendario de Luma de The Red Guild"
         },
-        "playlist": {
-          "frameTitle": "Playlist de repeticiones",
-          "status": "Lista para ver",
-          "kicker": "Archivo de repeticiones",
-          "title": "Volvé a ver las sesiones",
-          "description": "Usá la playlist para recuperar lo que te perdiste o para repasar un capítulo antes de la próxima sesión en vivo.",
-          "cta": "Abrir playlist",
-          "embedTitle": "Playlist de sesiones de estudio de Mastering Ethereum"
-        },
-        "resources": {
-          "frameTitle": "Recursos de estudio",
-          "status": "Listos para repasar",
-          "kicker": "Recursos",
-          "title": "Seguí aprendiendo entre sesiones",
-          "description": "Usá el cuaderno complementario para repasar ideas, conectar conceptos y volver a los temas que necesiten otra pasada.",
-          "cardLabel": "NotebookLM",
-          "cardTitle": "Abrir cuaderno de estudio",
-          "cardDescription": "Un espacio de apoyo para volver sobre conceptos clave, preguntas y ejemplos de cada capítulo.",
-          "cta": "Abrir NotebookLM"
-        },
         "past": {
-          "frameTitle": "Capítulos pasados",
+          "frameTitle": "Sesiones pasadas",
           "status": "Archivo de estudio",
-          "kicker": "Capítulos pasados",
-          "title": "Capítulos pasados con recursos",
-          "description": "Cada capítulo terminado queda acá como un pequeño centro de estudio, con lectura, replay y material de apoyo listo para cuando quieras repasarlo.",
+          "kicker": "Sesiones pasadas",
+          "title": "Sesiones pasadas",
+          "description": "Ponete al día con el replay y después explorá la lectura y los recursos de cada capítulo.",
           "chapterLabel": "Capítulo {number}",
-          "videoCta": "Abrir video",
           "webCta": "Abrir capítulo",
           "routesLabel": "Lecciones interactivas",
-          "resourcesLabel": "Recursos relacionados",
-          "noRoute": "Ninguna lección interactiva está vinculada con este capítulo."
+          "playlistCta": "Abrir en YouTube",
+          "embedTitle": "Playlist de sesiones de estudio de Mastering Ethereum"
         }
       },
       "chapters": {
@@ -586,15 +555,16 @@
       },
       "linkLabels": {
         "notes": "Abrir apuntes",
-        "slides": "Abrir slides"
+        "slides": "Abrir slides",
+        "notebooklm": "Abrir NotebookLM"
       },
       "linkStatuses": {
-        "readingInProgress": "después de la lectura"
+        "readingInProgress": "después de la lectura",
+        "comingSoon": "próximamente"
       },
       "resourcesList": {
         "simple-transactions": "Recorrido interactivo para entender cómo viajan las transacciones dentro de Ethereum.",
         "gas-auction": "Simulación interactiva para explorar fees, priority gas e inclusión de transacciones.",
-        "notebooklm": "Cuaderno complementario con notas, referencias cruzadas y apoyo para el grupo de estudio.",
         "planned-smart-contracts": "La próxima lección interactiva de InteractivETH estará dedicada a smart contracts.",
         "skills-reference": "Material extra de estudio para conectar los capítulos del libro con las lecciones de InteractivETH.",
         "security-roadmap": "Temas de seguridad y casos históricos que expanden las ideas discutidas en el libro.",
@@ -602,8 +572,7 @@
         "block-internals": "Lección interactiva para explorar la estructura interna de los bloques y sus headers.",
         "planned-evm": "Más adelante habrá una lección enfocada en la EVM y su ejecución.",
         "validator-components": "Lección interactiva para aprender cómo los validadores construyen bloques bajo restricciones.",
-        "planned-mev": "También llegará una lección futura sobre MEV y proposer-builder separation.",
-        "playlist": "Playlist con sesiones anteriores del grupo para volver a ver cuando quieras."
+        "planned-mev": "También llegará una lección futura sobre MEV y proposer-builder separation."
       }
     }
   },

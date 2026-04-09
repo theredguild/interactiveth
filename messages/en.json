@@ -485,22 +485,12 @@
       },
       "search": "Search tutorials",
       "primaryCta": "Open tutorials",
+      "introVideo": "Watch the introduction video",
+      "lumaSubscribe": "Subscribe to upcoming sessions on Luma",
+      "discordJoin": "Join the Discord community",
+      "notebookLm": "Open the NotebookLM study guide",
       "menu": {
         "open": "Open menu"
-      },
-      "panels": {
-        "current": {
-          "label": "Current chapter",
-          "value": "See what the group is studying now, join the next session, and keep the chapter close while you follow along."
-        },
-        "past": {
-          "label": "Past chapters",
-          "value": "Catch up on earlier chapters with the replay, chapter link, and supporting material in one place."
-        },
-        "resources": {
-          "label": "Resources",
-          "value": "Keep the book, notes, and replay archive nearby so it is easy to review what you learned."
-        }
       },
       "sections": {
         "current": {
@@ -518,38 +508,17 @@
           "noRoute": "No interactive lesson is linked to this chapter.",
           "embedTitle": "The Red Guild Luma calendar"
         },
-        "playlist": {
-          "frameTitle": "Replay playlist",
-          "status": "Ready to watch",
-          "kicker": "Replay archive",
-          "title": "Rewatch the study sessions",
-          "description": "Use the playlist to catch up on anything you missed or revisit a chapter before joining the next live session.",
-          "cta": "Open playlist",
-          "embedTitle": "Mastering Ethereum study sessions playlist"
-        },
-        "resources": {
-          "frameTitle": "Study resources",
-          "status": "Open for review",
-          "kicker": "Resources",
-          "title": "Keep learning between sessions",
-          "description": "Use the companion notebook to review ideas, connect concepts, and return to the topics that need another pass.",
-          "cardLabel": "NotebookLM",
-          "cardTitle": "Open study notebook",
-          "cardDescription": "A companion space for revisiting key concepts, questions, and examples from each chapter.",
-          "cta": "Open NotebookLM"
-        },
         "past": {
-          "frameTitle": "Past chapters",
+          "frameTitle": "Past sessions",
           "status": "Study archive",
-          "kicker": "Past chapters",
-          "title": "Past chapters with resources",
-          "description": "Each completed chapter stays here as a small study hub, with the reading, replay, and supporting material ready when you want to review it.",
+          "kicker": "Past sessions",
+          "title": "Past sessions",
+          "description": "Catch up with the replay, then browse each chapter's reading and resources below.",
           "chapterLabel": "Chapter {number}",
-          "videoCta": "Open video",
           "webCta": "Open chapter",
           "routesLabel": "Interactive lessons",
-          "resourcesLabel": "Related resources",
-          "noRoute": "No interactive lesson is linked to this chapter."
+          "playlistCta": "Open in YouTube",
+          "embedTitle": "Mastering Ethereum study sessions playlist"
         }
       },
       "chapters": {
@@ -586,15 +555,16 @@
       },
       "linkLabels": {
         "notes": "Open notes",
-        "slides": "Open slides"
+        "slides": "Open slides",
+        "notebooklm": "Open NotebookLM"
       },
       "linkStatuses": {
-        "readingInProgress": "after reading"
+        "readingInProgress": "after reading",
+        "comingSoon": "coming soon"
       },
       "resourcesList": {
         "simple-transactions": "Interactive walkthrough for understanding how transactions move through Ethereum.",
         "gas-auction": "Interactive simulation for exploring fees, priority gas, and transaction inclusion.",
-        "notebooklm": "Companion notebook with notes, cross-references, and study support for the reading group.",
         "planned-smart-contracts": "A dedicated InteractivETH lesson for smart contracts is planned next.",
         "skills-reference": "Extra study material used to connect book chapters with the lessons in InteractivETH.",
         "security-roadmap": "Security topics and historical case studies that expand the ideas discussed in the book.",
@@ -602,8 +572,7 @@
         "block-internals": "Interactive lesson for exploring block structure, headers, and internal fields.",
         "planned-evm": "An EVM-focused lesson is planned for a deeper look at execution.",
         "validator-components": "Interactive lesson for learning how validators build blocks under constraints.",
-        "planned-mev": "A future lesson will cover MEV and proposer-builder separation.",
-        "playlist": "Replay playlist with previous study sessions for this reading group."
+        "planned-mev": "A future lesson will cover MEV and proposer-builder separation."
       }
     }
   },

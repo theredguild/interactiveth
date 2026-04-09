@@ -1,125 +1,37 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
-import {
-  CalendarRange,
-  Command,
-  ExternalLink,
-  LibraryBig,
-  Menu,
-  PlayCircle,
-  Search,
-} from 'lucide-react';
+import { ExternalLink, Menu } from 'lucide-react';
 import { Sidebar } from '@/components/layout/sidebar';
 import { SearchModal } from '@/components/navigation/search-modal';
 
-const LUMA_EVENT_URL = 'https://luma.com/event/evt-WSD5ZSYfGtvMymJ';
-const LUMA_EVENT_EMBED_URL = 'https://luma.com/embed/event/evt-WSD5ZSYfGtvMymJ/simple';
-const YOUTUBE_PLAYLIST_EMBED_URL =
-  'https://www.youtube.com/embed/videoseries?list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_&rel=0';
-const YOUTUBE_PLAYLIST_URL =
-  'https://www.youtube.com/playlist?list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_';
-const NOTEBOOK_LM_URL = 'https://notebooklm.google.com/notebook/f46ed908-e31c-47b5-aea9-fccfb2293c2d';
+const LUMA_URL = 'https://luma.com/masteringserrano';
+const INTRO_VIDEO_URL = 'https://www.youtube.com/watch?v=67zwkh_cC6Q';
 const MASTERING_ETHEREUM_URL = 'https://masteringethereum.xyz';
 const DISCORD_INVITE_URL = 'https://discord.com/invite/eegRCDmwbM';
+const NOTEBOOK_LM_URL = 'https://notebooklm.google.com/notebook/f46ed908-e31c-47b5-aea9-fccfb2293c2d';
+const CHAPTER_1_NOTES_URL = '/notes/chapter-1';
 const CHAPTER_1_SLIDES_URL =
   'https://drive.google.com/file/d/1kZLWj9N8C96wh-Ow2iV1D-Q9G_IU_4CU/view?usp=drive_link';
-const CHAPTER_1_NOTES_URL = '/notes/chapter-1';
-type LessonLink = {
-  slug: string;
-  translationKey: string;
-};
-
-type ResourceLink = {
-  labelKey: string;
-  url?: string;
-  unavailableKey?: string;
-  prominent: boolean;
-};
-
-function resolveHref(locale: string, href: string) {
-  return href.startsWith('/') ? `/${locale}${href}` : href;
-}
-
-const CURRENT_CHAPTER = {
-  slug: 'chapter-2',
-  chapterNumber: 2,
-  chapterUrl: 'https://masteringethereum.xyz/chapter_2.html',
-  lessonLinks: [
-    {
-      slug: 'transactions',
-      translationKey: 'transactions',
-    },
-    {
-      slug: 'gas',
-      translationKey: 'gas',
-    },
-  ] as LessonLink[],
-  resources: ['notebooklm', 'playlist'],
-  resourceLinks: [
-    {
-      labelKey: 'notes',
-      unavailableKey: 'readingInProgress',
-      prominent: false,
-    },
-  ] as ResourceLink[],
-} as const;
+const CHAPTER_1_YOUTUBE_URL =
+  'https://www.youtube.com/playlist?list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_';
 
 const PAST_CHAPTERS = [
   {
     slug: 'chapter-1',
-    chapterNumber: 1,
+    number: 1,
     chapterUrl: 'https://masteringethereum.xyz/chapter_1.html',
-    lessonLinks: [] as LessonLink[],
-    resources: ['playlist', 'notebooklm'],
-    resourceLinks: [
-      {
-        labelKey: 'notes',
-        url: CHAPTER_1_NOTES_URL,
-        prominent: true,
-      },
-      {
-        labelKey: 'slides',
-        url: CHAPTER_1_SLIDES_URL,
-        prominent: false,
-      },
-    ] as ResourceLink[],
+    youtubeUrl: CHAPTER_1_YOUTUBE_URL,
+    links: [
+      { label: 'notes', url: CHAPTER_1_NOTES_URL },
+      { label: 'slides', url: CHAPTER_1_SLIDES_URL },
+    ],
   },
 ] as const;
 
-function TerminalFrame({
-  children,
-  title,
-  status,
-}: {
-  children: React.ReactNode;
-  title: string;
-  status: string;
-}) {
-  return (
-    <div className="relative overflow-hidden rounded-[24px] border border-white/8 bg-card/88 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-sm">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      <div className="relative border-b border-white/8 px-5 py-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-primary/70">
-            <div className="flex gap-1.5">
-              <span className="size-2 rounded-full bg-primary/75" />
-              <span className="size-2 rounded-full bg-accent/45" />
-              <span className="size-2 rounded-full bg-white/18" />
-            </div>
-            <span>{title}</span>
-          </div>
-          <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.32em] text-primary-foreground/80 ring-1 ring-inset ring-primary/18">
-            {status}
-          </span>
-        </div>
-      </div>
-      <div className="relative p-5 sm:p-6">{children}</div>
-    </div>
-  );
+function resolveHref(locale: string, href: string) {
+  return href.startsWith('/') ? `/${locale}${href}` : href;
 }
 
 export default function LandingPage() {
@@ -135,7 +47,6 @@ export default function LandingPage() {
         setSearchOpen((previous) => !previous);
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
@@ -161,491 +72,118 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(164,114,255,0.18),transparent_28%),linear-gradient(180deg,rgba(12,11,20,0.96),rgba(9,9,16,1))]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(164,114,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.04)_1px,transparent_1px)] bg-[size:48px_48px] opacity-20" />
 
-        <div className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-12 pt-20 sm:px-6 lg:px-10 lg:pt-10">
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="mb-10 border-b border-white/8 pb-8 sm:pb-10"
-          >
-            <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="max-w-3xl">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.34em] text-primary/80 ring-1 ring-inset ring-primary/14">
-                  <span className="size-2 rounded-full bg-primary shadow-[0_0_14px_rgba(164,114,255,0.7)]" />
-                  {t('landing.frontPage.badge')}
-                </div>
+        <div className="relative mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center gap-10 px-4 py-16 sm:px-6">
 
-                <h1 className="max-w-4xl font-mono text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl lg:text-6xl">
-                  {t('landing.frontPage.title')}
-                </h1>
-
-                <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                  {t('landing.frontPage.subtitle')}
-                </p>
-
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
-                  {t('landing.frontPage.studyGroup.prefix')}{' '}
-                  <a
-                    href={MASTERING_ETHEREUM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-primary underline decoration-primary/40 underline-offset-4 transition hover:text-accent hover:decoration-accent/50"
-                  >
-                    {t('landing.frontPage.studyGroup.linkLabel')}
-                  </a>
-                  .
-                </p>
-              </div>
-
-              <div className="flex flex-col items-start gap-3 sm:flex-row lg:flex-col lg:items-end">
-                  <button
-                    type="button"
-                    onClick={() => setSearchOpen(true)}
-                    className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
-                  >
-                  <Search className="size-4" />
-                  {t('landing.frontPage.search')}
-                  <kbd className="ml-1 hidden rounded border border-primary/20 bg-background/40 px-1.5 text-[10px] text-primary/80 sm:inline-flex">
-                    <Command className="size-2.5" />K
-                  </kbd>
-                </button>
-
-                  <Link
-                    href={`/${locale}/transactions`}
-                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
-                  >
-                  {t('landing.frontPage.primaryCta')}
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid gap-4 text-sm text-muted-foreground md:grid-cols-3 md:divide-x md:divide-white/8">
-              <div className="px-0 py-1 md:pr-4">
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-primary/65">
-                  {t('landing.frontPage.panels.current.label')}
-                </p>
-                <p>{t('landing.frontPage.panels.current.value')}</p>
-              </div>
-              <div className="px-0 py-1 md:px-4">
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-accent/80">
-                  {t('landing.frontPage.panels.past.label')}
-                </p>
-                <p>{t('landing.frontPage.panels.past.value')}</p>
-              </div>
-              <div className="px-0 py-1 md:pl-4">
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.28em] text-primary/65">
-                  {t('landing.frontPage.panels.resources.label')}
-                </p>
-                <p>{t('landing.frontPage.panels.resources.value')}</p>
-              </div>
-            </div>
-          </motion.section>
-
-          <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
-            <motion.section
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08, duration: 0.45, ease: 'easeOut' }}
-            >
-              <TerminalFrame
-                title={t('landing.frontPage.sections.current.frameTitle')}
-                status={t('landing.frontPage.sections.current.status')}
+          {/* Hero */}
+          <div>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+              {t('landing.frontPage.badge')}
+            </p>
+            <h1 className="font-mono text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              {t('landing.frontPage.title')}
+            </h1>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              {t('landing.frontPage.subtitle')}
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {t('landing.frontPage.studyGroup.prefix')}{' '}
+              <a
+                href={MASTERING_ETHEREUM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline decoration-primary/30 underline-offset-4 transition hover:text-accent"
               >
-                <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                  <div className="max-w-2xl">
-                    <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/16 bg-primary/8 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-primary/75">
-                      <CalendarRange className="size-3.5" />
-                      {t('landing.frontPage.sections.current.kicker')}
-                    </div>
-                    <h2 className="font-mono text-2xl font-semibold text-foreground sm:text-3xl">
-                      {t('landing.frontPage.sections.current.title')}
-                    </h2>
-                    <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
-                      {t('landing.frontPage.sections.current.description')}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-3">
-                    <a
-                      href={CURRENT_CHAPTER.chapterUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-secondary/40 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
-                    >
-                      {t('landing.frontPage.sections.current.chapterCta')}
-                      <ExternalLink className="size-4" />
-                    </a>
-                    <a
-                      href={LUMA_EVENT_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
-                    >
-                      {t('landing.frontPage.sections.current.eventCta')}
-                      <ExternalLink className="size-4" />
-                    </a>
-                    <a
-                      href={DISCORD_INVITE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-secondary/40 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
-                    >
-                      {t('landing.frontPage.sections.current.discordCta')}
-                      <ExternalLink className="size-4" />
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mb-6 border-y border-white/8 py-5">
-                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                    <div className="max-w-2xl">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary/70">
-                        {t('landing.frontPage.sections.current.chapterLabel', {
-                          number: CURRENT_CHAPTER.chapterNumber,
-                        })}
-                      </p>
-                      <h3 className="mt-2 text-xl font-semibold text-foreground sm:text-2xl">
-                        {t(`landing.frontPage.chapters.${CURRENT_CHAPTER.slug}.title`)}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 grid gap-6 xl:grid-cols-[1fr_1fr]">
-                    <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:border-r xl:border-white/8 xl:pt-0 xl:pr-6">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
-                        {t('landing.frontPage.sections.current.routesLabel')}
-                      </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {CURRENT_CHAPTER.lessonLinks.length > 0 ? (
-                          CURRENT_CHAPTER.lessonLinks.map((lesson) => (
-                            <Link
-                              key={lesson.slug}
-                              href={`/${locale}/${lesson.slug}`}
-                              className="rounded-full border border-border bg-secondary/45 px-3 py-1.5 text-sm text-foreground transition hover:border-primary/20 hover:bg-secondary/70"
-                            >
-                              {t(`sidebar.${lesson.translationKey}`)}
-                            </Link>
-                          ))
-                        ) : (
-                          <span className="text-sm text-muted-foreground">
-                            {t('landing.frontPage.sections.current.noRoute')}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:pl-2">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
-                        {t('landing.frontPage.sections.current.resourcesLabel')}
-                      </p>
-                      <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                        {CURRENT_CHAPTER.resources.map((resource) => (
-                          <li key={resource} className="flex items-start gap-2">
-                            <span className="mt-1 size-1.5 rounded-full bg-accent/80" />
-                            <span>{t(`landing.frontPage.resourcesList.${resource}`)}</span>
-                          </li>
-                        ))}
-                      </ul>
-
-                      {CURRENT_CHAPTER.resourceLinks && CURRENT_CHAPTER.resourceLinks.length > 0 ? (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {CURRENT_CHAPTER.resourceLinks.map((resourceLink) => {
-                            const label = t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`);
-
-                            if (resourceLink.url) {
-                              return (
-                                <a
-                                  key={resourceLink.url}
-                                  href={resolveHref(locale, resourceLink.url)}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/14 ring-1 ring-inset ring-primary/18"
-                                >
-                                  {label}
-                                  <ExternalLink className="size-4" />
-                                </a>
-                              );
-                            }
-
-                            const unavailableKey =
-                              resourceLink.unavailableKey ?? 'readingInProgress';
-
-                            return (
-                              <span
-                                key={`${resourceLink.labelKey}-${resourceLink.unavailableKey}`}
-                                className="inline-flex items-center gap-2 rounded-full bg-secondary/45 px-3 py-2 text-sm text-muted-foreground ring-1 ring-inset ring-white/10"
-                              >
-                                <span>{label}</span>
-                                <span className="text-xs uppercase tracking-[0.2em] text-primary/70">
-                                  {t(`landing.frontPage.linkStatuses.${unavailableKey}`)}
-                                </span>
-                              </span>
-                            );
-                          })}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-[18px] bg-black/20 ring-1 ring-inset ring-white/8">
-                  <iframe
-                    src={LUMA_EVENT_EMBED_URL}
-                    title={t('landing.frontPage.sections.current.embedTitle')}
-                    allow="fullscreen; payment"
-                    className="h-[450px] w-full md:h-[520px]"
-                    loading="lazy"
-                  />
-                </div>
-              </TerminalFrame>
-            </motion.section>
-
-            <div className="grid gap-6">
-              <motion.section
-                initial={{ opacity: 0, y: 28 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.14, duration: 0.45, ease: 'easeOut' }}
-              >
-                <TerminalFrame
-                  title={t('landing.frontPage.sections.playlist.frameTitle')}
-                  status={t('landing.frontPage.sections.playlist.status')}
-                >
-                  <div className="mb-5 flex items-start justify-between gap-4">
-                    <div>
-                      <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-accent/90 ring-1 ring-inset ring-accent/18">
-                        <PlayCircle className="size-3.5" />
-                        {t('landing.frontPage.sections.playlist.kicker')}
-                      </div>
-                      <h2 className="font-mono text-2xl font-semibold text-foreground">
-                        {t('landing.frontPage.sections.playlist.title')}
-                      </h2>
-                    </div>
-                  </div>
-
-                  <p className="mb-5 text-sm leading-7 text-muted-foreground">
-                    {t('landing.frontPage.sections.playlist.description')}
-                  </p>
-
-                  <div className="overflow-hidden rounded-[18px] bg-black/20 ring-1 ring-inset ring-white/8">
-                    <iframe
-                      src={YOUTUBE_PLAYLIST_EMBED_URL}
-                      title={t('landing.frontPage.sections.playlist.embedTitle')}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="aspect-video w-full"
-                      loading="lazy"
-                    />
-                  </div>
-
-                  <a
-                    href={YOUTUBE_PLAYLIST_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent transition hover:text-accent/80"
-                  >
-                    {t('landing.frontPage.sections.playlist.cta')}
-                    <ExternalLink className="size-4" />
-                  </a>
-                </TerminalFrame>
-              </motion.section>
-
-              <motion.section
-                initial={{ opacity: 0, y: 28 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.45, ease: 'easeOut' }}
-              >
-                <TerminalFrame
-                  title={t('landing.frontPage.sections.resources.frameTitle')}
-                  status={t('landing.frontPage.sections.resources.status')}
-                >
-                  <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-primary/75 ring-1 ring-inset ring-primary/16">
-                    <LibraryBig className="size-3.5" />
-                    {t('landing.frontPage.sections.resources.kicker')}
-                  </div>
-
-                  <h2 className="font-mono text-2xl font-semibold text-foreground">
-                    {t('landing.frontPage.sections.resources.title')}
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    {t('landing.frontPage.sections.resources.description')}
-                  </p>
-
-                  <div className="mt-6 bg-primary/6 p-5 ring-1 ring-inset ring-primary/14">
-                    <p className="font-mono text-sm uppercase tracking-[0.24em] text-primary/75">
-                      {t('landing.frontPage.sections.resources.cardLabel')}
-                    </p>
-                    <p className="mt-3 text-base text-foreground">
-                      {t('landing.frontPage.sections.resources.cardTitle')}
-                    </p>
-                    <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                      {t('landing.frontPage.sections.resources.cardDescription')}
-                    </p>
-
-                    <a
-                      href={NOTEBOOK_LM_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
-                    >
-                      {t('landing.frontPage.sections.resources.cta')}
-                      <ExternalLink className="size-4" />
-                    </a>
-                  </div>
-                </TerminalFrame>
-              </motion.section>
-            </div>
+                {t('landing.frontPage.studyGroup.linkLabel')}
+              </a>
+              .
+            </p>
           </div>
 
-          <motion.section
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.26, duration: 0.45, ease: 'easeOut' }}
-            className="mt-6"
-          >
-            <TerminalFrame
-              title={t('landing.frontPage.sections.past.frameTitle')}
-              status={t('landing.frontPage.sections.past.status')}
-            >
-              <div className="mb-6 max-w-3xl">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/16 bg-primary/8 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-primary/75">
-                  <LibraryBig className="size-3.5" />
-                  {t('landing.frontPage.sections.past.kicker')}
+          {/* Links */}
+          <nav className="flex flex-col">
+            {[
+              { label: t('landing.frontPage.introVideo'), href: INTRO_VIDEO_URL },
+              { label: t('landing.frontPage.lumaSubscribe'), href: LUMA_URL },
+              { label: t('landing.frontPage.discordJoin'), href: DISCORD_INVITE_URL },
+              { label: t('landing.frontPage.notebookLm'), href: NOTEBOOK_LM_URL },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between border-b border-white/8 py-4 transition hover:border-primary/30"
+              >
+                <span className="text-sm font-medium text-foreground">
+                  {link.label}
+                </span>
+                <ExternalLink className="size-4 text-muted-foreground transition group-hover:text-primary" />
+              </a>
+            ))}
+          </nav>
+
+          {/* Past chapters */}
+          {PAST_CHAPTERS.length > 0 && (
+            <div>
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+                {t('landing.frontPage.sections.past.kicker')}
+              </p>
+              {PAST_CHAPTERS.map((chapter) => (
+                <div
+                  key={chapter.slug}
+                  className="border-l-2 border-white/10 py-2 pl-4"
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-sm font-medium text-foreground">
+                      {t('landing.frontPage.sections.past.chapterLabel', {
+                        number: chapter.number,
+                      })}
+                    </span>
+                    <span className="text-white/16">&mdash;</span>
+                    <a
+                      href={chapter.chapterUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground transition hover:text-primary"
+                    >
+                      {t('landing.frontPage.sections.past.webCta')}
+                    </a>
+                    {chapter.youtubeUrl ? (
+                      <a
+                        href={chapter.youtubeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-muted-foreground transition hover:text-primary"
+                      >
+                        {t('landing.frontPage.sections.past.playlistCta')}
+                      </a>
+                    ) : (
+                      <span className="group/coming-soon relative inline-flex cursor-not-allowed text-sm text-muted-foreground/70">
+                        <span>{t('landing.frontPage.sections.past.playlistCta')}</span>
+                        <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md border border-primary/20 bg-card/95 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-primary opacity-0 shadow-lg shadow-black/30 transition group-hover/coming-soon:opacity-100">
+                          {t('landing.frontPage.linkStatuses.comingSoon')}
+                        </span>
+                      </span>
+                    )}
+                    {chapter.links.map((link) => (
+                      <a
+                        key={link.url}
+                        href={resolveHref(locale, link.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-muted-foreground transition hover:text-primary"
+                      >
+                        {t(`landing.frontPage.linkLabels.${link.label}`)}
+                      </a>
+                    ))}
+                  </div>
                 </div>
+              ))}
+            </div>
+          )}
 
-                <h2 className="font-mono text-2xl font-semibold text-foreground sm:text-3xl">
-                  {t('landing.frontPage.sections.past.title')}
-                </h2>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">
-                  {t('landing.frontPage.sections.past.description')}
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {PAST_CHAPTERS.map((chapter) => (
-                  <article
-                    key={chapter.slug}
-                    className="bg-secondary/16 p-5 ring-1 ring-inset ring-white/8"
-                  >
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                      <div className="max-w-2xl">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary/70">
-                          {t('landing.frontPage.sections.past.chapterLabel', {
-                            number: chapter.chapterNumber,
-                          })}
-                        </p>
-                        <h3 className="mt-2 text-xl font-semibold text-foreground">
-                          {t(`landing.frontPage.chapters.${chapter.slug}.title`)}
-                        </h3>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2">
-                        <a
-                            href={YOUTUBE_PLAYLIST_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition hover:bg-accent/16 ring-1 ring-inset ring-accent/18"
-                          >
-                            {t('landing.frontPage.sections.past.videoCta')}
-                            <ExternalLink className="size-4" />
-                          </a>
-                        <a
-                          href={chapter.chapterUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/16 ring-1 ring-inset ring-primary/18"
-                          >
-                            {t('landing.frontPage.sections.past.webCta')}
-                            <ExternalLink className="size-4" />
-                          </a>
-                          {chapter.resourceLinks
-                            ?.filter(
-                              (resourceLink): resourceLink is ResourceLink & { url: string } =>
-                                Boolean(resourceLink.url) && resourceLink.prominent,
-                            )
-                            .map((resourceLink) => (
-                              <a
-                                key={resourceLink.url}
-                                href={resolveHref(locale, resourceLink.url)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-full bg-secondary/40 px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary/60 ring-1 ring-inset ring-white/10"
-                              >
-                                {t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`)}
-                                <ExternalLink className="size-4" />
-                              </a>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="mt-5 grid gap-6 xl:grid-cols-[1fr_1fr]">
-                      <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:border-r xl:border-white/8 xl:pt-0 xl:pr-6">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
-                          {t('landing.frontPage.sections.past.routesLabel')}
-                        </p>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {chapter.lessonLinks.length > 0 ? (
-                            chapter.lessonLinks.map((lesson) => (
-                              <Link
-                                key={lesson.slug}
-                                href={`/${locale}/${lesson.slug}`}
-                                className="rounded-full border border-border bg-secondary/45 px-3 py-1.5 text-sm text-foreground transition hover:border-primary/20 hover:bg-secondary/70"
-                              >
-                                {t(`sidebar.${lesson.translationKey}`)}
-                              </Link>
-                            ))
-                          ) : (
-                            <span className="text-sm text-muted-foreground">
-                              {t('landing.frontPage.sections.past.noRoute')}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="border-t border-white/8 pt-4 xl:border-t-0 xl:pl-2">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-primary/65">
-                          {t('landing.frontPage.sections.past.resourcesLabel')}
-                        </p>
-                        <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                          {chapter.resources.map((resource) => (
-                            <li key={resource} className="flex items-start gap-2">
-                              <span className="mt-1 size-1.5 rounded-full bg-accent/80" />
-                              <span>{t(`landing.frontPage.resourcesList.${resource}`)}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        {chapter.resourceLinks && chapter.resourceLinks.length > 0 ? (
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {chapter.resourceLinks
-                              .filter(
-                                (resourceLink): resourceLink is ResourceLink & { url: string } =>
-                                  Boolean(resourceLink.url),
-                              )
-                              .map((resourceLink) => (
-                              <a
-                                key={resourceLink.url}
-                                href={resolveHref(locale, resourceLink.url)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/14 ring-1 ring-inset ring-primary/18"
-                              >
-                                {t(`landing.frontPage.linkLabels.${resourceLink.labelKey}`)}
-                                <ExternalLink className="size-4" />
-                              </a>
-                              ))}
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </TerminalFrame>
-          </motion.section>
-
-          <footer className="mt-10 border-t border-primary/10 px-2 pt-6 text-sm text-muted-foreground">
-            <p>{t('footer.attribution')}</p>
-            <p className="mt-1">{t('footer.bookCredit')}</p>
+          <footer className="text-xs text-muted-foreground">
+            <p>{t('footer.bookCredit')}</p>
           </footer>
         </div>
       </main>
