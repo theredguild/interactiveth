@@ -4,6 +4,9 @@
 Interactive educational visualizations for Ethereum protocol concepts, based on [Mastering Ethereum](https://github.com/ethereumbook/ethereumbook).
 
 ### Recent Updates
+- 2026-04-09: Added a per-chapter YouTube CTA to the landing-page chapter archive, using a hoverable “coming soon” state when a chapter still has no video URL.
+- 2026-04-09: Added the missing `landing.frontPage.notebookLm` translation to both locale files so the front-page NotebookLM CTA resolves correctly in Spanish and English.
+- 2026-04-09: Restored landing-page translation parity for the new Discord CTA by adding `landing.frontPage.discordJoin` to both `messages/en.json` and `messages/es.json`, fixing the Spanish runtime error on `/{locale}`.
 - 2026-04-07: Added a Discord invite CTA to the current chapter area on the front page so people can join the study-group coordination space directly from the landing page.
 - 2026-04-07: Removed the dead Chapter 2 notes link from the front page and replaced it with a non-clickable "after reading" status until those notes actually exist.
 - 2026-04-07: Updated the front page chapter-link model to use explicit lesson mappings and linked Chapter 2 to the existing Transactions and Gas lessons, based on the chapter’s focus on wallets, transactions, and gas basics.
