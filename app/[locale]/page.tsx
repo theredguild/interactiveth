@@ -70,7 +70,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(164,114,255,0.18),transparent_28%),linear-gradient(180deg,rgba(12,11,20,0.96),rgba(9,9,16,1))]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(164,114,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.04)_1px,transparent_1px)] bg-[size:48px_48px] opacity-20" />
 
-        <div className="relative w-full px-6 py-8 sm:px-10 lg:px-14 xl:px-20">
+        <div className="relative w-full py-8 px-6 sm:px-10 lg:pl-14 lg:pr-6 xl:pl-20 xl:pr-0">
           <div className="grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_3fr_1fr]">
 
             {/* Capítulos pasados */}
@@ -167,10 +167,10 @@ export default function LandingPage() {
                       href={LUMA_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
+                      className="inline-flex w-fit items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-white/40 hover:bg-white/10 hover:text-foreground"
                     >
                       {t('landing.frontPage.cta.lumaCta')}
-                      <ExternalLink className="size-3" />
+                      <ExternalLink className="size-3.5" />
                     </a>
                   </div>
                 </div>
