@@ -70,25 +70,25 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(164,114,255,0.18),transparent_28%),linear-gradient(180deg,rgba(12,11,20,0.96),rgba(9,9,16,1))]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(164,114,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.04)_1px,transparent_1px)] bg-[size:48px_48px] opacity-20" />
 
-        <div className="relative w-full py-8 px-6 sm:px-10 lg:pl-14 lg:pr-6 xl:pl-20 xl:pr-0">
-          <div className="grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_3fr_1fr]">
+        <div className="relative w-full px-6 py-8 sm:px-8 lg:px-12">
+          <div className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_2.5fr_1fr]">
 
             {/* Capítulos pasados */}
             {PAST_CHAPTERS.length > 0 && (
               <div>
-                <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+                <p className="mb-4 font-mono text-sm uppercase tracking-[0.3em] text-primary/70">
                   {t('landing.frontPage.sections.past.kicker')}
                 </p>
                 {PAST_CHAPTERS.map((chapter) => (
-                  <div key={chapter.slug} className="border-l-2 border-white/10 py-2 pl-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-sm font-medium text-foreground">
+                  <div key={chapter.slug} className="border-l-2 border-white/10 py-3 pl-4">
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-base font-medium text-foreground">
                         {t('landing.frontPage.sections.past.chapterLabel', { number: chapter.number })}
                       </span>
-                      <span className="text-xs text-muted-foreground/60">
+                      <span className="text-sm text-muted-foreground/60">
                         {t(`landing.frontPage.chapters.${chapter.slug}.name`)}
                       </span>
-                      <div className="flex gap-3 pt-1">
+                      <div className="flex flex-wrap gap-2 pt-1.5">
                         <a href={chapter.chapterUrl} target="_blank" rel="noopener noreferrer" title="Open chapter" className="rounded-md border border-white/10 px-2 py-0.5 text-sm text-muted-foreground transition hover:border-primary/40 hover:text-primary">
                           {t('landing.frontPage.sections.past.webCta')}
                         </a>
@@ -191,11 +191,11 @@ export default function LandingPage() {
             </div>
 
             {/* Contribuidores */}
-            <div>
-              <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+            <div className="lg:text-right">
+              <p className="mb-4 font-mono text-sm uppercase tracking-[0.3em] text-primary/70">
                 {t('landing.frontPage.contributors.kicker')}
               </p>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4 lg:items-end">
                 {[
                   { handle: 'd4rm_', name: 'dantesito', url: 'https://x.com/d4rm_' },
                   { handle: 'mattaereal', name: 'matta', url: 'https://x.com/mattaereal' },
@@ -205,18 +205,18 @@ export default function LandingPage() {
                     href={contributor.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2.5 transition"
+                    className="group flex items-center gap-3 transition lg:flex-row-reverse"
                   >
-                    <Avatar className="size-7 ring-1 ring-white/10 transition group-hover:ring-primary/40">
+                    <Avatar className="size-9 ring-1 ring-white/10 transition group-hover:ring-primary/40">
                       <AvatarImage
                         src={`https://unavatar.io/twitter/${contributor.handle}`}
                         alt={contributor.name}
                       />
-                      <AvatarFallback className="text-[10px] text-muted-foreground">
+                      <AvatarFallback className="text-xs text-muted-foreground">
                         {contributor.name[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="text-sm text-muted-foreground transition group-hover:text-foreground">
+                    <span className="text-base text-muted-foreground transition group-hover:text-foreground">
                       {contributor.name}
                     </span>
                   </a>
