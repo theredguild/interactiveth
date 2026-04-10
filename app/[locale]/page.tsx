@@ -70,7 +70,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(164,114,255,0.18),transparent_28%),linear-gradient(180deg,rgba(12,11,20,0.96),rgba(9,9,16,1))]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(164,114,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.04)_1px,transparent_1px)] bg-[size:48px_48px] opacity-20" />
 
-        <div className="relative mx-auto w-full max-w-6xl px-6 py-8 sm:px-10">
+        <div className="relative w-full px-6 py-8 sm:px-10 lg:px-14 xl:px-20">
           <div className="grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_3fr_1fr]">
 
             {/* Capítulos pasados */}
