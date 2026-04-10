@@ -3,6 +3,24 @@
 ## Project Overview
 Interactive educational visualizations for Ethereum protocol concepts, based on [Mastering Ethereum](https://github.com/ethereumbook/ethereumbook).
 
+### Recent Updates
+- 2026-04-09: Added a per-chapter YouTube CTA to the landing-page chapter archive, using a hoverable “coming soon” state when a chapter still has no video URL.
+- 2026-04-09: Added the missing `landing.frontPage.notebookLm` translation to both locale files so the front-page NotebookLM CTA resolves correctly in Spanish and English.
+- 2026-04-09: Restored landing-page translation parity for the new Discord CTA by adding `landing.frontPage.discordJoin` to both `messages/en.json` and `messages/es.json`, fixing the Spanish runtime error on `/{locale}`.
+- 2026-04-07: Added a Discord invite CTA to the current chapter area on the front page so people can join the study-group coordination space directly from the landing page.
+- 2026-04-07: Removed the dead Chapter 2 notes link from the front page and replaced it with a non-clickable "after reading" status until those notes actually exist.
+- 2026-04-07: Updated the front page chapter-link model to use explicit lesson mappings and linked Chapter 2 to the existing Transactions and Gas lessons, based on the chapter’s focus on wallets, transactions, and gas basics.
+- 2026-04-07: Added English note translations under `notes/translations/en/` and updated the notes page to render localized content, with an English-only notice that translations were produced using GPT-5.4.
+- 2026-04-07: Made the sidebar discover chapter notes dynamically from `notes/chapters/` through an API route, so new Markdown notes appear automatically without manual nav updates.
+- 2026-04-07: Installed `marked` and converted chapter notes into rendered in-app pages under `/{locale}/notes/[slug]`, with a banner clarifying that notes are currently available only in Spanish.
+- 2026-04-07: Replaced the Chapter 1 notes placeholder with detailed study notes in `notes/chapters/chapter-1.md`, preserving links to the slide deck and replay playlist.
+- 2026-04-07: Added a versioned `notes/chapters/` workspace plus a `/notes/[slug]` route so each study chapter can link to Markdown notes directly from the front page.
+- 2026-04-07: Added the Chapter 1 slide deck to the front-page archive as a direct resource link while keeping the shared YouTube playlist as the replay entry point.
+- 2026-04-07: Adjusted the front page study sequence so the current chapter points to Chapter 2 via the Luma embed and the archive starts with Chapter 1 while reusing the shared playlist for replay access.
+- 2026-04-07: Refocused the localized front page around the current chapter, with the Luma embed as the primary study surface, a dedicated playlist replay panel, and an archive of past chapters with linked InteractivETH resources.
+- 2026-04-06: Reworked the localized landing page into a minimalist hacker-style front page with embedded Luma and YouTube study surfaces plus a NotebookLM resource entry point.
+- 2026-04-06: Added a chapter directory to the front page with Mastering Ethereum chapter links, replay access, InteractivETH routes, and related project resources.
+
 ---
 
 ## Completed Tutorials
@@ -279,7 +297,7 @@ t('simulator.validator.gasUsed', { used: 15000000, limit: 30000000 });
 ---
 
 ## Last Updated
-Date: 2026-04-02  
+Date: 2026-04-07  
 Current Status: ✅ All 3 block-building tutorials complete (Validator, Gas, Block Internals)
 Next Milestone: Smart Contracts tutorial
 

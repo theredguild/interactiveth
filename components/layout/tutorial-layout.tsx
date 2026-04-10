@@ -30,7 +30,7 @@ export function TutorialLayout({ children }: TutorialLayoutProps) {
   return (
     <div className="flex min-h-screen bg-background">
       {/* Mobile Menu Button */}
-      <MobileMenuButton onClick={() => setSidebarOpen(true)} />
+      <MobileMenuButton onClickAction={() => setSidebarOpen(true)} />
       
       {/* Sidebar */}
       <Sidebar 

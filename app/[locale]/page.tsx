@@ -1,183 +1,48 @@
 'use client';
 
-import { useTranslations, useLocale } from 'next-intl';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { 
-  ArrowRight, 
-  Crown, 
-  Zap, 
-  Binary,
-  Shield,
-  Code,
-  Cpu,
-  Timer,
-  ExternalLink,
-  MessageCircle,
-  Play,
-  Search,
-  Command,
-  Menu,
-} from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { BookOpen, ExternalLink, Menu } from 'lucide-react';
 import { Sidebar } from '@/components/layout/sidebar';
-import { useState, useEffect } from 'react';
 import { SearchModal } from '@/components/navigation/search-modal';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-const LEARNING_CARDS = [
-  {
-    key: 'transactions',
-    icon: ArrowRight,
-    href: '/transactions',
-    difficulty: 'beginner' as const,
-  },
-  {
-    key: 'validator',
-    icon: Crown,
-    href: '/validator',
-    difficulty: 'intermediate' as const,
-  },
-  {
-    key: 'gas',
-    icon: Zap,
-    href: '/gas',
-    difficulty: 'intermediate' as const,
-  },
-  {
-    key: 'blockInternals',
-    icon: Binary,
-    href: '/block-internals',
-    difficulty: 'intermediate' as const,
-  },
-  {
-    key: 'security',
-    icon: Shield,
-    href: '/security',
-    difficulty: 'advanced' as const,
-  },
-];
+const LUMA_URL = 'https://luma.com/masteringserrano';
+const MASTERING_ETHEREUM_URL = 'https://masteringethereum.xyz';
+const DISCORD_INVITE_URL = 'https://discord.com/invite/eegRCDmwbM';
+const CHAPTER_1_NOTES_URL = '/notes/chapter-1';
+const CHAPTER_1_SLIDES_URL =
+  'https://drive.google.com/file/d/1kZLWj9N8C96wh-Ow2iV1D-Q9G_IU_4CU/view?usp=drive_link';
+const CHAPTER_1_YOUTUBE_URL =
+  'https://www.youtube.com/playlist?list=PLvTXryB-aeclKsDmbPj3WKPdtBmZ5_xZX';
+const PLAYLIST_EMBED_URL =
+  'https://www.youtube.com/embed/videoseries?list=PLvTXryB-aeclKsDmbPj3WKPdtBmZ5_xZX';
 
-const DIFFICULTY_BADGES = {
-  beginner: { label: 'beginner', color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' },
-  intermediate: { label: 'intermediate', color: 'text-yellow-500', bg: 'bg-yellow-500/10 border-yellow-500/20' },
-  advanced: { label: 'advanced', color: 'text-red-500', bg: 'bg-red-500/10 border-red-500/20' },
-};
-
-const COMING_SOON_CARDS = [
+const PAST_CHAPTERS = [
   {
-    key: 'smartContracts',
-    icon: Code,
+    slug: 'chapter-1',
+    number: 1,
+    chapterUrl: 'https://masteringethereum.xyz/chapter_1.html',
+    youtubeUrl: CHAPTER_1_YOUTUBE_URL,
+    links: [
+      { label: 'notes', url: CHAPTER_1_NOTES_URL },
+      { label: 'slides', url: CHAPTER_1_SLIDES_URL },
+    ],
   },
-  {
-    key: 'evm',
-    icon: Cpu,
-  },
-  {
-    key: 'mev',
-    icon: Timer,
-  },
-];
-
-// Animated Ethereum diamond SVG
-function EthereumDiamond({ className = '' }: { className?: string }) {
-  return (
-    <svg 
-      viewBox="0 0 256 417" 
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path 
-        d="M127.961 0l-2.795 9.5v275.668l2.795 2.79 127.962-75.638z" 
-        fill="currentColor" 
-        opacity="0.6"
-      />
-      <path 
-        d="M127.962 0L0 212.32l127.962 75.639V154.158z" 
-        fill="currentColor" 
-        opacity="0.4"
-      />
-      <path 
-        d="M127.961 312.187l-1.575 1.92v98.199l1.575 4.601L256 236.587z" 
-        fill="currentColor" 
-        opacity="0.5"
-      />
-      <path 
-        d="M127.962 416.905v-104.72L0 236.585z" 
-        fill="currentColor" 
-        opacity="0.3"
-      />
-      <path 
-        d="M127.961 287.958l127.96-75.637-127.96-58.162z" 
-        fill="currentColor" 
-        opacity="0.7"
-      />
-      <path 
-        d="M0 212.32l127.96 75.638v-154.16z" 
-        fill="currentColor" 
-        opacity="0.5"
-      />
-    </svg>
-  );
-}
-
-// Floating particles background - only renders on client to avoid hydration mismatch
-function FloatingParticles() {
-  const [mounted, setMounted] = useState(false);
-  const [particles] = useState(() =>
-    Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      delay: Math.random() * 5,
-      duration: Math.random() * 10 + 10,
-    }))
-  );
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full bg-primary/20"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.6, 0.2],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-    </div>
-  );
-}
+] as const;
 
 export default function LandingPage() {
   const t = useTranslations();
-  const td = useTranslations('difficulty');
   const locale = useLocale();
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Keyboard shortcut for search
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setSearchOpen(prev => !prev);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+        setSearchOpen((previous) => !previous);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -185,319 +50,184 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Mobile Menu Button */}
+    <div className="flex min-h-screen bg-background text-foreground">
       <button
+        type="button"
         onClick={() => setSidebarOpen(true)}
-        className="fixed top-4 left-4 z-40 rounded-lg border border-border bg-card p-2 shadow-sm lg:hidden"
-        aria-label="Open menu"
+        className="fixed left-4 top-4 z-40 rounded-xl border border-primary/20 bg-card/90 p-2.5 text-primary shadow-lg shadow-black/30 backdrop-blur lg:hidden"
+        aria-label={t('landing.frontPage.menu.open')}
       >
         <Menu className="size-5" />
       </button>
-      
-      {/* Sidebar */}
-      <Sidebar 
-        isOpen={sidebarOpen} 
+
+      <Sidebar
+        isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onSearchOpen={() => setSearchOpen(true)}
       />
-      
-      {/* Main Content - Full width for landing page */}
-      <main className="flex-1 lg:ml-[250px]">
-        <div className="min-h-screen">
-          {/* Hero Section - Ethereum Themed */}
-          <section className="relative py-24 md:py-32 text-center overflow-hidden gradient-ethereum-hero">
-            {/* Background effects */}
-            <FloatingParticles />
-            
-            {/* Large subtle diamond watermark */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
-              <EthereumDiamond className="w-[600px] h-[600px] text-primary animate-float" />
-            </div>
-            
-            {/* Radial glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-            
-            <div className="container relative mx-auto px-4">
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-ethereum/30 bg-ethereum/10 px-4 py-1.5"
-              >
-                <div className="size-2 rounded-full bg-ethereum animate-pulse-glow" />
-                <span className="text-sm text-ethereum-light">Powered by The Red Guild</span>
-              </motion.div>
-              
-              {/* Title */}
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
-              >
-                <span className="bg-gradient-to-r from-foreground via-foreground to-ethereum-light bg-clip-text">
-                  {t('hero.title')}
-                </span>
-              </motion.h1>
-              
-              {/* Subtitle */}
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="mx-auto mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground"
-              >
-                {t('hero.subtitle')}
-              </motion.p>
-              
-              {/* CTAs */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
-              >
-                <Link
-                  href={`/${locale}/transactions`}
-                  className="group inline-flex items-center justify-center gap-2 rounded-lg gradient-ethereum px-6 py-3.5 font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-ethereum/25 hover:-translate-y-0.5"
-                >
-                  {t('hero.cta')}
-                  <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-                <button
-                  onClick={() => setSearchOpen(true)}
-                  className="group inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 font-medium transition-all duration-300 hover:border-primary/30 hover:-translate-y-0.5"
-                >
-                  <Search className="size-4 text-muted-foreground" />
-                  {t('landing.hero.ctaSecondary')}
-                  <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-secondary/50 text-[10px] text-muted-foreground">
-                    <Command className="size-2.5" />K
-                  </kbd>
-                </button>
-              </motion.div>
-            </div>
-          </section>
 
-          {/* Community Section */}
-          <section id="community" className="relative py-20 bg-gradient-to-b from-background via-accent/5 to-accent/10">
-            <div className="container mx-auto px-4">
-              <div className="mx-auto max-w-4xl">
-                <div className="mb-12 text-center">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5"
-                  >
-                    <span className="text-lg">{t('landing.community.subtitle')}</span>
-                  </motion.div>
-                  <motion.h2 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl font-bold mb-4"
-                  >
-                    {t('landing.community.title')}
-                  </motion.h2>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                    className="text-muted-foreground max-w-2xl mx-auto"
-                  >
-                    {t('landing.community.description')}
-                  </motion.p>
-                </div>
+      <main className="relative flex-1 overflow-hidden lg:ml-[250px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(164,114,255,0.18),transparent_28%),linear-gradient(180deg,rgba(12,11,20,0.96),rgba(9,9,16,1))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(164,114,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.04)_1px,transparent_1px)] bg-[size:48px_48px] opacity-20" />
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                  className="rounded-2xl border border-border bg-card/50 p-8 backdrop-blur-sm"
-                >
-                  <div className="grid gap-8 lg:grid-cols-2 items-center">
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="mb-3 text-xl font-semibold flex items-center gap-2">
-                          <MessageCircle className="size-5 text-primary" />
-                          {t('landing.community.studyGroup.title')}
-                        </h3>
-                        <p className="text-muted-foreground">
-                          {t('landing.community.studyGroup.description')}
-                        </p>
-                      </div>
+        <div className="relative mx-auto w-full max-w-6xl px-6 py-8 sm:px-10">
+          <div className="grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_3fr_1fr]">
 
-                      <div className="space-y-3">
-                        <a
-                          href="https://discord.gg/eegRCDmwbM"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5865F2] px-6 py-3 font-medium text-white transition-colors hover:bg-[#4752C4] w-full sm:w-auto"
-                        >
-                          <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                          </svg>
-                          {t('landing.community.studyGroup.discord')}
-                          <ExternalLink className="size-3.5 opacity-70" />
+            {/* Capítulos pasados */}
+            {PAST_CHAPTERS.length > 0 && (
+              <div>
+                <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+                  {t('landing.frontPage.sections.past.kicker')}
+                </p>
+                {PAST_CHAPTERS.map((chapter) => (
+                  <div key={chapter.slug} className="border-l-2 border-white/10 py-2 pl-4">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-foreground">
+                        {t('landing.frontPage.sections.past.chapterLabel', { number: chapter.number })}
+                      </span>
+                      <span className="text-xs text-muted-foreground/60">
+                        {t(`landing.frontPage.chapters.${chapter.slug}.name`)}
+                      </span>
+                      <div className="flex gap-3 pt-1">
+                        <a href={chapter.chapterUrl} target="_blank" rel="noopener noreferrer" title="Open chapter" className="rounded-md border border-white/10 px-2 py-0.5 text-sm text-muted-foreground transition hover:border-primary/40 hover:text-primary">
+                          {t('landing.frontPage.sections.past.webCta')}
                         </a>
-                        
-                        <p className="text-sm text-muted-foreground">
-                          read{' '}
-                          <a
-                            href="https://discord.gg/eegRCDmwbM"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline"
-                          >
-                            #{t('landing.community.studyGroup.channel')}
-                          </a>{' '}
-                          messages
-                        </p>
+                        {chapter.youtubeUrl ? (
+                          <a href={chapter.youtubeUrl} target="_blank" rel="noopener noreferrer" title="Open in YouTube" className="rounded-md border border-white/10 px-2 py-0.5 text-sm text-muted-foreground transition hover:border-primary/40 hover:text-primary">
+                            {t('landing.frontPage.sections.past.playlistCta')}
+                          </a>
+                        ) : (
+                          <span className="cursor-not-allowed rounded-md border border-white/5 px-2 py-0.5 text-sm text-muted-foreground/30">
+                            {t('landing.frontPage.sections.past.playlistCta')}
+                          </span>
+                        )}
+                        {chapter.links.filter((l) => l.label === 'notes').map((link) => (
+                          <Link key={link.url} href={`/${locale}${link.url}`} title="Notes" className="rounded-md border border-white/10 px-2 py-0.5 text-sm text-muted-foreground transition hover:border-primary/40 hover:text-primary">
+                            {t('landing.frontPage.linkLabels.notes')}
+                          </Link>
+                        ))}
                       </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-black shadow-lg">
-                        <iframe
-                          src="https://www.youtube.com/embed/videoseries?list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_&rel=0"
-                          title="Mastering Ethereum Study Group Playlist"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                          className="absolute inset-0 h-full w-full"
-                          loading="lazy"
-                        />
-                      </div>
-                      <a
-                        href="https://www.youtube.com/watch?v=67zwkh_cC6Q&list=PLvTXryB-aecnlPmF9cyA8svSmezw7bTX_"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        <Play className="size-4" />
-                        {t('landing.community.studyGroup.youtube')}
-                        <ExternalLink className="size-3" />
-                      </a>
                     </div>
                   </div>
-                </motion.div>
+                ))}
               </div>
-            </div>
-          </section>
+            )}
 
-          {/* What You'll Learn Section */}
-          <section className="py-16 bg-secondary/30">
-            <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <h2 className="text-3xl font-bold mb-3">
-                  {t('landing.why.title')}
-                </h2>
-                <p className="text-muted-foreground max-w-xl mx-auto">
-                  {t('landing.why.subtitle')}
+            {/* Centro — hero + CTA */}
+            <div className="flex flex-col gap-8">
+              <div>
+                <p className="mb-2 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+                  {t('landing.frontPage.badge')}
+                </p>
+                <h1 className="font-mono text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                  {t('landing.frontPage.title')}
+                </h1>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                  {t('landing.frontPage.subtitle')}
+                </p>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  {t('landing.frontPage.studyGroup.prefix')}{' '}
+                  <a
+                    href={MASTERING_ETHEREUM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline decoration-primary/30 underline-offset-4 transition hover:text-accent"
+                  >
+                    {t('landing.frontPage.studyGroup.linkLabel')}
+                  </a>
+                  .
                 </p>
               </div>
-              
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
-                {LEARNING_CARDS.map((card, index) => {
-                  const CardIcon = card.icon;
-                  const badge = DIFFICULTY_BADGES[card.difficulty];
-                  return (
-                    <motion.div
-                      key={card.key}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="group relative rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
-                    >
-                      <div className="absolute top-4 right-4">
-                        <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${badge.bg} ${badge.color}`}>
-                          {td(badge.label)}
-                        </span>
-                      </div>
-                      <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
-                        <CardIcon className="size-6 text-primary" />
-                      </div>
-                      <h3 className="mb-2 text-lg font-semibold">
-                        {t(`landing.why.${card.key}.title`)}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {t(`landing.why.${card.key}.description`)}
-                      </p>
-                      <Link
-                        href={`/${locale}${card.href}`}
-                        className="mt-4 inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
-                      >
-                        {t('common.learnMore')}
-                        <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
 
-          {/* Coming Soon Section */}
-          <section className="py-16 border-t border-border">
-            <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <h2 className="text-3xl font-bold mb-3">
-                  {t('common.comingSoon')}
-                </h2>
-                <p className="text-muted-foreground max-w-xl mx-auto">
-                  {t('common.moreTopics')}
-                </p>
-              </div>
-              
-              <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
-                {COMING_SOON_CARDS.map((card, index) => {
-                  const CardIcon = card.icon;
-                  return (
-                    <motion.div
-                      key={card.key}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="group relative rounded-xl border border-border bg-secondary/30 p-6 transition-all duration-300 opacity-60"
-                    >
-                      <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-muted/50 transition-colors">
-                        <CardIcon className="size-6 text-muted-foreground" />
-                      </div>
-                      <h3 className="mb-2 text-lg font-semibold text-muted-foreground">
-                        {t(`landing.comingSoon.${card.key}.title`)}
-                      </h3>
-                      <p className="text-sm text-muted-foreground/70 leading-relaxed">
-                        {t(`landing.comingSoon.${card.key}.description`)}
-                      </p>
-                      <span className="absolute top-4 right-4 text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground">
-                        {t('common.soon')}
+              {/* CTA card */}
+              <div className="grid overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] grid-cols-1 sm:grid-cols-[1fr_240px]">
+                <div className="flex flex-col justify-between gap-4 p-5">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="size-4 text-primary/70" />
+                      <span className="text-sm font-semibold text-foreground">
+                        {t('landing.frontPage.cta.title')}
                       </span>
-                    </motion.div>
-                  );
-                })}
+                    </div>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {t('landing.frontPage.cta.description')}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href={DISCORD_INVITE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-fit items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition hover:border-primary/70 hover:bg-primary/20"
+                    >
+                      {t('landing.frontPage.cta.discordCta')}
+                      <ExternalLink className="size-3.5" />
+                    </a>
+                    <a
+                      href={LUMA_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
+                    >
+                      {t('landing.frontPage.cta.lumaCta')}
+                      <ExternalLink className="size-3" />
+                    </a>
+                  </div>
+                </div>
+                <div className="hidden overflow-hidden sm:block">
+                  <iframe
+                    src={PLAYLIST_EMBED_URL}
+                    title={t('landing.frontPage.sections.past.embedTitle')}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                  />
+                </div>
+              </div>
+
+              <footer className="text-xs text-muted-foreground">
+                <p>{t('footer.bookCredit')}</p>
+              </footer>
+            </div>
+
+            {/* Contribuidores */}
+            <div>
+              <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary/70">
+                {t('landing.frontPage.contributors.kicker')}
+              </p>
+              <div className="flex flex-col gap-3">
+                {[
+                  { handle: 'd4rm_', name: 'dantesito', url: 'https://x.com/d4rm_' },
+                  { handle: 'mattaereal', name: 'matta', url: 'https://x.com/mattaereal' },
+                ].map((contributor) => (
+                  <a
+                    key={contributor.handle}
+                    href={contributor.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2.5 transition"
+                  >
+                    <Avatar className="size-7 ring-1 ring-white/10 transition group-hover:ring-primary/40">
+                      <AvatarImage
+                        src={`https://unavatar.io/twitter/${contributor.handle}`}
+                        alt={contributor.name}
+                      />
+                      <AvatarFallback className="text-[10px] text-muted-foreground">
+                        {contributor.name[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm text-muted-foreground transition group-hover:text-foreground">
+                      {contributor.name}
+                    </span>
+                  </a>
+                ))}
               </div>
             </div>
-          </section>
 
-          {/* Footer */}
-          <footer className="border-t border-border py-8 bg-background">
-            <div className="container mx-auto px-4 text-center">
-              <p className="text-sm text-muted-foreground">
-                {t('footer.attribution')}
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t('footer.bookCredit')}
-              </p>
-            </div>
-          </footer>
+          </div>
         </div>
       </main>
-      
-      {/* Search Modal */}
+
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );

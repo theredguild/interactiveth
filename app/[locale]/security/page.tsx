@@ -140,7 +140,7 @@ export default function SecurityPage() {
               <div className="flex items-center gap-3">
                 <AlertCircle className="size-5 text-yellow-500 shrink-0" />
                 <p className="text-sm text-yellow-700">
-                  <strong>Educational Purpose Only:</strong> {ts('warning')}
+                  <strong>{ts('educationalPurposeOnly')}:</strong> {ts('warning')}
                 </p>
               </div>
             </motion.div>
