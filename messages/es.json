@@ -470,13 +470,19 @@
       }
     }
   },
+  "notFound": {
+    "code": "404",
+    "title": "Página no encontrada",
+    "description": "Esta página no existe o fue movida.",
+    "cta": "Ir al inicio"
+  },
   "footer": {
     "attribution": "Simulación educativa. No conectada a blockchain real.",
     "bookCredit": "Basado en Mastering Ethereum"
   },
   "landing": {
     "frontPage": {
-      "badge": "The Red Guild",
+      "badge": "The Red Guild 🪷",
       "title": "Mastering Ethereum, capítulo por capítulo",
       "subtitle": "Sumate a la sesión actual, ponete al día con capítulos anteriores y mantené cerca la lectura, las repeticiones y las notas mientras estudiás.",
       "studyGroup": {
@@ -515,15 +521,16 @@
           "title": "Sesiones pasadas",
           "description": "Ponete al día con el replay y después explorá la lectura y los recursos de cada capítulo.",
           "chapterLabel": "Capítulo {number}",
-          "webCta": "Abrir capítulo",
+          "webCta": "📖",
           "routesLabel": "Lecciones interactivas",
-          "playlistCta": "Abrir en YouTube",
+          "playlistCta": "▶️",
           "embedTitle": "Playlist de sesiones de estudio de Mastering Ethereum"
         }
       },
       "chapters": {
         "chapter-1": {
-          "title": "Capítulo 1"
+          "title": "Capítulo 1",
+          "name": "¿Qué es Ethereum?"
         },
         "chapter-2": {
           "title": "Capítulo 2"
@@ -553,9 +560,18 @@
           "title": "Escalando Ethereum"
         }
       },
+      "cta": {
+        "title": "Estudiá con nosotros",
+        "description": "Sumate al grupo de estudio. Exploramos Mastering Ethereum juntos mediante sesiones interactivas y discusiones en comunidad.",
+        "discordCta": "Unirse a Discord",
+        "lumaCta": "Suscribirse en Luma"
+      },
+      "contributors": {
+        "kicker": "Contribuidores"
+      },
       "linkLabels": {
-        "notes": "Abrir apuntes",
-        "slides": "Abrir slides",
+        "notes": "📝",
+        "slides": "🖼️",
         "notebooklm": "Abrir NotebookLM"
       },
       "linkStatuses": {

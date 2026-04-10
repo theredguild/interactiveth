@@ -470,13 +470,19 @@
       }
     }
   },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "This page doesn't exist or was moved.",
+    "cta": "Go home"
+  },
   "footer": {
     "attribution": "Educational simulation. Not connected to actual blockchain.",
     "bookCredit": "Based on Mastering Ethereum"
   },
   "landing": {
     "frontPage": {
-      "badge": "The Red Guild",
+      "badge": "The Red Guild 🪷",
       "title": "Mastering Ethereum, one chapter at a time",
       "subtitle": "Join the current study session, catch up on past chapters, and keep the reading, replays, and notes close as you learn.",
       "studyGroup": {
@@ -515,15 +521,16 @@
           "title": "Past sessions",
           "description": "Catch up with the replay, then browse each chapter's reading and resources below.",
           "chapterLabel": "Chapter {number}",
-          "webCta": "Open chapter",
+          "webCta": "📖",
           "routesLabel": "Interactive lessons",
-          "playlistCta": "Open in YouTube",
+          "playlistCta": "▶️",
           "embedTitle": "Mastering Ethereum study sessions playlist"
         }
       },
       "chapters": {
         "chapter-1": {
-          "title": "Chapter 1"
+          "title": "Chapter 1",
+          "name": "What is Ethereum?"
         },
         "chapter-2": {
           "title": "Chapter 2"
@@ -553,9 +560,18 @@
           "title": "Scaling Ethereum"
         }
       },
+      "cta": {
+        "title": "Study with us",
+        "description": "Join the study group. We explore Mastering Ethereum together through interactive sessions and community discussions.",
+        "discordCta": "Join Discord",
+        "lumaCta": "Subscribe on Luma"
+      },
+      "contributors": {
+        "kicker": "Contributors"
+      },
       "linkLabels": {
-        "notes": "Open notes",
-        "slides": "Open slides",
+        "notes": "📝",
+        "slides": "🖼️",
         "notebooklm": "Open NotebookLM"
       },
       "linkStatuses": {
