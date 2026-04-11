@@ -528,6 +528,10 @@
         }
       },
       "chapters": {
+        "introduction": {
+          "title": "Introduction",
+          "name": "Study group presentation"
+        },
         "chapter-1": {
           "title": "Chapter 1",
           "name": "What is Ethereum?"
