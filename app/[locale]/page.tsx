@@ -14,10 +14,11 @@ const DISCORD_INVITE_URL = 'https://discord.com/invite/eegRCDmwbM';
 const CHAPTER_1_NOTES_URL = '/notes/chapter-1';
 const CHAPTER_1_SLIDES_URL =
   'https://drive.google.com/file/d/1kZLWj9N8C96wh-Ow2iV1D-Q9G_IU_4CU/view?usp=drive_link';
+const INTRO_YOUTUBE_URL = 'https://www.youtube.com/watch?v=67zwkh_cC6Q';
 const CHAPTER_1_YOUTUBE_URL =
   'https://www.youtube.com/playlist?list=PLvTXryB-aeclKsDmbPj3WKPdtBmZ5_xZX';
-const PLAYLIST_EMBED_URL =
-  'https://www.youtube.com/embed/videoseries?list=PLvTXryB-aeclKsDmbPj3WKPdtBmZ5_xZX';
+const INTRO_VIDEO_EMBED_URL =
+  'https://www.youtube.com/embed/67zwkh_cC6Q?list=PLvTXryB-aeclKsDmbPj3WKPdtBmZ5_xZX';
 
 const PAST_CHAPTERS = [
   {
@@ -79,6 +80,21 @@ export default function LandingPage() {
                 <p className="mb-4 font-mono text-sm uppercase tracking-[0.3em] text-primary/70">
                   {t('landing.frontPage.sections.past.kicker')}
                 </p>
+                <div className="border-l-2 border-white/10 py-3 pl-4">
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-base font-medium text-foreground">
+                      {t('landing.frontPage.chapters.introduction.title')}
+                    </span>
+                    <span className="text-sm text-muted-foreground/60">
+                      {t('landing.frontPage.chapters.introduction.name')}
+                    </span>
+                    <div className="flex flex-wrap gap-2 pt-1.5">
+                      <a href={INTRO_YOUTUBE_URL} target="_blank" rel="noopener noreferrer" title="Watch introduction" className="rounded-md border border-white/10 px-2 py-0.5 text-sm text-muted-foreground transition hover:border-primary/40 hover:text-primary">
+                        {t('landing.frontPage.sections.past.playlistCta')}
+                      </a>
+                    </div>
+                  </div>
+                </div>
                 {PAST_CHAPTERS.map((chapter) => (
                   <div key={chapter.slug} className="border-l-2 border-white/10 py-3 pl-4">
                     <div className="flex flex-col gap-1.5">
@@ -139,8 +155,21 @@ export default function LandingPage() {
                 </p>
               </div>
 
+              {/* Intro video */}
+              <div className="overflow-hidden rounded-xl border border-white/8">
+                <div className="relative aspect-video">
+                  <iframe
+                    src={INTRO_VIDEO_EMBED_URL}
+                    title={t('landing.frontPage.introVideo')}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 h-full w-full"
+                  />
+                </div>
+              </div>
+
               {/* CTA card */}
-              <div className="grid overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] grid-cols-1 sm:grid-cols-[1fr_240px]">
+              <div className="overflow-hidden rounded-xl border border-white/8 bg-white/[0.03]">
                 <div className="flex flex-col justify-between gap-4 p-5">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
@@ -153,7 +182,7 @@ export default function LandingPage() {
                       {t('landing.frontPage.cta.description')}
                     </p>
                   </div>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <a
                       href={DISCORD_INVITE_URL}
                       target="_blank"
@@ -173,15 +202,6 @@ export default function LandingPage() {
                       <ExternalLink className="size-3.5" />
                     </a>
                   </div>
-                </div>
-                <div className="hidden overflow-hidden sm:block">
-                  <iframe
-                    src={PLAYLIST_EMBED_URL}
-                    title={t('landing.frontPage.sections.past.embedTitle')}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="h-full w-full"
-                  />
                 </div>
               </div>
 
